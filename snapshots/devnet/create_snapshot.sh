@@ -3,10 +3,9 @@ printf "Stopping tfchain public node / graphql stack and sleep for 10 sec\n"
 docker stop tfchain_graphql_processor_1
 docker stop tfchain_graphql_query-node_1
 docker stop tfchain_graphql_db_1
-docker stop indexer_indexer_1
-docker stop indexer_indexer-status-service_1
-docker stop indexer_redis_1
-docker stop indexer_indexer-gateway_1
+docker stop indexer_ingest_1
+docker stop indexer_gateway_1
+docker stop indexer_explorer_1
 docker stop indexer_db_1
 docker stop tfchain-dev-snapshot
 sleep 10
@@ -34,10 +33,9 @@ tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/indexer-devnet-$(date '+%Y-%m-%
 
 printf "Starting indexer again\n"
 docker start indexer_db_1
-docker start indexer_indexer-gateway_1
-docker start indexer_redis_1
-docker start indexer_indexer-status-service_1
-docker start indexer_indexer_1
+docker start indexer_explorer_1
+docker start indexer_gateway_1
+docker start indexer_ingest_1
 
 #printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public
@@ -54,7 +52,14 @@ docker start tfchain_graphql_db_1
 docker start tfchain_graphql_query-node_1
 docker start tfchain_graphql_processor_1
 
-#printf "Removing and recreating ln to latest\n"
+printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public
 rm processor-devnet-latest.tar.gz
 ln -s processor-devnet-$(date '+%Y-%m-%d').tar.gz processor-devnet-latest.tar.gz
+
+
+## Send over to Grid-snapshots server and set ln
+scp /storage/rsync-public/tfchain-devnet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/devnet/
+scp /storage/rsync-public/indexer-devnet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/devnet/
+scp /storage/rsync-public/processor-devnet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/devnet/
+ssh grid-snapshots sh /opt/snapshots/devnet-set-ln.sh
