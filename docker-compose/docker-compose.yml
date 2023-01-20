@@ -46,9 +46,11 @@ services:
       - "--rpc-methods=Safe"
       - "--rpc-external"
 
-  db:
+# Graphql - Indexer
+  indexer_db:
     depends_on:
       - tfchain-public-node
+    container_name: indexer_db
     image: cockroachdb/cockroach:v22.2.2
     restart: unless-stopped
     networks:
@@ -61,10 +63,11 @@ services:
     volumes:
       - /srv/indexer/:/cockroach/cockroach-data
 
-  ingest:
+  indexer_ingest:
     depends_on:
       - tfchain-public-node
-      - db
+      - indexer_db
+    container_name: indexer_ingest
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -79,16 +82,17 @@ services:
         "-c",
         "20",
         "--out",
-        "postgres://root@db:26257/defaultdb",
+        "postgres://root@indexer_db:26257/defaultdb",
         "--types-bundle",
         "/configs/typesBundle.json"
       ]
 
-  gateway:
+  indexer_gateway:
     depends_on:
       - tfchain-public-node
-      - db
+      - indexer_db
     image: subsquid/substrate-gateway:2.5.0
+    container_name: indexer_gateway
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -96,13 +100,14 @@ services:
     environment:
       DATABASE_MAX_CONNECTIONS: 5
       RUST_LOG: "actix_web=info,actix_server=info"
-    command: [ "--database-url", "postgres://root@db:26257/defaultdb" ]
+    command: [ "--database-url", "postgres://root@indexer_db:26257/defaultdb" ]
     ports:
       - "8888:8000"
 
-  explorer:
+  indexer_explorer:
     depends_on:
       - tfchain-public-node
+    container_name: indexer_explorer
     image: subsquid/substrate-explorer:firesquid
     restart: unless-stopped
     networks:
@@ -110,42 +115,107 @@ services:
         ipv4_address: 172.28.0.6
     environment:
       DB_TYPE: cockroach
-      DB_HOST: db
+      DB_HOST: indexer_db
       DB_PORT: "26257"
       DB_NAME: "defaultdb"
       DB_USER: "root"
     ports:
       - "4444:3000"
 
-#  grid-activation-service:
+# Graphql - Processor
+
+  processor_db:
+    container_name: processor_db
+    image: postgres:14
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+        ipv4_address: 172.28.0.7
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - /srv/processor/:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+
+  processor:
+    container_name: processor
+    image: processor:latest
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+        ipv4_address: 172.28.0.8
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    env_file:
+      - .env
+    environment:
+      - INDEXER_ENDPOINT_URL=${INDEXER_ENDPOINT_URL}
+      - WS_URL=${WS_URL}
+      - DB_HOST=processor_db
+      - POLL_INTERVAL_MS=300
+      - TYPEORM_LOGGING=error
+    ports:
+      - 44233:44233
+    command: ["yarn", "process"]
+
+  processor_query-node:
+    container_name: processor_query_node
+    image: query-node:latest
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+        ipv4_address: 172.28.0.9
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db
+    ports:
+      - 4000:4000
+    depends_on:
+      - processor_db
+
+# Grid Activation service
+
+#  grid_activation_service:
 #    container_name: grid_activation-service
 #    image: ghcr.io/threefoldtech/tfchain_activation_service:1.0.2
 #    restart: unless-stopped
 #    networks:
 #      tfgrid_bknd:
-#        ipv4_address: 172.28.0.7
+#        ipv4_address: 172.28.0.10
 #    environment:
 #      - URL=wss://tfchain.dev.grid.tf
 #      - MNEMONIC=news mad appear brave weekend first eyebrow blouse mask hedgehog toilet exhaust
 #      - KYC_PUBLIC_KEY=somekey
 #      - ACTIVATION_AMOUNT=1000000
 
-  grid-dashboard:
+# Grid Dashboard
+
+  grid_dashboard:
     container_name: grid_dashboard
     image: threefolddev/tfgrid_dashboard:v1.3.0-rc1
     restart: unless-stopped
     networks:
       tfgrid_bknd:
-        ipv4_address: 172.28.0.8
+        ipv4_address: 172.28.0.11
     environment:
       - GQL_URL=https://graphql.dev.grid.tf/graphql
 
-  grid-weblets:
+# Grid Weblets - Play
+
+  grid_weblets:
     container_name: grid_weblets
     image: threefolddev/grid_weblets:v1.6.0-rc1
     restart: unless-stopped
     networks:
       tfgrid_bknd:
-        ipv4_address: 172.28.0.9
+        ipv4_address: 172.28.0.12
     environment:
       - NETWORK=devnet
