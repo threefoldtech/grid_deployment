@@ -13,7 +13,8 @@ sleep 10
 
 ##TFchain node
 printf "Creating tfchain snapshot\n"
-tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/tfchain-mainnet-$(date '+%Y-%m-%d').tar.gz" /srv/tfchain/chains/tfchain_mainnet/db/
+cd /srv/tfchain/chains/tfchain_mainnet/db/
+tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/tfchain-mainnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting public node again\n"
 docker start tfchain-main-snapshot
@@ -24,12 +25,11 @@ cd /storage/rsync-public/mainnet/
 rm tfchain-mainnet-latest.tar.gz
 ln -s tfchain-mainnet-$(date '+%Y-%m-%d').tar.gz tfchain-mainnet-latest.tar.gz
 
-printf "TFChain mainnet snapshot created\n"
-
 
 ## Graphql - Indexer
 printf "Creating indexer snapshot\n"
-tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/indexer-mainnet-$(date '+%Y-%m-%d').tar.gz" /srv/indexer/*
+cd /srv/indexer/
+tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/indexer-mainnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting indexer again\n"
 docker start indexer_db_1
@@ -45,7 +45,8 @@ ln -s indexer-mainnet-$(date '+%Y-%m-%d').tar.gz indexer-mainnet-latest.tar.gz
 
 ## Graphql - Processor
 printf "Creating processor snapshot\n"
-tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/processor-mainnet-$(date '+%Y-%m-%d').tar.gz" /srv/processor/*
+cd /srv/processor/
+tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/processor-mainnet-$(date '+%Y-%m-%d').tar.gz" *
 
 #printf "Starting processor again\n"
 docker start tfchain_graphql_db_1
