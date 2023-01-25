@@ -12,9 +12,9 @@ services:
   tfchain-public-node:
     container_name: tfchain-main-public-node
     ports:
-      - "9944:9944"
-      - "9933:9933"
-      - "9615:9615"
+#      - "9944:9944"
+#      - "9933:9933"
+#      - "9615:9615"
       - "30333:30333"
     volumes:
       - /srv/tfchain/:/storage/
@@ -56,9 +56,9 @@ services:
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.3
-    ports:
-      - "26257:26257"
-      - "8080:8080"
+#    ports:
+#      - "26257:26257"
+#      - "8080:8080"
     command: start-single-node --insecure
     volumes:
       - /srv/indexer/:/cockroach/cockroach-data
@@ -101,8 +101,8 @@ services:
       DATABASE_MAX_CONNECTIONS: 5
       RUST_LOG: "actix_web=info,actix_server=info"
     command: [ "--database-url", "postgres://root@indexer_db:26257/defaultdb" ]
-    ports:
-      - "8888:8000"
+#    ports:
+#      - "8888:8000"
 
   indexer_explorer:
     depends_on:
@@ -119,8 +119,8 @@ services:
       DB_PORT: "26257"
       DB_NAME: "defaultdb"
       DB_USER: "root"
-    ports:
-      - "4444:3000"
+#    ports:
+#      - "4444:3000"
 
 # Graphql - Processor
 
@@ -131,8 +131,8 @@ services:
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.7
-    ports:
-      - "${DB_PORT}:5432"
+#    ports:
+#      - "${DB_PORT}:5432"
     volumes:
       - /srv/processor/:/var/lib/postgresql/data
     environment:
@@ -158,8 +158,8 @@ services:
       - DB_HOST=processor_db
       - POLL_INTERVAL_MS=300
       - TYPEORM_LOGGING=error
-    ports:
-      - 44233:44233
+#    ports:
+#      - 44233:44233
     command: ["yarn", "process"]
 
   processor_query-node:
@@ -176,25 +176,51 @@ services:
       - .env
     environment:
       - DB_HOST=db
-    ports:
-      - 4000:4000
+#    ports:
+#      - 4000:4000
     depends_on:
       - processor_db
 
 # Grid Activation service
 
-#  grid_activation_service:
-#    container_name: grid_activation-service
-#    image: ghcr.io/threefoldtech/tfchain_activation_service:1.0.2
-#    restart: unless-stopped
-#    networks:
-#      tfgrid_bknd:
-#        ipv4_address: 172.28.0.10
-#    environment:
-#      - URL=wss://tfchain.dev.grid.tf
-#      - MNEMONIC=news mad appear brave weekend first eyebrow blouse mask hedgehog toilet exhaust
-#      - KYC_PUBLIC_KEY=somekey
-#      - ACTIVATION_AMOUNT=1000000
+  grid_activation_service:
+    container_name: grid_activation-service
+    image: tfchainactivationservice:1.0.2
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+        ipv4_address: 172.28.0.10
+    environment:
+      - URL=wss://tfchain.dev.grid.tf
+      - MNEMONIC=news mad appear brave weekend first eyebrow blouse mask hedgehog toilet exhaust
+      - KYC_PUBLIC_KEY=somekey
+      - ACTIVATION_AMOUNT=1000000
+
+# Grid Proxy
+
+  grid_proxy:
+    container_name: grid_proxy
+#    ports:
+#      - "30333:30333"
+#    volumes:
+#      - /srv/tfchain/:/storage/
+    image: gridproxy:v1.6.8
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+        ipv4_address: 172.28.0.11
+    environment:
+      MNEMONICS: "benefit require stamp annual immune sing early face ordinary warrior enough sense"
+      EXPLORER: https://graphql.dev.grid.tf/graphql
+      SUBSTRATE: wss://tfchain.dev.grid.tf/ws
+      PUBLIC_KEY: 55fe5fbcd51ccb90fd3735c52f3a45478e8fc9ee481f37e255531274e91a5cc2
+      PRIVATE_KEY: 1a277e17de6dceec8563ace830574b96109f52b363cf7d0f161eb939f1dd9f8755fe5fbcd51ccb90fd3735c52f3a45478e8fc9ee481f37e255531274e91a5cc2
+      PEER: "  tcp:\\\/\\\/gent01.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.grid.tf:9943\\\n  tcp:\\\/\\\/gent03.grid.tf:9943\\\n   tcp:\\\/\\\/gent04.grid.tf:9943\\\n  tcp:\\\/\\\/gent01.test.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.test.grid.tf:9943\\\n   tcp:\\\/\\\/gent01.dev.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.dev.grid.tf:9943\\\n   tcp:\\\/\\\/gw291.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw293.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw294.vienna1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw297.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw298.vienna1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw299.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw300.vienna2.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw304.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw306.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw307.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw309.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw313.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw324.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw326.salzburg1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw327.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw328.salzburg1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw330.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw331.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw333.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw422.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw423.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw424.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw425.vienna2.greenedgecloud.com:9943\\\n   tls:\\\/\\\/163.172.31.60:12221?key=060f2d49c6a1a2066357ea06e58f5cff8c76a5c0cc513ceb2dab75c900fe183b&sni=jorropo.net\\\n"
+      POSTGRES_HOST: processor_db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: tfgrid-graphql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
 # Grid Dashboard
 
@@ -204,7 +230,7 @@ services:
     restart: unless-stopped
     networks:
       tfgrid_bknd:
-        ipv4_address: 172.28.0.11
+        ipv4_address: 172.28.0.12
     environment:
       - GQL_URL=https://graphql.dev.grid.tf/graphql
 
@@ -216,6 +242,6 @@ services:
     restart: unless-stopped
     networks:
       tfgrid_bknd:
-        ipv4_address: 172.28.0.12
+        ipv4_address: 172.28.0.13
     environment:
       - NETWORK=devnet
