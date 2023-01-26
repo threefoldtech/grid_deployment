@@ -3,10 +3,14 @@ version: "3.7"
 networks:
   tfgrid_bknd:
     name: tfgrid_bknd
+    enable_ipv6: true
+    driver_opts:
+        com.docker.network.enable_ipv6: "true"
     ipam:
       driver: default
       config:
         - subnet: "172.28.0.0/24"
+        - subnet: "2001:db8:1::/64"
 
 services:
   tfchain-public-node:
@@ -200,15 +204,17 @@ services:
 
   grid_proxy:
     container_name: grid_proxy
-#    ports:
-#      - "30333:30333"
-#    volumes:
-#      - /srv/tfchain/:/storage/
     image: gridproxy:v1.6.8
     restart: unless-stopped
+    privileged: true
+#    network_mode: "host"
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.11
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
     environment:
       MNEMONICS: "benefit require stamp annual immune sing early face ordinary warrior enough sense"
       EXPLORER: https://graphql.dev.grid.tf/graphql
@@ -216,7 +222,8 @@ services:
       PUBLIC_KEY: 55fe5fbcd51ccb90fd3735c52f3a45478e8fc9ee481f37e255531274e91a5cc2
       PRIVATE_KEY: 1a277e17de6dceec8563ace830574b96109f52b363cf7d0f161eb939f1dd9f8755fe5fbcd51ccb90fd3735c52f3a45478e8fc9ee481f37e255531274e91a5cc2
       PEER: "  tcp:\\\/\\\/gent01.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.grid.tf:9943\\\n  tcp:\\\/\\\/gent03.grid.tf:9943\\\n   tcp:\\\/\\\/gent04.grid.tf:9943\\\n  tcp:\\\/\\\/gent01.test.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.test.grid.tf:9943\\\n   tcp:\\\/\\\/gent01.dev.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.dev.grid.tf:9943\\\n   tcp:\\\/\\\/gw291.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw293.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw294.vienna1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw297.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw298.vienna1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw299.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw300.vienna2.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw304.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw306.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw307.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw309.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw313.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw324.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw326.salzburg1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw327.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw328.salzburg1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw330.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw331.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw333.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw422.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw423.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw424.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw425.vienna2.greenedgecloud.com:9943\\\n   tls:\\\/\\\/163.172.31.60:12221?key=060f2d49c6a1a2066357ea06e58f5cff8c76a5c0cc513ceb2dab75c900fe183b&sni=jorropo.net\\\n"
-      POSTGRES_HOST: processor_db
+#      POSTGRES_HOST: processor_db
+      POSTGRES_HOST: 172.28.0.7
       POSTGRES_PORT: 5432
       POSTGRES_DB: tfgrid-graphql
       POSTGRES_USER: postgres
@@ -244,4 +251,4 @@ services:
       tfgrid_bknd:
         ipv4_address: 172.28.0.13
     environment:
-      - NETWORK=devnet
+      NETWORK: dev
