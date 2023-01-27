@@ -11,7 +11,7 @@ docker stop tfchain-main-snapshot
 sleep 10
 
 
-##TFchain node
+## TFchain node
 printf "Creating tfchain snapshot\n"
 cd /srv/tfchain/chains/tfchain_mainnet/db/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/tfchain-mainnet-$(date '+%Y-%m-%d').tar.gz" *
@@ -48,7 +48,7 @@ printf "Creating processor snapshot\n"
 cd /srv/processor/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/processor-mainnet-$(date '+%Y-%m-%d').tar.gz" *
 
-#printf "Starting processor again\n"
+printf "Starting processor again\n"
 docker start tfchain_graphql_db_1
 docker start tfchain_graphql_query-node_1
 docker start tfchain_graphql_processor_1
@@ -57,3 +57,11 @@ printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public/mainnet
 rm processor-mainnet-latest.tar.gz
 ln -s processor-mainnet-$(date '+%Y-%m-%d').tar.gz processor-mainnet-latest.tar.gz
+
+
+## Remove files older then 12 days - for all nets
+find /storage/rsync-public/mainnet/ -mtime +12 -exec rm {} \;
+find /storage/rsync-public/mainnetcurrent/ -mtime +12 -exec rm {} \;
+find /storage/rsync-public/devnet/ -mtime +12 -exec rm {} \;
+
+

@@ -11,7 +11,7 @@ docker stop tfchain-dev-snapshot
 sleep 10
 
 
-##TFchain node
+## TFchain node
 printf "Creating tfchain snapshot\n"
 cd /srv/tfchain/chains/tfchain_devnet/db/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/tfchain-devnet-$(date '+%Y-%m-%d').tar.gz" *
@@ -57,6 +57,10 @@ printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public
 rm processor-devnet-latest.tar.gz
 ln -s processor-devnet-$(date '+%Y-%m-%d').tar.gz processor-devnet-latest.tar.gz
+
+
+## Remove files older then 7 days
+find /storage/rsync-public/ -mtime +7 -exec rm {} \;
 
 
 ## Send over to Grid-snapshots server and set ln

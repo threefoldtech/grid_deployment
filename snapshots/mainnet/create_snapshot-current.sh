@@ -12,7 +12,7 @@ docker stop tfchain-main-pub-snapshot-current
 sleep 10
 
 
-##TFchain node
+## TFchain node
 printf "Creating tfchain snapshot\n"
 cd /srv/tfchain/chains/tfchain_mainnet/db/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnetcurrent/tfchain-mainnet-$(date '+%Y-%m-%d').tar.gz" *
@@ -39,7 +39,7 @@ docker start indexer_indexer-status-service_1
 docker start indexer_indexer-gateway_1
 docker start indexer_indexer_1
 
-#printf "Removing and recreating ln to latest\n"
+printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public/mainnetcurrent/
 rm indexer-mainnet-latest.tar.gz
 ln -s indexer-mainnet-$(date '+%Y-%m-%d').tar.gz indexer-mainnet-latest.tar.gz
@@ -59,6 +59,11 @@ printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public/mainnetcurrent/
 rm processor-mainnet-latest.tar.gz
 ln -s processor-mainnet-$(date '+%Y-%m-%d').tar.gz processor-mainnet-latest.tar.gz
+
+
+## Remove files older then 7 days
+find /storage/rsync-public/mainnetcurrent/ -mtime +7 -exec rm {} \;
+
 
 ## Send over to Grid-snapshots server and set ln
 scp /storage/rsync-public/mainnetcurrent/tfchain-mainnet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/mainnetcurrent/
