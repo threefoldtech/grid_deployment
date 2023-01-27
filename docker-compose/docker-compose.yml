@@ -207,6 +207,9 @@ services:
     image: gridproxy:v1.6.8
     restart: unless-stopped
     privileged: true
+    sysctls:
+      - net.ipv6.conf.default.disable_ipv6=0
+#      - net.ipv6.conf.default.mc_forwarding=1
 #    network_mode: "host"
     networks:
       tfgrid_bknd:
