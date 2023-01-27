@@ -78,22 +78,22 @@ Which can be downloaded with rsync:
 
 - Devnet:
 
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .  
 
 
 - Mainnet - Firesquid indexer / Graphql stack (future):
 
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .  
 
 
 - Mainnet - current Graphql stack:
 
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/tfchain-mainnet-latest.tar.gz .
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/indexer-mainnet-latest.tar.gz .
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/processor-mainnet-latest.tar.gz .
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/tfchain-mainnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/indexer-mainnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/processor-mainnet-latest.tar.gz .  
 
 
