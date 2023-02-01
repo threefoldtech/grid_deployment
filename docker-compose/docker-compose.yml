@@ -211,7 +211,7 @@ services:
     depends_on:
       - grid_activation_service
     container_name: grid_proxy
-    image: gridproxy:v1.6.10
+    image: gridproxy:v1.6.11
     restart: unless-stopped
     privileged: true
     sysctls:
@@ -243,14 +243,14 @@ services:
     depends_on:
       - grid_proxy
     container_name: grid_dashboard
-    image: threefolddev/tfgrid_dashboard:v1.3.0-rc1
+    image: threefolddev/tfgrid_dashboard:v1.3.1
     restart: unless-stopped
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.12
     environment:
       GQL_URL: https://graphql.bknd1.dev.ava.tf/graphql
-      VERSION: v1.3.0-rc1
+      VERSION: v1.3.1
 
 ## Grid Weblets - Play
 
@@ -265,3 +265,22 @@ services:
         ipv4_address: 172.28.0.13
     environment:
       NETWORK: DEV
+
+
+  caddy:
+    depends_on:
+      - grid_weblets
+    container_name: caddy
+    image: caddy:2.6.2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      tfgrid_bknd:
+        ipv4_address: 172.28.0.14
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /srv/caddy/data:/data
+      - /srv/caddy/config:/config
+      - /srv/caddy/log:/var/log/caddy
