@@ -16,11 +16,6 @@ services:
 ## TFchain public node
   tfchain-public-node:
     container_name: tfchain-main-public-node
-    ports:
-#      - "9944:9944"
-#      - "9933:9933"
-#      - "9615:9615"
-      - "30333:30333"
     volumes:
       - /srv/tfchain/:/storage/
     image: threefolddev/tfchain:2.2.0-rc8
@@ -28,6 +23,11 @@ services:
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.2
+    ports:
+#      - "9944:9944"
+#      - "9933:9933"
+#      - "9615:9615"
+      - "30333:30333"
     command:
       - "--node-key"
       - "baad0200d185d1ec4434b197f78a1bcb74aa9d8ee9c591c55390ea910b505f8b"
@@ -72,17 +72,17 @@ services:
     depends_on:
       - indexer_db
     container_name: indexer_ingest
+    image: subsquid/substrate-ingest:1
     restart: unless-stopped
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.4
-    image: subsquid/substrate-ingest:1
     volumes:
       - "./typesBundle.json:/configs/typesBundle.json"
     command:
       [
         "-e",
-        "ws://tfchain-public-node:9944",
+        "${WS_ENDPOINT}",
         "-c",
         "20",
         "--out",
@@ -100,12 +100,12 @@ services:
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.5
+#    ports:
+#      - "8888:8000"
     environment:
       DATABASE_MAX_CONNECTIONS: 5
       RUST_LOG: "actix_web=info,actix_server=info"
     command: [ "--database-url", "postgres://root@indexer_db:26257/defaultdb" ]
-#    ports:
-#      - "8888:8000"
 
   indexer_explorer:
     depends_on:
@@ -116,14 +116,14 @@ services:
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.6
+#    ports:
+#      - "4444:3000"
     environment:
       DB_TYPE: cockroach
       DB_HOST: indexer_db
       DB_PORT: "26257"
       DB_NAME: "defaultdb"
       DB_USER: "root"
-#    ports:
-#      - "4444:3000"
 
 ## Graphql - Processor
 
@@ -141,32 +141,32 @@ services:
     volumes:
       - /srv/processor/:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: tfgrid-graphql
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
 
   processor:
     depends_on:
       - processor_db
     container_name: processor
-    image: processor:latest
+    image: tfchainprocessor:2.9.0-rc2
     restart: unless-stopped
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.8
+#    ports:
+#      - 44233:44233
     build:
       dockerfile: Dockerfile
       context: ./
     env_file:
       - .env
     environment:
-      - INDEXER_ENDPOINT_URL=http://indexer_gateway:8000/graphql
-      - WS_URL=ws://tfchain-public-node:9944
+      - INDEXER_ENDPOINT_URL=${INDEXER_ENDPOINT_URL}
+      - WS_URL=${WS_URL}
       - DB_HOST=processor_db
       - POLL_INTERVAL_MS=300
       - TYPEORM_LOGGING=error
-#    ports:
-#      - 44233:44233
     command: ["yarn", "process"]
 
   processor_query-node:
@@ -178,6 +178,8 @@ services:
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.9
+#    ports:
+#      - 4000:4000
     build:
       dockerfile: Dockerfile
       context: ./
@@ -185,8 +187,6 @@ services:
       - .env
     environment:
       - DB_HOST=processor_db
-#    ports:
-#      - 4000:4000
 
 ## Grid Activation service
 
