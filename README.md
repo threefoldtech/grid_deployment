@@ -4,11 +4,9 @@ This repo will facilitate automation in deploying identical Threefold Grid backe
 
 The project is still under development.
 
-
 ## Snapshots
 
-Snapshots are created on a daily basis, (find them and scripts here)[https://github.com/threefoldtech/grid_deployment/tree/development/snapshots].
-
+Snapshots are created on a daily basis, [find them and scripts here](https://github.com/threefoldtech/grid_deployment/tree/development/snapshots).
 
 ## Docker-compose
 
