@@ -126,7 +126,6 @@ services:
       DB_USER: "root"
 
 ## Graphql - Processor
-
   processor_db:
     depends_on:
       - indexer_explorer
@@ -149,16 +148,16 @@ services:
     depends_on:
       - processor_db
     container_name: processor
-    image: tfchainprocessor:2.9.0-rc2
+    image: ghcr.io/threefoldtech/tfchain_graphql_processor:2.9.0-rc5
     restart: unless-stopped
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.8
 #    ports:
 #      - 44233:44233
-    build:
-      dockerfile: Dockerfile
-      context: ./
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./
     env_file:
       - .env
     environment:
@@ -173,23 +172,22 @@ services:
     depends_on:
       - processor
     container_name: processor_query_node
-    image: query-node:latest
+    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:2.9.0-rc5
     restart: unless-stopped
     networks:
       tfgrid_bknd:
         ipv4_address: 172.28.0.9
 #    ports:
 #      - 4000:4000
-    build:
-      dockerfile: Dockerfile
-      context: ./
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./
     env_file:
       - .env
     environment:
       - DB_HOST=processor_db
 
 ## Grid Activation service
-
   grid_activation_service:
     depends_on:
       - processor
@@ -206,12 +204,11 @@ services:
       - ACTIVATION_AMOUNT=1000000
 
 ## Grid Proxy
-
   grid_proxy:
     depends_on:
       - grid_activation_service
     container_name: grid_proxy
-    image: gridproxy:v1.6.11
+    image: ghcr.io/threefoldtech/gridproxy:v1.7.0-rc3
     restart: unless-stopped
     privileged: true
     sysctls:
@@ -238,12 +235,11 @@ services:
       POSTGRES_PASSWORD: postgres
 
 ## Grid Dashboard
-
   grid_dashboard:
     depends_on:
       - grid_proxy
     container_name: grid_dashboard
-    image: threefolddev/tfgrid_dashboard:v1.3.1
+    image: threefolddev/tfgrid_dashboard:v1.4.0-rc2
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -253,7 +249,6 @@ services:
       VERSION: v1.3.1
 
 ## Grid Weblets - Play
-
   grid_weblets:
     depends_on:
       - grid_dashboard
@@ -266,7 +261,7 @@ services:
     environment:
       NETWORK: DEV
 
-
+## Caddy
   caddy:
     depends_on:
       - grid_weblets
