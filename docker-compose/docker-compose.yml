@@ -148,7 +148,7 @@ services:
     depends_on:
       - processor_db
     container_name: processor
-    image: ghcr.io/threefoldtech/tfchain_graphql_processor:2.9.0-rc5
+    image: ghcr.io/threefoldtech/tfchain_graphql_processor:2.9.2
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -172,7 +172,7 @@ services:
     depends_on:
       - processor
     container_name: processor_query_node
-    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:2.9.0-rc5
+    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:2.9.2
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -192,7 +192,7 @@ services:
     depends_on:
       - processor
     container_name: grid_activation-service
-    image: tfchainactivationservice:1.0.2
+    image: ghcr.io/threefoldtech/tfchain_activation_service:1.0.2
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -208,7 +208,7 @@ services:
     depends_on:
       - grid_activation_service
     container_name: grid_proxy
-    image: ghcr.io/threefoldtech/gridproxy:v1.7.0-rc3
+    image: ghcr.io/threefoldtech/gridproxy:v1.8.0-rc2
     restart: unless-stopped
     privileged: true
     sysctls:
@@ -225,9 +225,9 @@ services:
       MNEMONICS: "benefit require stamp annual immune sing early face ordinary warrior enough sense"
       EXPLORER: https://graphql.bknd1.dev.ava.tf/graphql
       SUBSTRATE: ws://tfchain-public-node:9944
-      PUBLIC_KEY: 55fe5fbcd51ccb90fd3735c52f3a45478e8fc9ee481f37e255531274e91a5cc2
-      PRIVATE_KEY: 1a277e17de6dceec8563ace830574b96109f52b363cf7d0f161eb939f1dd9f8755fe5fbcd51ccb90fd3735c52f3a45478e8fc9ee481f37e255531274e91a5cc2
-      PEERS: "  tcp:\\\/\\\/gent01.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.grid.tf:9943\\\n  tcp:\\\/\\\/gent03.grid.tf:9943\\\n   tcp:\\\/\\\/gent04.grid.tf:9943\\\n  tcp:\\\/\\\/gent01.test.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.test.grid.tf:9943\\\n   tcp:\\\/\\\/gent01.dev.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.dev.grid.tf:9943\\\n   tcp:\\\/\\\/gw291.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw293.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw294.vienna1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw297.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw298.vienna1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw299.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw300.vienna2.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw304.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw306.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw307.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw309.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw313.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw324.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw326.salzburg1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw327.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw328.salzburg1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw330.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw331.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw333.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw422.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw423.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw424.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw425.vienna2.greenedgecloud.com:9943\\\n   tls:\\\/\\\/163.172.31.60:12221?key=060f2d49c6a1a2066357ea06e58f5cff8c76a5c0cc513ceb2dab75c900fe183b&sni=jorropo.net\\\n"
+#      PUBLIC_KEY: 55fe5fbcd51ccb90fd3735c52f3a45478e8fc9ee481f37e255531274e91a5cc2
+#      PRIVATE_KEY: 1a277e17de6dceec8563ace830574b96109f52b363cf7d0f161eb939f1dd9f8755fe5fbcd51ccb90fd3735c52f3a45478e8fc9ee481f37e255531274e91a5cc2
+#      PEERS: "  tcp:\\\/\\\/gent01.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.grid.tf:9943\\\n  tcp:\\\/\\\/gent03.grid.tf:9943\\\n   tcp:\\\/\\\/gent04.grid.tf:9943\\\n  tcp:\\\/\\\/gent01.test.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.test.grid.tf:9943\\\n   tcp:\\\/\\\/gent01.dev.grid.tf:9943\\\n   tcp:\\\/\\\/gent02.dev.grid.tf:9943\\\n   tcp:\\\/\\\/gw291.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw293.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw294.vienna1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw297.vienna1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw298.vienna1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw299.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw300.vienna2.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw304.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw306.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw307.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw309.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw313.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw324.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw326.salzburg1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw327.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw328.salzburg1.greenedgecloud.com:9943\\\n  tcp:\\\/\\\/gw330.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw331.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw333.salzburg1.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw422.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw423.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw424.vienna2.greenedgecloud.com:9943\\\n   tcp:\\\/\\\/gw425.vienna2.greenedgecloud.com:9943\\\n   tls:\\\/\\\/163.172.31.60:12221?key=060f2d49c6a1a2066357ea06e58f5cff8c76a5c0cc513ceb2dab75c900fe183b&sni=jorropo.net\\\n"
       POSTGRES_HOST: processor_db
       POSTGRES_PORT: 5432
       POSTGRES_DB: tfgrid-graphql
@@ -239,7 +239,7 @@ services:
     depends_on:
       - grid_proxy
     container_name: grid_dashboard
-    image: threefolddev/tfgrid_dashboard:v1.4.0-rc2
+    image: threefolddev/tfgrid_dashboard:v1.5.0-rc3
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -253,7 +253,7 @@ services:
     depends_on:
       - grid_dashboard
     container_name: grid_weblets
-    image: threefolddev/grid_weblets:v1.6.0-rc1
+    image: threefolddev/grid_weblets:8a00561
     restart: unless-stopped
     networks:
       tfgrid_bknd:
