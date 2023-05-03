@@ -187,6 +187,22 @@ services:
     environment:
       - DB_HOST=processor_db
 
+## Grid relay service
+  grid_relay-service:
+    depends_on:
+      - processor
+    container_name: grid_relay-service
+    image: ghcr.io/threefoldtech/rmb-relay:v1.0.3
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+        ipv4_address: 172.28.0.15
+    environment:
+      - RMB_DOMAIN=relay.bknd1.dev.ava.tf
+      - SUBSTRATE_URL=ws://tfchain-public-node:9944
+      - USER_PER_WORKER=1000
+      - WORKERS=500
+
 ## Grid Activation service
   grid_activation_service:
     depends_on:
