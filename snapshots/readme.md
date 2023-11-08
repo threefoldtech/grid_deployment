@@ -3,6 +3,33 @@
 To facilitate deploying Grid backend services we provide snapshots to significantly reduce sync time. This can be setup anywhere from scratch. Once all services are synced, one can use the scripts to create snapshots automatically.
 
 
+## Public rsync provided by Threefold
+
+Threefold hosts all available snapshots at: https://bknd.snapshot.grid.tf/
+
+Which can be downloaded with rsync:
+
+- Devnet:
+
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .  
+
+
+- Mainnet - Firesquid indexer / Graphql stack (future):
+
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .  
+
+
+- Mainnet - current Graphql stack:
+
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/tfchain-mainnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/indexer-mainnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/processor-mainnet-latest.tar.gz .  
+
+
 ## Services
 
 There are 3 Grid backend services that collect enough data to justify creating snapshots:
@@ -68,32 +95,3 @@ systemctl start rsync
 systemctl enable rsync
 systemctl status rsync
 ```
-
-
-## Public rsync provided by Threefold
-
-Threefold hosts all available snapshots at: https://bknd.snapshot.grid.tf/
-
-Which can be downloaded with rsync:
-
-- Devnet:
-
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .  
-
-
-- Mainnet - Firesquid indexer / Graphql stack (future):
-
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .  
-
-
-- Mainnet - current Graphql stack:
-
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/tfchain-mainnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/indexer-mainnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/processor-mainnet-latest.tar.gz .  
-
-
