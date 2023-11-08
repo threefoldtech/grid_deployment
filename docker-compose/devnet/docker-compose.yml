@@ -190,9 +190,21 @@ services:
 
 
 ## Grid relay service
-  grid_relay:
+  redis-rmb:
     depends_on:
       processor_query_node:
+        condition: service_started
+    container_name: redis-rmb
+    image: redis:latest
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+#    ports:
+#      - "6379:6379"
+
+  grid_relay:
+    depends_on:
+      redis-rmb:
         condition: service_started
     container_name: grid_relay
     image: ghcr.io/threefoldtech/rmb-relay:v1.1.1
