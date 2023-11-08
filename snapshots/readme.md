@@ -9,26 +9,23 @@ Threefold hosts all available snapshots at: https://bknd.snapshot.grid.tf/
 
 Which can be downloaded with rsync:
 
-- Devnet:
-
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .  
-
-
-- Mainnet - Firesquid indexer / Graphql stack (future):
+- Mainnet:
 
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .  
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .  
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .  
 
+- Testnet:
 
-- Mainnet - current Graphql stack:
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/tfchain-testnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/indexer-testnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/processor-testnet-latest.tar.gz .  
 
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/tfchain-mainnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/indexer-mainnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotscurrent/processor-mainnet-latest.tar.gz .  
+- Devnet:
 
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .  
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .   
 
 ## Services
 
@@ -72,17 +69,25 @@ max connections = 20
 exclude = lost+found/
 transfer logging = yes
 use chroot = yes
+reverse lookup = no
 
 [gridsnapshots]
 path = /storage/rsync-public/mainnet
-comment = THREEFOLD GRID SNAPSHOTS
+comment = THREEFOLD GRID MAINNET SNAPSHOTS
+read only = true
+timeout = 300
+list = false
+
+[gridsnapshotstest]
+path = /storage/rsync-public/testnet
+comment = THREEFOLD GRID TESTNET SNAPSHOTS
 read only = true
 timeout = 300
 list = false
 
 [gridsnapshotsdev]
 path = /storage/rsync-public/devnet
-comment = THREEFOLD GRID SNAPSHOTS DEVNET
+comment = THREEFOLD GRID DEVNET SNAPSHOTS
 read only = true
 timeout = 300
 list = false
