@@ -132,7 +132,7 @@ services:
       indexer_explorer:
         condition: service_started
     container_name: processor_db
-    image: postgres:14
+    image: postgres:16
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -150,7 +150,7 @@ services:
       processor_db:
         condition: service_started
     container_name: processor
-    image: ghcr.io/threefoldtech/tfchain_graphql_processor:2.9.2
+    image: ghcr.io/threefoldtech/tfchain_graphql_processor:2.11.3
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -174,7 +174,7 @@ services:
       processor:
         condition: service_started
     container_name: processor_query_node
-    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:2.9.2
+    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:2.11.3
     restart: unless-stopped
     networks:
       tfgrid_bknd:
