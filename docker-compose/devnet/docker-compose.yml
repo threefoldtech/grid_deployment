@@ -301,7 +301,7 @@ services:
       grid_proxy:
         condition: service_started
     container_name: grid_weblets
-    image: ghcr.io/threefoldtech/weblets:2.2.0-rc2
+    image: ghcr.io/threefoldtech/playground:2.2.0-rc2
     restart: unless-stopped
     networks:
       tfgrid_bknd:
