@@ -22,6 +22,17 @@ graphql.bknd1.dev.ava.tf {
         tls info@threefold.tech
 }
 
+relay.bknd1.dev.ava.tf {
+        reverse_proxy grid_relay:80 {
+                header_up Host {upstream_hostport}
+        }
+        log {
+                output file /var/log/caddy/caddy_access_grid_relay.log
+                format json
+        }
+        tls info@threefold.tech
+}
+
 gridproxy.bknd1.dev.ava.tf {
         reverse_proxy grid_proxy:443 {
                 header_up Host {upstream_hostport}

@@ -314,3 +314,25 @@ services:
       ACTIVATION_SERVICE_URL: https://activation.bknd1.dev.ava.tf
       RELAY_DOMAIN: https://relay.bknd1.dev.ava.tf
       STELLAR_NETWORK: test
+
+
+## Caddy
+  caddy:
+    depends_on:
+      grid_dashboard:
+        condition: service_started
+      grid_weblets:
+        condition: service_started
+    container_name: caddy
+    image: caddy:2.6.2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      tfgrid_bknd:
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /srv/caddy/data:/data
+      - /srv/caddy/config:/config
+      - /srv/caddy/log:/var/log/caddy
