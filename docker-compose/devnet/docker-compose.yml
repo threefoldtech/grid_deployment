@@ -132,7 +132,7 @@ services:
       indexer_explorer:
         condition: service_started
     container_name: processor_db
-    image: postgres:16
+    image: postgres:14
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -150,15 +150,12 @@ services:
       processor_db:
         condition: service_started
     container_name: processor
-    image: ghcr.io/threefoldtech/tfchain_graphql_processor:2.11.3
+    image: ghcr.io/threefoldtech/tfchain_graphql_processor:2.11.2
     restart: unless-stopped
     networks:
       tfgrid_bknd:
 #    ports:
 #      - 44233:44233
-#    build:
-#      dockerfile: Dockerfile
-#      context: ./
     env_file:
       - .env
     environment:
@@ -174,15 +171,12 @@ services:
       processor:
         condition: service_started
     container_name: processor_query_node
-    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:2.11.3
+    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:2.11.2
     restart: unless-stopped
     networks:
       tfgrid_bknd:
 #    ports:
 #      - 4000:4000
-#    build:
-#      dockerfile: Dockerfile
-#      context: ./
     env_file:
       - .env
     environment:
@@ -265,8 +259,8 @@ services:
       POSTGRES_DB: tfgrid-graphql
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      RELAYURL: ws://grid_relay
-      TFCHAINURL: ws://tfchain-public-node:9944
+      RELAYURL: wss://relay.bknd1.dev.ava.tf
+      TFCHAINURL: wss://tfchain.bknd1.dev.ava.tf
       SERVER_PORT: :443
 
 
@@ -286,13 +280,12 @@ services:
       GRAPHQL_URL: https://graphql.bknd1.dev.ava.tf/graphql
       BRIDGE_TFT_ADDRESS: GDHJP6TF3UXYXTNEZ2P36J5FH7W4BJJQ4AYYAXC66I2Q2AH5B6O6BCFG
       GRIDPROXY_URL: https://gridproxy.bknd1.dev.ava.tf
-      SUBSTRATE_URL: https://tfchain.bknd1.dev.ava.tf
+      SUBSTRATE_URL: wss://tfchain.bknd1.dev.ava.tf
       ACTIVATION_SERVICE_URL: https://activation.bknd1.dev.ava.tf
       PLAYGROUND_URL: https://play.bknd1.dev.ava.tf
-      RELAY_DOMAIN: https://relay.bknd1.dev.ava.tf
+      RELAY_DOMAIN: wss://relay.bknd1.dev.ava.tf
       MANUAL_URL: https://manual.grid.tf/
       VERSION: 2.2.0-rc2
-
 
 
 ## Grid Weblets - Play
@@ -310,9 +303,9 @@ services:
       GRAPHQL_URL: https://graphql.bknd1.dev.ava.tf/graphql
       BRIDGE_TFT_ADDRESS: GDHJP6TF3UXYXTNEZ2P36J5FH7W4BJJQ4AYYAXC66I2Q2AH5B6O6BCFG
       GRIDPROXY_URL: https://gridproxy.bknd1.dev.ava.tf
-      SUBSTRATE_URL: https://tfchain.bknd1.dev.ava.tf
+      SUBSTRATE_URL: wss://tfchain.bknd1.dev.ava.tf
       ACTIVATION_SERVICE_URL: https://activation.bknd1.dev.ava.tf
-      RELAY_DOMAIN: https://relay.bknd1.dev.ava.tf
+      RELAY_DOMAIN: wss://relay.bknd1.dev.ava.tf
       STELLAR_NETWORK: test
 
 
