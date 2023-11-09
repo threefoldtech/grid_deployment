@@ -229,3 +229,67 @@ services:
       - "500"
       - "-l"
       - "0.0.0.0:80"
+
+
+## Grid Activation service
+  grid_activation_service:
+    depends_on:
+      grid_relay:
+        condition: service_started
+    container_name: grid_activation_service
+    image: ghcr.io/threefoldtech/tfchain_activation_service:2.6.0-rc1
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      - URL=ws://tfchain-public-node:9944
+      - MNEMONIC=news mad appear brave weekend first eyebrow blouse mask hedgehog toilet exhaust
+      - KYC_PUBLIC_KEY=somekey
+      - ACTIVATION_AMOUNT=1000000
+
+
+## Grid Proxy
+  grid_proxy:
+    depends_on:
+      grid_activation_service:
+        condition: service_started
+    container_name: grid_proxy
+    image: ghcr.io/threefoldtech/tfgridproxy:0.11.4
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      MNEMONICS: "benefit require stamp annual immune sing early face ordinary warrior enough sense"
+      POSTGRES_HOST: processor_db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: tfgrid-graphql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      RELAYURL: ws://grid_relay
+      TFCHAINURL: ws://tfchain-public-node:9944
+      SERVER_PORT: :443
+
+
+## Grid Dashboard
+  grid_dashboard:
+    depends_on:
+      grid_proxy:
+        condition: service_started
+    container_name: grid_dashboard
+    image: ghcr.io/threefoldtech/dashboard:2.2.0-rc2
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+#      GQL_URL: https://graphql.bknd1.dev.ava.tf/graphql
+      STELLAR_NETWORK: test
+      TFCHAIN_NETWORK: custom
+      GRAPHQL_URL: https://graphql.bknd1.dev.ava.tf/graphql
+      BRIDGE_TFT_ADDRESS: GDHJP6TF3UXYXTNEZ2P36J5FH7W4BJJQ4AYYAXC66I2Q2AH5B6O6BCFG
+      GRIDPROXY_URL: https://gridproxy.bknd1.dev.ava.tf
+      SUBSTRATE_URL: https://tfchain.bknd1.dev.ava.tf
+      ACTIVATION_SERVICE_URL: https://activation.bknd1.dev.ava.tf
+      PLAYGROUND_URL: https://play.bknd1.dev.ava.tf
+      RELAY_DOMAIN: https://relay.bknd1.dev.ava.tf
+      MANUAL_URL: https://manual.grid.tf/
+      VERSION: 2.2.0-rc2
