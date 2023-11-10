@@ -16,7 +16,7 @@ tar xvf processor-devnet-latest.tar.gz -C /srv/processor/
 rm processor-devnet-latest.tar.gz
 
 ## Clean up 
-#cd ~/grid_deployment/docker-compose/devnet
+cd ~/grid_deployment/docker-compose/devnet
 rm -r ~/grid_snapshots_tmp
 
 ## Start Grid backed services with docker-compose
