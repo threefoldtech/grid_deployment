@@ -1,5 +1,7 @@
 #/bin/bash
 
+WD=$(pwd)
+
 ## Create directories
 mkdir /srv/tfchain /srv/tfchain/chains /srv/tfchain/chains/tfchain_devnet /srv/tfchain/chains/tfchain_devnet/db /srv/indexer /srv/processor /srv/caddy /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
 
@@ -16,7 +18,7 @@ tar xvf processor-devnet-latest.tar.gz -C /srv/processor/
 rm processor-devnet-latest.tar.gz
 
 ## Clean up 
-cd ~/grid_deployment/docker-compose/devnet
+cd "$WD"
 rm -r ~/grid_snapshots_tmp
 
 ## Start Grid backed services with docker-compose
