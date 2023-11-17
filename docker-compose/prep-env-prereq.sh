@@ -1,7 +1,7 @@
 #/bin/bash
 apt update && apt upgrade -y
 # install troubleshooting tools
-apt install sudo nmon tmux tcpdump iputils-ping net-tools rsync -y
+apt install sudo nmon tmux tcpdump iputils-ping net-tools rsync tar -y
 
 # install Docker + docker-compose
 apt install ca-certificates curl gnupg lsb-release -y

@@ -12,7 +12,7 @@ services:
     container_name: tfchain-public-node
     volumes:
       - /srv/tfchain/:/storage/
-    image: threefolddev/tfchain:2.2.0-rc8
+    image: threefolddev/tfchain:${TFCHAIN_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -51,7 +51,7 @@ services:
       tfchain-public-node:
         condition: service_started
     container_name: indexer_db
-    image: cockroachdb/cockroach:v22.2.2
+    image: cockroachdb/cockroach:${INDEXER_DB_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -67,7 +67,7 @@ services:
       indexer_db:
         condition: service_started
     container_name: indexer_ingest
-    image: subsquid/substrate-ingest:1
+    image: subsquid/substrate-ingest:${INDEXER_INGEST_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -89,7 +89,7 @@ services:
     depends_on:
       indexer_ingest:
         condition: service_started
-    image: subsquid/substrate-gateway:2.5.0
+    image: subsquid/substrate-gateway:${INDEXER_GW_IMG}
     container_name: indexer_gateway
     restart: unless-stopped
     networks:
@@ -106,7 +106,7 @@ services:
       indexer_gateway:
         condition: service_started
     container_name: indexer_explorer
-    image: subsquid/substrate-explorer:firesquid
+    image: subsquid/substrate-explorer:${INDEXER_EXPL_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -126,7 +126,7 @@ services:
       indexer_explorer:
         condition: service_started
     container_name: processor_db
-    image: postgres:16
+    image: postgres:${PROC_DB_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -144,7 +144,7 @@ services:
       processor_db:
         condition: service_started
     container_name: processor
-    image: ghcr.io/threefoldtech/tfchain_graphql_processor:2.11.3
+    image: ghcr.io/threefoldtech/tfchain_graphql_processor:${PROC_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -165,7 +165,7 @@ services:
       processor:
         condition: service_started
     container_name: processor_query_node
-    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:2.11.3
+    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:${PROC_QUERY_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -183,7 +183,7 @@ services:
       processor_query_node:
         condition: service_started
     container_name: redis-rmb
-    image: redis:latest
+    image: redis:${RMB_REDIS_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -195,7 +195,7 @@ services:
       redis-rmb:
         condition: service_started
     container_name: grid_relay
-    image: ghcr.io/threefoldtech/rmb-relay:v1.1.1
+    image: ghcr.io/threefoldtech/rmb-relay:${RMB_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -225,7 +225,7 @@ services:
       grid_relay:
         condition: service_started
     container_name: grid_activation_service
-    image: ghcr.io/threefoldtech/tfchain_activation_service:2.6.0-rc1
+    image: ghcr.io/threefoldtech/tfchain_activation_service:${ACTIV_SERV_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -242,7 +242,7 @@ services:
       grid_activation_service:
         condition: service_started
     container_name: grid_proxy
-    image: ghcr.io/threefoldtech/tfgridproxy:0.11.4
+    image: ghcr.io/threefoldtech/tfgridproxy:${PROXY_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -264,7 +264,7 @@ services:
       grid_proxy:
         condition: service_started
     container_name: grid_dashboard
-    image: ghcr.io/threefoldtech/dashboard:2.2.0-rc2
+    image: ghcr.io/threefoldtech/dashboard:${DASHBOARD_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -288,7 +288,7 @@ services:
       grid_proxy:
         condition: service_started
     container_name: grid_weblets
-    image: ghcr.io/threefoldtech/playground:2.2.0-rc2
+    image: ghcr.io/threefoldtech/playground:${PLAYGROUND_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -309,7 +309,7 @@ services:
       grid_proxy:
         condition: service_started
     container_name: grid_stats
-    image: ghcr.io/threefoldtech/stats:2.2.0-rc3
+    image: ghcr.io/threefoldtech/stats:${STATS_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -323,7 +323,7 @@ services:
       grid_weblets:
         condition: service_started
     container_name: caddy
-    image: caddy:2.6.2
+    image: caddy:${CADDY_IMG}
     restart: unless-stopped
     ports:
       - "80:80"
