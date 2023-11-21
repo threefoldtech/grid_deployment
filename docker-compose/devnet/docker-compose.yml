@@ -279,7 +279,7 @@ services:
       PLAYGROUND_URL: https://play.bknd1.dev.ava.tf
       RELAY_DOMAIN: wss://relay.bknd1.dev.ava.tf
       MANUAL_URL: https://manual.grid.tf/
-      VERSION: 2.2.0-rc2
+      VERSION: ${DASHBOARD_IMG}
 
 
 ## Grid Weblets - Play
