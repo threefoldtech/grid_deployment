@@ -1,6 +1,7 @@
 # Caddy config file to expose all required grid services
 tfchain.bknd1.dev.ava.tf {
-        reverse_proxy tfchain-public-node:9944 {
+        reverse_proxy tfchain-public-node:9944
+        reverse_proxy /* tfchain-public-node:9615 {
                 header_up Host {upstream_hostport}
         }
                 metrics /metrics
