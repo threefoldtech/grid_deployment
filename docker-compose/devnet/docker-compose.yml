@@ -330,6 +330,8 @@ services:
       - "443:443"
     networks:
       tfgrid_bknd:
+    environment:
+      DOMAIN: ${DOMAIN}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - /srv/caddy/data:/data
