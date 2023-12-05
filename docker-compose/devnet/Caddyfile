@@ -1,10 +1,25 @@
 # Caddy config file to expose all required grid services
+{$DOMAIN} {
+	handle_path /indexer* {
+		reverse_proxy indexer_db:8080
+	}
+
+	handle {
+		reverse_proxy tfchain-public-node:9615
+		metrics /caddy
+	}
+	log {
+		output file /var/log/caddy/caddy_access_domain_root.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
 tfchain.{$DOMAIN} {
 	reverse_proxy tfchain-public-node:9944 {
-		#        reverse_proxy /* tfchain-public-node:9615 {
 		header_up Host {upstream_hostport}
 	}
-	metrics /metrics
+	metrics /caddy
 	log {
 		output file /var/log/caddy/caddy_access_tfchain.log
 		format json
@@ -84,21 +99,6 @@ stats.{$DOMAIN} {
 	}
 	log {
 		output file /var/log/caddy/caddy_access_stats.log
-		format json
-	}
-	tls info@threefold.tech
-}
-
-metrics.{$DOMAIN} {
-	#        handle_path /* {
-	#               rewrite * /metrics{uri}
-	#                reverse_proxy tfchain-public-node:9615
-	#        }
-	handle {
-		reverse_proxy tfchain-public-node:9615
-	}
-	log {
-		output file /var/log/caddy/caddy_access_metrics.log
 		format json
 	}
 	tls info@threefold.tech
