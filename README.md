@@ -6,7 +6,7 @@ The project is still under development.
 
 ## Snapshots
 
-Snapshots are created on a daily basis, [find them and scripts here](https://github.com/threefoldtech/grid_deployment/tree/development/snapshots).
+Snapshots are created on a daily basis, [find them and scripts here](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots).
 
 ## Docker-compose
 
