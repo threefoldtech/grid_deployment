@@ -82,16 +82,16 @@ dashboard.{$DOMAIN} {
 	tls info@threefold.tech
 }
 
-play.{$DOMAIN} {
-	reverse_proxy grid_weblets:80 {
-		header_up Host {upstream_hostport}
-	}
-	log {
-		output file /var/log/caddy/caddy_access_play.log
-		format json
-	}
-	tls info@threefold.tech
-}
+#play.{$DOMAIN} {
+#	reverse_proxy grid_weblets:80 {
+#		header_up Host {upstream_hostport}
+#	}
+#	log {
+#		output file /var/log/caddy/caddy_access_play.log
+#		format json
+#	}
+#	tls info@threefold.tech
+#}
 
 stats.{$DOMAIN} {
 	reverse_proxy grid_stats:80 {

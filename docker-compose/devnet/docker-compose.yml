@@ -264,7 +264,7 @@ services:
       grid_proxy:
         condition: service_started
     container_name: grid_dashboard
-    image: ghcr.io/threefoldtech/dashboard:${DASHBOARD_IMG}
+    image: ghcr.io/threefoldtech/playground:${DASHBOARD_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -283,24 +283,24 @@ services:
 
 
 ## Grid Weblets - Play
-  grid_weblets:
-    depends_on:
-      grid_proxy:
-        condition: service_started
-    container_name: grid_weblets
-    image: ghcr.io/threefoldtech/playground:${PLAYGROUND_IMG}
-    restart: unless-stopped
-    networks:
-      tfgrid_bknd:
-    environment:
-      MODE: custom
-      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
-      BRIDGE_TFT_ADDRESS: GDHJP6TF3UXYXTNEZ2P36J5FH7W4BJJQ4AYYAXC66I2Q2AH5B6O6BCFG
-      GRIDPROXY_URL: https://gridproxy.${DOMAIN}
-      SUBSTRATE_URL: wss://tfchain.${DOMAIN}
-      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}
-      RELAY_DOMAIN: wss://relay.${DOMAIN}
-      STELLAR_NETWORK: test
+#  grid_weblets:
+#    depends_on:
+#      grid_proxy:
+#        condition: service_started
+#    container_name: grid_weblets
+#    image: ghcr.io/threefoldtech/playground:${PLAYGROUND_IMG}
+#    restart: unless-stopped
+#    networks:
+#      tfgrid_bknd:
+#    environment:
+#      MODE: custom
+#      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
+#      BRIDGE_TFT_ADDRESS: GDHJP6TF3UXYXTNEZ2P36J5FH7W4BJJQ4AYYAXC66I2Q2AH5B6O6BCFG
+#      GRIDPROXY_URL: https://gridproxy.${DOMAIN}
+#      SUBSTRATE_URL: wss://tfchain.${DOMAIN}
+#      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}
+#      RELAY_DOMAIN: wss://relay.${DOMAIN}
+#      STELLAR_NETWORK: test
 
 
 ## Grid stats
@@ -320,8 +320,8 @@ services:
     depends_on:
       grid_dashboard:
         condition: service_started
-      grid_weblets:
-        condition: service_started
+#      grid_weblets:
+#        condition: service_started
     container_name: caddy
     image: caddy:${CADDY_IMG}
     restart: unless-stopped
