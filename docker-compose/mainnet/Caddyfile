@@ -1,0 +1,105 @@
+# Caddy config file to expose all required grid services
+{$DOMAIN} {
+	handle_path /indexer* {
+		reverse_proxy indexer_db:8080
+	}
+
+	handle {
+		reverse_proxy tfchain-public-node:9615
+		metrics /caddy
+	}
+	log {
+		output file /var/log/caddy/caddy_access_domain_root.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+tfchain.{$DOMAIN} {
+	reverse_proxy tfchain-public-node:9944 {
+		header_up Host {upstream_hostport}
+	}
+	metrics /caddy
+	log {
+		output file /var/log/caddy/caddy_access_tfchain.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+graphql.{$DOMAIN} {
+	reverse_proxy processor_query_node:4000 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_graphql.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+relay.{$DOMAIN} {
+	reverse_proxy grid_relay:80 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_grid_relay.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+gridproxy.{$DOMAIN} {
+	reverse_proxy grid_proxy:443 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_gridproxy.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+activation.{$DOMAIN} {
+	reverse_proxy grid_activation_service:3000 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_activation.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+dashboard.{$DOMAIN} {
+	reverse_proxy grid_dashboard:80 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_dashboard.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+#play.{$DOMAIN} {
+#	reverse_proxy grid_weblets:80 {
+#		header_up Host {upstream_hostport}
+#	}
+#	log {
+#		output file /var/log/caddy/caddy_access_play.log
+#		format json
+#	}
+#	tls info@threefold.tech
+#}
+
+stats.{$DOMAIN} {
+	reverse_proxy grid_stats:80 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_stats.log
+		format json
+	}
+	tls info@threefold.tech
+}

@@ -1,0 +1,340 @@
+version: "3.7"
+
+networks:
+  tfgrid_bknd:
+    name: tfgrid_bknd
+    ipam:
+      driver: default
+
+services:
+## TFchain public node
+  tfchain-public-node:
+    container_name: tfchain-public-node
+    volumes:
+      - /srv/tfchain/:/storage/
+    image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    ports:
+#      - "127.0.0.1:9944:9944"
+#      - "9933:9933"
+#      - "9615:9615"
+      - "30333:30333"
+    command:
+      - "--node-key"
+      - "${TFCHAIN_NODE_KEY}"
+      - "--base-path"
+      - "/storage"
+      - "--chain"
+      - "/etc/chainspecs/main/chainSpecRaw.json"
+      - "--port"
+      - "30333"
+      - "--bootnodes"
+      - "/ip4/185.206.122.83/tcp/30333/p2p/12D3KooWLtsdtQHswnXkLRH7e8vZJHktsh7gfuL5PoADV51JJ6wY"
+      - "--rpc-cors"
+      - "all"
+      - "--prometheus-external"
+      - "--ws-external"
+      - "--ws-max-connections=148576"
+      - "--pruning"
+      - "archive"
+      - "--telemetry-url"
+      - "wss://shard1.telemetry.tfchain.grid.tf/submit 1"
+      - "--rpc-methods=Safe"
+      - "--rpc-external"
+
+
+## Graphql - Indexer
+  indexer_db:
+    depends_on:
+      tfchain-public-node:
+        condition: service_started
+    container_name: indexer_db
+    image: cockroachdb/cockroach:${INDEXER_DB_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+#    ports:
+#      - "26257:26257"
+#      - "8080:8080"
+    command: start-single-node --insecure
+    volumes:
+      - /srv/indexer/:/cockroach/cockroach-data
+
+  indexer_ingest:
+    depends_on:
+      indexer_db:
+        condition: service_started
+    container_name: indexer_ingest
+    image: subsquid/substrate-ingest:${INDEXER_INGEST_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    volumes:
+      - "./typesBundle.json:/configs/typesBundle.json"
+    command:
+      [
+        "-e",
+        "${WS_ENDPOINT}",
+        "-c",
+        "20",
+        "--out",
+        "postgres://root@indexer_db:26257/defaultdb",
+        "--types-bundle",
+        "/configs/typesBundle.json"
+      ]
+
+  indexer_gateway:
+    depends_on:
+      indexer_ingest:
+        condition: service_started
+    image: subsquid/substrate-gateway:${INDEXER_GW_IMG}
+    container_name: indexer_gateway
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+#    ports:
+#      - "8888:8000"
+    environment:
+      DATABASE_MAX_CONNECTIONS: 5
+      RUST_LOG: "actix_web=info,actix_server=info"
+    command: [ "--database-url", "postgres://root@indexer_db:26257/defaultdb" ]
+
+  indexer_explorer:
+    depends_on:
+      indexer_gateway:
+        condition: service_started
+    container_name: indexer_explorer
+    image: subsquid/substrate-explorer:${INDEXER_EXPL_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+#    ports:
+#      - "4444:3000"
+    environment:
+      DB_TYPE: cockroach
+      DB_HOST: indexer_db
+      DB_PORT: "26257"
+      DB_NAME: "defaultdb"
+      DB_USER: "root"
+
+
+## Graphql - Processor
+  processor_db:
+    depends_on:
+      indexer_explorer:
+        condition: service_started
+    container_name: processor_db
+    image: postgres:${PROC_DB_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+#    ports:
+#      - "5432:5432"
+    volumes:
+      - /srv/processor/:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+
+  processor:
+    depends_on:
+      processor_db:
+        condition: service_started
+    container_name: processor
+    image: ghcr.io/threefoldtech/tfchain_graphql_processor:${PROC_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+#    ports:
+#      - 44233:44233
+    env_file:
+      - .env
+    environment:
+      - INDEXER_ENDPOINT_URL=${INDEXER_ENDPOINT_URL}
+      - WS_URL=${WS_URL}
+      - DB_HOST=processor_db
+      - POLL_INTERVAL_MS=300
+      - TYPEORM_LOGGING=error
+    command: ["yarn", "process"]
+
+  processor_query_node:
+    depends_on:
+      processor:
+        condition: service_started
+    container_name: processor_query_node
+    image: ghcr.io/threefoldtech/tfchain_graphql_query-node:${PROC_QUERY_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+#    ports:
+#      - 4000:4000
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=processor_db
+
+
+## Grid relay service
+  redis-rmb:
+    depends_on:
+      processor_query_node:
+        condition: service_started
+    container_name: redis-rmb
+    image: redis:${RMB_REDIS_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+#    ports:
+#      - "6379:6379"
+
+  grid_relay:
+    depends_on:
+      redis-rmb:
+        condition: service_started
+    container_name: grid_relay
+    image: ghcr.io/threefoldtech/rmb-relay:${RMB_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      - RMB_DOMAIN=relay.${DOMAIN}
+      - SUBSTRATE_URL=ws://tfchain-public-node:9944
+      - USER_PER_WORKER=1000
+      - WORKERS=500
+    command:
+      - "--domain"
+      - "relay.${DOMAIN}"
+      - "-r"
+      - "redis://redis-rmb:6379"
+      - "-s"
+      - "ws://tfchain-public-node:9944"
+      - "-u"
+      - "1000"
+      - "-w"
+      - "500"
+      - "-l"
+      - "0.0.0.0:80"
+
+
+## Grid Activation service
+  grid_activation_service:
+    depends_on:
+      grid_relay:
+        condition: service_started
+    container_name: grid_activation_service
+    image: ghcr.io/threefoldtech/tfchain_activation_service:${ACTIV_SERV_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      - URL=ws://tfchain-public-node:9944
+      - MNEMONIC=${ACTIVATION_SERVICE_MNEMONIC}
+      - KYC_PUBLIC_KEY=somekey
+      - ACTIVATION_AMOUNT=1000000
+
+
+## Grid Proxy
+  grid_proxy:
+    depends_on:
+      grid_activation_service:
+        condition: service_started
+    container_name: grid_proxy
+    image: ghcr.io/threefoldtech/tfgridproxy:${PROXY_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      MNEMONICS: ${GRID_PROXY_MNEMONIC}
+      POSTGRES_HOST: processor_db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: tfgrid-graphql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      RELAYURL: wss://relay.${DOMAIN}
+      TFCHAINURL: wss://tfchain.${DOMAIN}
+      SERVER_PORT: :443
+
+
+## Grid Dashboard
+  grid_dashboard:
+    depends_on:
+      grid_proxy:
+        condition: service_started
+    container_name: grid_dashboard
+    image: ghcr.io/threefoldtech/dashboard:${DASHBOARD_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      STELLAR_NETWORK: test
+#      MODE: custom
+      NETWORK: custom
+      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
+      BRIDGE_TFT_ADDRESS: GDHJP6TF3UXYXTNEZ2P36J5FH7W4BJJQ4AYYAXC66I2Q2AH5B6O6BCFG
+      GRIDPROXY_URL: https://gridproxy.${DOMAIN}
+      SUBSTRATE_URL: wss://tfchain.${DOMAIN}
+      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}
+      PLAYGROUND_URL: https://play.${DOMAIN}
+      RELAY_DOMAIN: wss://relay.${DOMAIN}
+      MANUAL_URL: https://manual.grid.tf/
+      VERSION: ${DASHBOARD_IMG}
+
+
+## Grid Weblets - Play
+  grid_weblets:
+    depends_on:
+      grid_proxy:
+        condition: service_started
+    container_name: grid_weblets
+    image: ghcr.io/threefoldtech/playground:${PLAYGROUND_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      MODE: custom
+      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
+      BRIDGE_TFT_ADDRESS: GDHJP6TF3UXYXTNEZ2P36J5FH7W4BJJQ4AYYAXC66I2Q2AH5B6O6BCFG
+      GRIDPROXY_URL: https://gridproxy.${DOMAIN}
+      SUBSTRATE_URL: wss://tfchain.${DOMAIN}
+      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}
+      RELAY_DOMAIN: wss://relay.${DOMAIN}
+      STELLAR_NETWORK: test
+
+
+## Grid stats
+  grid_stats:
+    depends_on:
+      grid_proxy:
+        condition: service_started
+    container_name: grid_stats
+    image: ghcr.io/threefoldtech/stats:${STATS_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+
+
+## Caddy
+  caddy:
+    depends_on:
+      grid_dashboard:
+        condition: service_started
+#      grid_weblets:
+#        condition: service_started
+    container_name: caddy
+    image: caddy:${CADDY_IMG}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      tfgrid_bknd:
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /srv/caddy/data:/data
+      - /srv/caddy/config:/config
+      - /srv/caddy/log:/var/log/caddy
