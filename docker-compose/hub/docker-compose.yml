@@ -1,0 +1,62 @@
+version: "3.7"
+
+networks:
+  tfgrid_bknd:
+    name: tfgrid_bknd
+    ipam:
+      driver: default
+
+services:
+# Hub 0-db
+  0-db:
+    container_name: 0-db
+    image: ghcr.io/threefoldtech/0-db:${0-DB_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      DATADIR: cockroach
+      INDEXDIR: indexer_db
+      DATASIZE: "26257"
+      #ADMIN: "defaultdb"
+      #PROTECT: "root"
+
+
+## 0-hub
+  0-hub:
+    depends_on:
+      0-db:
+        condition: service_started
+    container_name: 0-hub
+    image: ghcr.io/threefoldtech/0-hub:${0-HUB_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    volumes:
+      - config.py:/hub/src/config.py
+      - /srv/hub-public:/public
+      - /srv/hub-workdir:/workdir
+      - /var/run/docker.sock:docker.sock
+
+## Caddy
+  caddy:
+    depends_on:
+      grid_dashboard:
+        condition: service_started
+#      grid_weblets:
+#        condition: service_started
+    container_name: caddy
+    image: caddy:${CADDY_IMG}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      tfgrid_bknd:
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /srv/caddy/data:/data
+      - /srv/caddy/config:/config
+      - /srv/caddy/log:/var/log/caddy

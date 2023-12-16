@@ -1,0 +1,12 @@
+# Caddy config file to expose all required grid services
+hub.{$DOMAIN} {
+	reverse_proxy tfchain-public-node:9944 {
+		header_up Host {upstream_hostport}
+	}
+	metrics /caddy
+	log {
+		output file /var/log/caddy/caddy_access_hub.log
+		format json
+	}
+	tls info@threefold.tech
+}
