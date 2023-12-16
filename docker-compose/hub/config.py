@@ -16,7 +16,7 @@ config = {
     ## mode, anybody can delete/change 0-db contents.
     ##
     ## 0-db needs to run in 'user' mode, not sequential.
-    'backend-internal-host': "my-zdb-host",
+    'backend-internal-host': "0-db",
     'backend-internal-port': 9900,
     'backend-internal-pass': '',
     'backend-internal-name': 'default',
@@ -26,14 +26,14 @@ config = {
     ## when uploading something, this settings are applied on
     ## flist metadata when used internally and are displayed
     ## on the frontend but are not used for creation
-    'backend-public-host': "hub.tld",
+    'backend-public-host': "hub.{$DOMAIN}",
     'backend-public-port': 9900,
     'backend-public-name': "default",
 
     ## Hub public reachable url
     ## this will be used to provide user an working url
     ## to reach flist files
-    'public-website': "https://hub.tld",
+    'public-website': "https://hub.{$DOMAIN}",
 
     ## Local address to listen on
     ## You can restrict ipv4, ipv6 or localhost here

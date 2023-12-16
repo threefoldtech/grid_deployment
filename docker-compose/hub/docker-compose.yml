@@ -7,7 +7,7 @@ networks:
       driver: default
 
 services:
-# Hub 0-db
+# 0-db
   0-db:
     container_name: 0-db
     image: ghcr.io/threefoldtech/0-db:${0-DB_IMG}
@@ -15,12 +15,14 @@ services:
     networks:
       tfgrid_bknd:
     environment:
-      DATADIR: cockroach
-      INDEXDIR: indexer_db
-      DATASIZE: "26257"
-      #ADMIN: "defaultdb"
-      #PROTECT: "root"
-
+      DATADIR: /srv/hubdata
+      INDEXDIR: /srv/hubindex
+      #DATASIZE: 1000
+      #ADMIN: 
+      #PROTECT: 1
+    volumes:
+      - /srv/hubdata:/srv/hubdata
+      - /srv/hubindex:/srv/hubindex
 
 ## 0-hub
   0-hub:
@@ -33,18 +35,16 @@ services:
     networks:
       tfgrid_bknd:
     volumes:
-      - config.py:/hub/src/config.py
+      - ./config.py:/hub/src/config.py
       - /srv/hub-public:/public
       - /srv/hub-workdir:/workdir
-      - /var/run/docker.sock:docker.sock
+      - /usr/lib/systemd/system/docker.socket:/var/run/docker.sock
 
 ## Caddy
   caddy:
     depends_on:
-      grid_dashboard:
+      0-hub:
         condition: service_started
-#      grid_weblets:
-#        condition: service_started
     container_name: caddy
     image: caddy:${CADDY_IMG}
     restart: unless-stopped
