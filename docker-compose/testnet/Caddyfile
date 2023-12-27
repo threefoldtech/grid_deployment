@@ -93,6 +93,17 @@ play.{$DOMAIN} {
 	tls info@threefold.tech
 }
 
+playground.{$DOMAIN} {
+        reverse_proxy grid_playground:80 {
+                header_up Host {upstream_hostport}
+        }
+        log {
+                output file /var/log/caddy/caddy_access_playground.log
+                format json
+        }
+        tls info@threefold.tech
+}
+
 stats.{$DOMAIN} {
 	reverse_proxy grid_stats:80 {
 		header_up Host {upstream_hostport}
