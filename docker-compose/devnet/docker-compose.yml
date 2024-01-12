@@ -12,7 +12,7 @@ services:
     container_name: tfchain-public-node
     volumes:
       - /srv/tfchain/:/storage/
-    image: threefolddev/tfchain:${TFCHAIN_IMG}
+    image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
