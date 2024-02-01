@@ -276,7 +276,7 @@ services:
       BRIDGE_TFT_ADDRESS: GA2CWNBUHX7NZ3B5GR4I23FMU7VY5RPA77IUJTIXTTTGKYSKDSV6LUA4
       GRIDPROXY_URL: https://gridproxy.${DOMAIN}
       SUBSTRATE_URL: wss://tfchain.${DOMAIN}
-      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}
+      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}/activation/activate
       PLAYGROUND_URL: https://play.${DOMAIN}
       RELAY_DOMAIN: wss://relay.${DOMAIN}
       MANUAL_URL: https://manual.grid.tf/
