@@ -71,7 +71,7 @@ activation.{$DOMAIN} {
 	tls info@threefold.tech
 }
 
-dashboard.{$DOMAIN} {
+dashboard.{$DOMAIN}, next.dashboard.grid.tf {
 	reverse_proxy grid_dashboard:80 {
 		header_up Host {upstream_hostport}
 	}
