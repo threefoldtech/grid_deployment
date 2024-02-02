@@ -45,5 +45,8 @@ rm processor-devnet-latest.tar.gz
 cd "$WD"
 rm -r ~/grid_snapshots_tmp
 
+# Copy Cadyfile from example
+cp Caddyfile-example Caddyfile
+
 ## Start Grid backed services with docker-compose
 docker-compose -f docker-compose.yml up -d
