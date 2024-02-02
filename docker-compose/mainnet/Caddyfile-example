@@ -3,7 +3,9 @@
 	handle_path /indexer* {
 		reverse_proxy indexer_db:8080
 	}
-
+        handle_path /graphql* {
+                reverse_proxy processor:44233
+        }
 	handle {
 		reverse_proxy tfchain-public-node:9615
 		metrics /caddy

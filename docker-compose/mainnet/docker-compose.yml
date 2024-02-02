@@ -148,8 +148,8 @@ services:
     restart: unless-stopped
     networks:
       tfgrid_bknd:
-#    ports:
-#      - 44233:44233
+    ports:
+      - 44233:44233
     env_file:
       - .env
     environment:
