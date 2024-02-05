@@ -17,6 +17,9 @@ cd "$WD"
 #git pull -r
 docker-compose up -d
 
+# wait for processor and db to fully start
+sleep 30
+
 # Need to restart gridproxy when re-deploying processor
 docker restart grid_proxy
 
