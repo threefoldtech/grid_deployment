@@ -2,6 +2,7 @@
 WD=$(pwd)
 
 # Upgrade and fully re-sync processor from block 0
+# NOTE: make sure the snapshot server is upgraded and re-synced first!
 mkdir ~/grid_processor_tmp
 cd ~/grid_processor_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .
