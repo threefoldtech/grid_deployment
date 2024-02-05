@@ -158,6 +158,7 @@ services:
       - DB_HOST=processor_db
       - POLL_INTERVAL_MS=300
       - TYPEORM_LOGGING=error
+      - SQD_DEBUG=sqd:processor:*
     command: ["yarn", "process"]
 
   processor_query_node:
