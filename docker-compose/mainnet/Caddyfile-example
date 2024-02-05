@@ -1,5 +1,5 @@
 # Caddy config file to expose all required grid services
-{$DOMAIN} {
+metrics.{$DOMAIN} {
 	handle_path /indexer* {
 		reverse_proxy indexer_db:8080
 	}
