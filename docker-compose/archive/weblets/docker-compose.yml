@@ -1,8 +1,0 @@
-version: "3.4"
-
-services:
-  grid-dashboard:
-    image: threefolddev/grid_weblets:v1.6.0-rc1
-    restart: unless-stopped
-    environment:
-      - NETWORK=devnet
