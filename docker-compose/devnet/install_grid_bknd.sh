@@ -49,4 +49,4 @@ rm -r ~/grid_snapshots_tmp
 cp Caddyfile-example Caddyfile
 
 ## Start Grid backed services with docker-compose
-docker compose --env-file secrets.env --env-file .env up -d
+docker compose --env-file .secrets.env --env-file .env up -d
