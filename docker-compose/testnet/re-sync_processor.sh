@@ -5,9 +5,9 @@ WD=$(pwd)
 # NOTE: make sure the snapshot server is upgraded and re-synced first!
 mkdir ~/grid_processor_tmp
 cd ~/grid_processor_tmp
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .
-tar xvf processor-devnet-latest.tar.gz
-rm processor-devnet-latest.tar.gz
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/processor-testnet-latest.tar.gz .
+tar xvf processor-testnet-latest.tar.gz
+rm processor-testnet-latest.tar.gz
 docker stop processor
 docker stop processor_query_node
 docker stop processor_db
