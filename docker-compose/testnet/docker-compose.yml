@@ -333,7 +333,8 @@ services:
       grid_proxy:
         condition: service_started
     container_name: grid_stats
-    image: ghcr.io/threefoldtech/newstats:${STATS_IMG}
+#    image: ghcr.io/threefoldtech/newstats:${STATS_IMG}
+    image: ghcr.io/threefoldtech/stats:${STATS_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
