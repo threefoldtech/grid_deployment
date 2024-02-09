@@ -27,7 +27,7 @@ esac
 done
 
 ## Create directories
-mkdir /srv/tfchain /srv/tfchain/chains /srv/tfchain/chains/tfchain_mainnet /srv/tfchain/chains/tfchain_mainnet/db /srv/indexer /srv/processor /srv/caddy /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
+mkdir -p /srv/tfchain /srv/tfchain/chains /srv/tfchain/chains/tfchain_mainnet /srv/tfchain/chains/tfchain_mainnet/db /srv/indexer /srv/processor /srv/caddy /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
 
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
