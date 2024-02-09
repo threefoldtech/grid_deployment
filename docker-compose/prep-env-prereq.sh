@@ -71,5 +71,7 @@ EOF
     systemctl daemon-reload
     systemctl enable node-exporter
     systemctl start node-exporter
-    systemctl status node-exporter
+    echo "The node-exporter service status is:"
+    systemctl is-active node-exporter
+    echo "End of prerequisites script."
 fi

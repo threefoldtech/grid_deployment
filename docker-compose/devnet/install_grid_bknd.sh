@@ -4,13 +4,13 @@ WD=$(pwd)
 
 # Ask user to make system changes
 while true; do
-read -p "This script will make changes to your Linux installation, are you sure you want to proceed? (y/n) " yn
+read -p "This script will make changes to your Linux installation. Do you want to proceed? (y/n) " yn
 case $yn in 
-        [yY] ) echo ok, we will proceed;
+        [yY] ) echo "OK! We will proceed.";
                 break;;
-        [nN] ) echo exiting...;
+        [nN] ) echo "OK! Exiting the script.";
                 exit;;
-        * ) echo invalid response;;
+        * ) echo "Your answer is invalid.";;
 esac
 done
 
@@ -18,16 +18,17 @@ done
 while true; do
 read -p "Do you want to run the prerequisites script? This will prepare your environment to run the Grid backend. (y/n) " yn
 case $yn in 
-        [yY] ) echo ok, we will proceed;
-                sh ../prep-env-prereq.sh;;
-        [nN] ) echo exiting...;
+        [yY] ) echo "OK! We will run the prerequisites script.";
+                sh ../prep-env-prereq.sh
                 break;;
-        * ) echo invalid response;;
+        [nN] ) echo "OK! Moving to the next step...";
+                break;;
+        * ) echo "Your answer is invalid.";;
 esac
 done
 
 ## Create directories
-mkdir /srv/tfchain /srv/tfchain/chains /srv/tfchain/chains/tfchain_devnet /srv/tfchain/chains/tfchain_devnet/db /srv/indexer /srv/processor /srv/caddy /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
+mkdir -p /srv/tfchain/chains/tfchain_devnet/db /srv/indexer /srv/processor /srv/caddy /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
 
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
