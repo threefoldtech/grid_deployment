@@ -10,7 +10,7 @@ To start a full Grid backend stack one needs the following:
 
 -- Configuration
 - one static IPv4 and IPv6 ip
-- one A and one AAAA record to expose all services on. This can be the root of a domain or a subdomain but both must be wildcard records like *.your.domain
+- one A and one AAAA record to expose all services on. This can be the root of a domain or a subdomain but both must be wildcard records like *.your.domain ([see table for more info](#setting-the-dns-records))
 - 'node key' for the TFchain public RPC node, generated with `subkey`
 - mnemonic for a wallet on TFchain for the activation service, **this wallet needs funds** and does not need a Twin ID
 - mnemonic for a wallet on TFchain for the Grid proxy service, **this wallet needs funds AND a registered Twin ID*
@@ -19,6 +19,15 @@ To start a full Grid backend stack one needs the following:
 - min of 8 modern CPU cores
 - min of 32GB RAM
 - min of 1TB SSD storage (high preference for NVMe based storage)
+
+#### Setting the DNS Records
+
+The following table explicitly shows how to set the A and AAAA records for your domain.
+
+| Type | Host | Value          |
+| ---- | ---- | -------------- |
+| A    | \*   | <ipv4_address> |
+| AAAA | \*   | <ipv6_address> |
 
 
 ### Files for each net
