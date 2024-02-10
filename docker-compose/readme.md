@@ -10,7 +10,7 @@ To start a full Grid backend stack one needs the following:
 
 -- Configuration
 - one static IPv4 and IPv6 ip
-- one A and one AAAA record to expose all services on. This can be the root of a domain or a subdomain
+- one A and one AAAA record to expose all services on. This can be the root of a domain or a subdomain but both must be wildcard records like *.your.domain
 - 'node key' for the TFchain public RPC node, generated with `subkey`
 - mnemonic for a wallet on TFchain for the activation service, **this wallet needs funds** and does not need a Twin ID
 - mnemonic for a wallet on TFchain for the Grid proxy service, **this wallet needs funds AND a registered Twin ID*
@@ -66,7 +66,19 @@ Check if all environment variables are correct.
 docker compose --env-file .secrets.env --env-file .env config
 ```
 
-### Update a full stack
+
+DNS records that Caddy will request certificates for, with *.your.domain as example:
+- dashboard.your.domain
+- metrics.your.domain
+- tfchain.your.domain
+- graphql.your.domain
+- relay.your.domain
+- gridproxy.your.domain
+- activation.your.domain
+- stats.your.domain
+
+
+### Update
 
 `cd` into the correct folder for the network your deploying for, our example uses mainnet.
 
