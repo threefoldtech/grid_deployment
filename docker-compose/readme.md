@@ -57,6 +57,12 @@ cp Caddyfile-example Caddyfile
 
 Open `.secrets.env` and add your unique variables
 
+Check if all environment variables are correct.
+
+```
+docker compose --env-file .secrets.env --env-file .env config
+```
+
 Deploy by executing the script.
 
 ```sh
@@ -69,17 +75,16 @@ Or manually.
 docker compose --env-file .secrets.env --env-file .env up -d
 ```
 
-Check if all environment variables are correct.
+### DNS
 
-```
-docker compose --env-file .secrets.env --env-file .env config
-```
+The .secrets.env file contains a DOMAIN environment variable which is used in docker compose itself and inside several containers. After you deploy caddy will request several certificates for subdomains of your provided DOMAIN environment variable.
+Make sure the above DNS requirements are met, IPv6 is optional but we strongly encourage to configure it by default.
 
-
-DNS records that Caddy will request certificates for, with *.your.domain as example:
+These subdomains wille be generated and for which Caddy will request a certificate for , *.your.domain as example:
 - dashboard.your.domain
 - metrics.your.domain
 - tfchain.your.domain
+- indexer.your.domain (Devnet only)
 - graphql.your.domain
 - relay.your.domain
 - gridproxy.your.domain
@@ -91,8 +96,16 @@ DNS records that Caddy will request certificates for, with *.your.domain as exam
 
 `cd` into the correct folder for the network your deploying for, our example uses mainnet.
 
+Note: **Only list services of which you know there is an update for, example for the grid_relay.**
+
 ```sh
 git pull -r
-docker compose --env-file .secrets.env --env-file .env up -d
+docker compose --env-file .secrets.env --env-file .env up --no-deps -d grid_relay
 ```
 
+Example for grid_relay and grid_dashboard.
+
+```sh
+git pull -r
+docker compose --env-file .secrets.env --env-file .env up --no-deps -d grid_relay grid_dashboard
+```
