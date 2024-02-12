@@ -40,6 +40,17 @@ graphql.{$DOMAIN} {
 	tls info@threefold.tech
 }
 
+indexer.{$DOMAIN} {
+        reverse_proxy indexer_gateway:8000 {
+                header_up Host {upstream_hostport}
+        }
+        log {
+                output file /var/log/caddy/caddy_access_indexer.log
+                format json
+        }
+        tls info@threefold.tech
+}
+
 relay.{$DOMAIN} {
 	reverse_proxy grid_relay:80 {
 		header_up Host {upstream_hostport}
