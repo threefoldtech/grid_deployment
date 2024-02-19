@@ -128,10 +128,29 @@ playground.{$DOMAIN} {
         tls info@threefold.tech
 }
 
+(cors) {
+  @cors_preflight method OPTIONS
+  @cors header Origin {args.0}
+
+  handle @cors_preflight {
+    header Access-Control-Allow-Origin "*"
+    header Access-Control-Allow-Methods "GET,OPTIONS"
+    header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+    respond "" 204
+  }
+
+  handle @cors {
+    header Access-Control-Allow-Origin "*"
+    header Access-Control-Expose-Headers "Link"
+  }
+}
+
 stats.{$DOMAIN} {
+        import cors https://stats.{$DOMAIN}
 	reverse_proxy grid_stats:80 {
 		header_up Host {upstream_hostport}
 	}
+        header /api/stats-summary Access-Control-Allow-Origin "*"
 	log {
 		output file /var/log/caddy/caddy_access_stats.log
 		format json
