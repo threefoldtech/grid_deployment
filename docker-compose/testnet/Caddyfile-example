@@ -51,6 +51,17 @@ graphql.{$DOMAIN} {
 #        tls info@threefold.tech
 #}
 
+firesquid.{$DOMAIN} {
+        reverse_proxy indexer_explorer:3000 {
+                header_up Host {upstream_hostport}
+        }
+        log {
+                output file /var/log/caddy/caddy_access_firesquid.log
+                format json
+        }
+        tls info@threefold.tech
+}
+
 relay.{$DOMAIN} {
 	reverse_proxy grid_relay:80 {
 		header_up Host {upstream_hostport}
