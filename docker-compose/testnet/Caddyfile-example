@@ -150,7 +150,6 @@ stats.{$DOMAIN} {
 	reverse_proxy grid_stats:80 {
 		header_up Host {upstream_hostport}
 	}
-        header /api/stats-summary Access-Control-Allow-Origin "*"
 	log {
 		output file /var/log/caddy/caddy_access_stats.log
 		format json
