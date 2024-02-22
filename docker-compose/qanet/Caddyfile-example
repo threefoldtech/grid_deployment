@@ -1,0 +1,136 @@
+# Caddy config file to expose all required grid services
+metrics.{$DOMAIN} {
+	handle_path /indexer* {
+		reverse_proxy indexer_db:8080
+	}
+        handle_path /graphql* {
+                reverse_proxy processor:44233
+        }
+	handle {
+		reverse_proxy tfchain-public-node:9615
+		metrics /caddy
+	}
+	log {
+		output file /var/log/caddy/caddy_access_domain_root.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+tfchain.{$DOMAIN} {
+	reverse_proxy tfchain-public-node:9944 {
+		header_up Host {upstream_hostport}
+	}
+	metrics /caddy
+	log {
+		output file /var/log/caddy/caddy_access_tfchain.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+graphql.{$DOMAIN} {
+	reverse_proxy processor_query_node:4000 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_graphql.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+indexer.{$DOMAIN} {
+        reverse_proxy indexer_gateway:8000 {
+                header_up Host {upstream_hostport}
+        }
+        log {
+                output file /var/log/caddy/caddy_access_indexer.log
+                format json
+        }
+        tls info@threefold.tech
+}
+
+firesquid.{$DOMAIN} {
+        reverse_proxy indexer_explorer:3000 {
+                header_up Host {upstream_hostport}
+        }
+        log {
+                output file /var/log/caddy/caddy_access_firesquid.log
+                format json
+        }
+        tls info@threefold.tech
+}
+
+relay.{$DOMAIN} {
+	reverse_proxy grid_relay:80 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_grid_relay.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+gridproxy.{$DOMAIN} {
+	reverse_proxy grid_proxy:443 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_gridproxy.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+activation.{$DOMAIN} {
+	reverse_proxy grid_activation_service:3000 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_activation.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+dashboard.{$DOMAIN} {
+	reverse_proxy grid_dashboard:80 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_dashboard.log
+		format json
+	}
+	tls info@threefold.tech
+}
+
+(cors) {
+  @cors_preflight method OPTIONS
+  @cors header Origin {args.0}
+
+  handle @cors_preflight {
+    header Access-Control-Allow-Origin "*"
+    header Access-Control-Allow-Methods "GET,OPTIONS"
+    header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+    respond "" 204
+  }
+
+  handle @cors {
+    header Access-Control-Allow-Origin "*"
+    header Access-Control-Expose-Headers "Link"
+  }
+}
+
+stats.{$DOMAIN} {
+        import cors https://stats.{$DOMAIN}
+	reverse_proxy grid_stats:80 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_stats.log
+		format json
+	}
+	tls info@threefold.tech
+}
