@@ -15,7 +15,7 @@ rm -r /srv/processor/*
 mv * /srv/processor/
 cd "$WD"
 git pull -r
-docker compose --env-file .secrets.env --env-file .env up -d
+docker compose --env-file .secrets.env --env-file .env up --no-deps -d processor_db processor processor_query_node
 
 # wait for processor and db to fully start
 sleep 30
