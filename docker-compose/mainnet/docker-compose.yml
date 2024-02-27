@@ -296,6 +296,7 @@ services:
       SUBSTRATE_URL: wss://tfchain.${DOMAIN}
       ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}/activation/activate
       RELAY_DOMAIN: wss://relay.${DOMAIN}
+      STATS_URL: https://stats.${DOMAIN}
 
 ## Grid Weblets - Play
 #  grid_weblets:

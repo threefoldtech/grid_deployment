@@ -300,7 +300,7 @@ services:
       RELAY_DOMAIN: wss://relay.${DOMAIN}
       MANUAL_URL: https://manual.grid.tf/
       VERSION: ${DASHBOARD_IMG}
-
+      STATS_URL: https://stats.${DOMAIN}
 
 ## Grid stats
   grid_stats:
