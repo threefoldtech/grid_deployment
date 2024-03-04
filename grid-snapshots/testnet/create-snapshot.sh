@@ -1,15 +1,17 @@
 #/bin/bash
 printf "Stopping tfchain public node / graphql stack and sleep for 10 sec\n"
-docker stop tfchain_graphql_processor_1
-docker stop tfchain_graphql_query-node_1
-docker stop tfchain_graphql_db_1
-docker stop indexer_ingest_1
-docker stop indexer_gateway_1
-docker stop indexer_explorer_1
-docker stop indexer_db_1
-docker stop tfchain-test-snapshot
+docker stop processor_query_node
+docker stop processor
+docker stop processor_db
+docker stop indexer_explorer
+docker stop indexer_gateway
+docker stop indexer_ingest
+docker stop indexer_db
+docker stop tfchain-public-node
 sleep 10
 
+## Remove files older then 3 days
+find /storage/rsync-public/ -mtime +3 -exec rm {} \;
 
 ## TFchain node
 printf "Creating tfchain snapshot\n"
@@ -17,7 +19,7 @@ cd /srv/tfchain/chains/tfchain_testnet/db/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/tfchain-testnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting public node again\n"
-docker start tfchain-test-snapshot
+docker start tfchain-public-node
 sleep 10
 
 printf "Removing and recreating ln to latest\n"
@@ -32,10 +34,10 @@ cd /srv/indexer/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/indexer-testnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting indexer again\n"
-docker start indexer_db_1
-docker start indexer_explorer_1
-docker start indexer_gateway_1
-docker start indexer_ingest_1
+docker start indexer_db
+docker start indexer_ingest
+docker start indexer_gateway
+docker start indexer_explorer
 
 printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public/
@@ -49,18 +51,14 @@ cd /srv/processor/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/processor-testnet-$(date '+%Y-%m-%d').tar.gz" *
 
 #printf "Starting processor again\n"
-docker start tfchain_graphql_db_1
-docker start tfchain_graphql_query-node_1
-docker start tfchain_graphql_processor_1
+docker start processor_db
+docker start processor
+docker start processor_query_node
 
 printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public/
 rm processor-testnet-latest.tar.gz
 ln -s processor-testnet-$(date '+%Y-%m-%d').tar.gz processor-testnet-latest.tar.gz
-
-
-## Remove files older then 6 days
-find /storage/rsync-public/ -mtime +6 -exec rm {} \;
 
 
 ## Send over to Grid-snapshots server and set ln
