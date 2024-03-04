@@ -1,15 +1,19 @@
 #/bin/bash
 printf "Stopping tfchain public node / graphql stack and sleep for 10 sec\n"
-docker stop tfchain_graphql_processor_1
-docker stop tfchain_graphql_query-node_1
-docker stop tfchain_graphql_db_1
-docker stop indexer_ingest_1
-docker stop indexer_gateway_1
-docker stop indexer_explorer_1
-docker stop indexer_db_1
-docker stop tfchain-main-snapshot
+docker stop processor_query_node
+docker stop processor
+docker stop processor_db
+docker stop indexer_explorer
+docker stop indexer_gateway
+docker stop indexer_ingest
+docker stop indexer_db
+docker stop tfchain-public-node
 sleep 10
 
+## Remove files older then 4 days - for all nets
+find /storage/rsync-public/mainnet/ -mtime +4 -exec rm {} \;
+find /storage/rsync-public/testnet/ -mtime +4 -exec rm {} \;
+find /storage/rsync-public/devnet/ -mtime +4 -exec rm {} \;
 
 ## TFchain node
 printf "Creating tfchain snapshot\n"
@@ -17,7 +21,7 @@ cd /srv/tfchain/chains/tfchain_mainnet/db/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/tfchain-mainnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting public node again\n"
-docker start tfchain-main-snapshot
+docker start tfchain-public-node
 sleep 10
 
 printf "Removing and recreating ln to latest\n"
@@ -32,10 +36,10 @@ cd /srv/indexer/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/indexer-mainnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting indexer again\n"
-docker start indexer_db_1
-docker start indexer_explorer_1
-docker start indexer_gateway_1
-docker start indexer_ingest_1
+docker start indexer_db
+docker start indexer_ingest
+docker start indexer_gateway
+docker start indexer_explorer
 
 #printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public/mainnet/
@@ -49,19 +53,11 @@ cd /srv/processor/
 tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/mainnet/processor-mainnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting processor again\n"
-docker start tfchain_graphql_db_1
-docker start tfchain_graphql_query-node_1
-docker start tfchain_graphql_processor_1
+docker start processor_db
+docker start processor
+docker start processor_query_node
 
 printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public/mainnet
 rm processor-mainnet-latest.tar.gz
 ln -s processor-mainnet-$(date '+%Y-%m-%d').tar.gz processor-mainnet-latest.tar.gz
-
-
-## Remove files older then 12 days - for all nets
-find /storage/rsync-public/mainnet/ -mtime +12 -exec rm {} \;
-find /storage/rsync-public/mainnetcurrent/ -mtime +12 -exec rm {} \;
-find /storage/rsync-public/devnet/ -mtime +12 -exec rm {} \;
-
-

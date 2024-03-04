@@ -35,7 +35,7 @@ services:
       - "--rpc-cors"
       - "all"
       - "--prometheus-external"
-      - "--ws-external"
+#      - "--ws-external"
       - "--ws-max-connections=148576"
       - "--pruning"
       - "archive"
