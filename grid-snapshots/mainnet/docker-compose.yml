@@ -36,7 +36,7 @@ services:
       - "all"
       - "--prometheus-external"
 #      - "--ws-external"
-      - "--ws-max-connections=148576"
+      - "--rpc-max-connections=148576"
       - "--pruning"
       - "archive"
       - "--telemetry-url"
