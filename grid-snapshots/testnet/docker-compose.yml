@@ -12,7 +12,7 @@ services:
     container_name: tfchain-public-node
     volumes:
       - /srv/tfchain/:/storage/
-    image: threefolddev/tfchain:${TFCHAIN_IMG}
+    image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
@@ -35,8 +35,8 @@ services:
       - "--rpc-cors"
       - "all"
       - "--prometheus-external"
-      - "--ws-external"
-      - "--ws-max-connections=148576"
+#      - "--ws-external"
+      - "--rpc-max-connections=148576"
       - "--pruning"
       - "archive"
       - "--telemetry-url"
