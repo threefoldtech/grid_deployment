@@ -289,7 +289,7 @@ services:
       tfgrid_bknd:
     environment:
       STELLAR_NETWORK: main
-      MODE: custom
+      MODE: test
       NETWORK: custom
       GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
       BRIDGE_TFT_ADDRESS: GA2CWNBUHX7NZ3B5GR4I23FMU7VY5RPA77IUJTIXTTTGKYSKDSV6LUA4
