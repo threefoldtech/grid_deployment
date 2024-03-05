@@ -35,8 +35,8 @@ services:
       - "--rpc-cors"
       - "all"
       - "--prometheus-external"
-      - "--ws-external"
-      - "--ws-max-connections=148576"
+#      - "--ws-external"
+      - "--rpc-max-connections=148576"
       - "--pruning"
       - "archive"
       - "--telemetry-url"
@@ -288,36 +288,18 @@ services:
     networks:
       tfgrid_bknd:
     environment:
-      MODE: custom
       STELLAR_NETWORK: main
+      MODE: main
       GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
       BRIDGE_TFT_ADDRESS: GBNOTAYUMXVO5QDYWYO2SOCOYIJ3XFIP65GKOQN7H65ZZSO6BK4SLWSC
       GRIDPROXY_URL: https://gridproxy.${DOMAIN}
       SUBSTRATE_URL: wss://tfchain.${DOMAIN}
       ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}/activation/activate
+      PLAYGROUND_URL: https://play.${DOMAIN}
       RELAY_DOMAIN: wss://relay.${DOMAIN}
+      MANUAL_URL: https://manual.grid.tf/
+      VERSION: ${DASHBOARD_IMG}
       STATS_URL: https://stats.${DOMAIN}
-
-## Grid Weblets - Play
-#  grid_weblets:
-#    depends_on:
-#      grid_proxy:
-#        condition: service_started
-#    container_name: grid_weblets
-#    image: ghcr.io/threefoldtech/playground:${PLAYGROUND_IMG}
-#    image: ghcr.io/threefoldtech/weblets:${PLAYGROUND_IMG}
-#    restart: unless-stopped
-#    networks:
-#      tfgrid_bknd:
-#    environment:
-#      MODE: custom
-#      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
-#      BRIDGE_TFT_ADDRESS: GBNOTAYUMXVO5QDYWYO2SOCOYIJ3XFIP65GKOQN7H65ZZSO6BK4SLWSC
-#      GRIDPROXY_URL: https://gridproxy.${DOMAIN}
-#      SUBSTRATE_URL: wss://tfchain.${DOMAIN}
-#      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}
-#      RELAY_DOMAIN: wss://relay.${DOMAIN}
-#      STELLAR_NETWORK: test
 
 
 ## Grid stats
