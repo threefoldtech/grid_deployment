@@ -283,7 +283,7 @@ services:
       grid_proxy:
         condition: service_started
     container_name: grid_dashboard
-    image: ghcr.io/threefoldtech/playground:${PLAYGROUND_IMG}
+    image: ghcr.io/threefoldtech/playground:${DASHBOARD_IMG}
     restart: unless-stopped
     networks:
       tfgrid_bknd:
