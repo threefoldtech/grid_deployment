@@ -18,7 +18,12 @@ To start a full Grid backend stack one needs the following:
 -- Hardware
 - min of 8 modern CPU cores
 - min of 32GB RAM
-- min of 1TB SSD storage (high preference for NVMe based storage)
+- min of 1TB SSD storage (high preference for NVMe based storage) preferably more
+
+Dev, QA and Testnet can do with a Sata SSD setup. Mainnet requires NVMe based SSDs due to the data size.
+
+Note: If a deployment does not have enough disk iops available one can see the processor container restarting regulary alongside grid_proxy errors regarding processor database timeouts.
+
 
 #### Setting the DNS Records
 
@@ -108,4 +113,69 @@ Example for grid_relay and grid_dashboard.
 ```sh
 git pull -r
 docker compose --env-file .secrets.env --env-file .env up --no-deps -d grid_relay grid_dashboard
+```
+
+
+### Metrics
+
+Quite a bunch of Prometheus based metrics are exposed by default.
+
+Caddy: https://metrics.your.domain/caddy
+TFchain: https://metrics.your.domain/metrics
+Grid Relay: https://relay.your.domain/metrics
+Graphql Indexer: https://metrics.your.domain/indexer/_status/vars
+Graphql Processor: https://metrics.your.domain/graphql/metrics
+
+Note: some metrics are global metrics from the grid, some are regarding the local stack deployment
+
+Example Prometheus server configuration, replace `your.domain` by your domain configured in .secrets.env:
+
+```sh
+# Threefold GRID BACKEND - Caddy metrics Grid Mainnet
+  - job_name: 'caddy-mainnet'
+    metrics_path: /caddy
+    scheme: https
+    tls_config:
+       insecure_skip_verify: true
+    static_configs:
+      - targets:
+        - metrics.your.domain:443
+        labels:
+          backend: 'grid-caddy-mainnet'
+          
+# Threefold GRID BACKEND - TFchain Mainnet public RPC node
+  - job_name: 'substrate_mainnet'
+    metrics_path: /metrics
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+        - metrics.your.domain
+        labels:
+          backend: grid-substrate-mainnet
+
+## Threefold GRID BACKEND - Relay - Mainnet
+  - job_name: 'relay-mainnet'
+    static_configs:
+      - targets: 
+        - relay.your.domain
+        labels:
+          backend: 'grid-relay-mainnet'
+
+## Threefold GRID BACKEND - GraphQL Indexer - Mainnet
+  - job_name: 'indexer-mainnet'
+    metrics_path: /indexer/_status/vars
+    static_configs:
+      - targets:
+        - metrics.your.domain
+        labels:
+          backend: 'grid-indexer-mainnet'
+
+## Threefold GRID BACKEND - GraphQL Processor - Mainnet
+  - job_name: 'graphql-mainnet'
+    metrics_path: /graphql/metrics
+    static_configs:
+      - targets:
+        - metrics.your.domain
+        labels:
+          backend: 'grid-graphql-mainnet'
 ```
