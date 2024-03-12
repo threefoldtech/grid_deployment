@@ -7,9 +7,11 @@ This repo provides all tools required to setup your own Grid backend instance (a
 
 Daily snapshots can be found here: https://bknd.snapshot.grid.tf/
 
-Snapshots are created on a daily basis, [find them and scripts here](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots) .
+Have a look at the docs to setup your own snapshot creation or use `RSYNC` to download the snapshots.
 
 
 ## Docker Compose
 
-To keep deploying as simple as possible we provide a set of bash and Docker Compose scripts for each network (Devnet, QAnet, Testnet & Mainnet). Have a look at the documentation on how to get started.
+To keep deploying as simple as possible we provide a set of bash and Docker Compose scripts for each network (Devnet, QAnet, Testnet & Mainnet).
+
+Have a look at the documentation on how to get started.
