@@ -166,7 +166,10 @@ table inet nat {
 }
 ```
 
-In case one wants to use UFW (IPTables)
+**Note**: In case you use nftables, disable iptables for docker in `/lib/systemd/system/docker.service` by adding `--iptables=false` at the end of `ExecStart=`
+
+
+For iptables one can use UFW
 
 ```sh
 ufw allow 80/tcp
