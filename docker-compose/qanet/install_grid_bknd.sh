@@ -28,19 +28,19 @@ esac
 done
 
 ## Create directories
-mkdir -p /srv/tfchain/chains/tfchain_devnet/db /srv/indexer /srv/processor /srv/caddy /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
+mkdir -p /srv/tfchain/chains/tfchain_qa_net/db /srv/indexer /srv/processor /srv/caddy /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
 
 ## Download snapshots, extract and remove archives
-#cd ~/grid_snapshots_tmp
-#rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .
-#tar xvf tfchain-devnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_devnet/db/
-#rm tfchain-devnet-latest.tar.gz
-#rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .
-#tar xvf indexer-devnet-latest.tar.gz -C /srv/indexer/
-#rm indexer-devnet-latest.tar.gz
-#rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .
-#tar xvf processor-devnet-latest.tar.gz -C /srv/processor/
-#rm processor-devnet-latest.tar.gz
+cd ~/grid_snapshots_tmp
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/tfchain-qanet-latest.tar.gz .
+tar xvf tfchain-qanet-latest.tar.gz -C /srv/tfchain/chains/tfchain_qa_net/db/
+rm tfchain-qanet-latest.tar.gz
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/indexer-qanet-latest.tar.gz .
+tar xvf indexer-qanet-latest.tar.gz -C /srv/indexer/
+rm indexer-qanet-latest.tar.gz
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/processor-qanet-latest.tar.gz .
+tar xvf processor-qanet-latest.tar.gz -C /srv/processor/
+rm processor-qanet-latest.tar.gz
 
 ## Clean up 
 cd "$WD"
