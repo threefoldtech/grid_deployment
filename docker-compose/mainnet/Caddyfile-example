@@ -1,11 +1,17 @@
 # Caddy config file to expose all required grid services
+{
+	servers {
+		metrics
+	}
+}
+
 metrics.{$DOMAIN} {
 	handle_path /indexer* {
 		reverse_proxy indexer_db:8080
 	}
-        handle_path /graphql* {
-                reverse_proxy processor:44233
-        }
+	handle_path /graphql* {
+		reverse_proxy processor:44233
+	}
 	handle {
 		reverse_proxy tfchain-public-node:9615
 		metrics /caddy
@@ -21,7 +27,6 @@ tfchain.{$DOMAIN} {
 	reverse_proxy tfchain-public-node:9944 {
 		header_up Host {upstream_hostport}
 	}
-	metrics /caddy
 	log {
 		output file /var/log/caddy/caddy_access_tfchain.log
 		format json
@@ -41,25 +46,25 @@ graphql.{$DOMAIN} {
 }
 
 #indexer.{$DOMAIN} {
-#        reverse_proxy indexer_gateway:8000 {
-#                header_up Host {upstream_hostport}
-#        }
-#        log {
-#                output file /var/log/caddy/caddy_access_indexer.log
-#                format json
-#        }
-#        tls info@threefold.tech
+#	reverse_proxy indexer_gateway:8000 {
+#		header_up Host {upstream_hostport}
+#	}
+#	log {
+#		output file /var/log/caddy/caddy_access_indexer.log
+#		format json
+#	}
+#	tls info@threefold.tech
 #}
 
 firesquid.{$DOMAIN} {
-        reverse_proxy indexer_explorer:3000 {
-                header_up Host {upstream_hostport}
-        }
-        log {
-                output file /var/log/caddy/caddy_access_firesquid.log
-                format json
-        }
-        tls info@threefold.tech
+	reverse_proxy indexer_explorer:3000 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_firesquid.log
+		format json
+	}
+	tls info@threefold.tech
 }
 
 relay.{$DOMAIN} {
@@ -107,24 +112,24 @@ dashboard.{$DOMAIN} {
 }
 
 (cors) {
-  @cors_preflight method OPTIONS
-  @cors header Origin {args.0}
+	@cors_preflight method OPTIONS
+	@cors header Origin {args[0]}
 
-  handle @cors_preflight {
-    header Access-Control-Allow-Origin "*"
-    header Access-Control-Allow-Methods "GET,OPTIONS"
-    header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
-    respond "" 204
-  }
+	handle @cors_preflight {
+		header Access-Control-Allow-Origin "*"
+		header Access-Control-Allow-Methods "GET,OPTIONS"
+		header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+		respond "" 204
+	}
 
-  handle @cors {
-    header Access-Control-Allow-Origin "*"
-    header Access-Control-Expose-Headers "Link"
-  }
+	handle @cors {
+		header Access-Control-Allow-Origin "*"
+		header Access-Control-Expose-Headers "Link"
+	}
 }
 
 stats.{$DOMAIN} {
-        import cors https://stats.{$DOMAIN}
+	import cors https://stats.{$DOMAIN}
 	reverse_proxy grid_stats:80 {
 		header_up Host {upstream_hostport}
 	}
