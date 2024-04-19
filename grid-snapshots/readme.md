@@ -36,19 +36,76 @@ There are 3 Grid backend services that collect enough data to justify creating s
 - Graphql - Processor
 
 
-## Deploy services
+## Requirements
 
-Deploy the 3 individual services using known methods (docker-compose).
+To run your own snapshot backend one needs the following
+
+-- Configuration
+- a working docker environment
+- 'node key' for the TFchain public RPC node, generated with `subkey generate-node-key`
+
+-- Hardware
+- min of 8 modern CPU cores
+- min of 32GB RAM
+- min of 1TB SSD storage (high preference for NVMe based storage) preferably more (as the chain keeps growing in size)
+- min of 2TB HDD storage (to store and share the snapshots)
+
+Dev, QA and Testnet can do with a Sata SSD setup. Mainnet requires NVMe based SSDs due to the data size.
+
+**Note**: If a deployment does not have enough disk iops available one can see the processor container restarting regulary alongside grid_proxy errors regarding processor database timeouts.
+
+
+### Files for each net
+
+Each folder contains the required deployment files for it's net, work in the folder that has the name of the network you want to create snapshots for.
+
+What does each file do:
+- `.env` - contains environment files maintaned by Threefold Tech
+- `.gitignore` - has a list of files to ignore once the repo has been cloned. This has the purpose to not have uncommited changes to files when working in this repo
+- `.secrets.env-examples` - is where you have to add all your unique environment variables
+- `create_snapshot.sh` - script to create a snapshot (used by cron)
+- `docker-compose.yml` - has all the required docker-compose configuration to deploy a working Grid stack
+- `open_logs_tmux.sh` - opens all the docker logs in tmux sessions
+- `typesBundle.json` - contains data for the Graphql indexer and is not to be touched
+- `startall.sh` - starts all the (already deployed) containers
+- `stopall.sh` - stops all the (already deployed) containers
+
+
+## Deploy a snapshot backend
+
+`cd` into the correct folder for the network your deploying for, our example uses mainnet.
+
+```sh
+cd mainnet
+cp .secrets.env-example .secrets.env
+```
+
+Open `.secrets.env` and add your generated subkey node-key
+
+Check if all environment variables are correct.
+```
+docker compose --env-file .secrets.env --env-file .env config
+```
+
+Deploy the snapshot backend. Depending on the disk iops available, it can take up until a week to sync from block 0.
+
+```sh
+docker compose --env-file .secrets.env --env-file .env up -d
+```
 
 
 ## Script
 
 Add the appropriate script to cron with an interval you want the snapshots to be created
 
-`crontab -e`
+```sh
+mkdir /var/log/snapshots
+touch /var/log/snapshots/snapshots-cron.log
+crontab -e
+```
 
 ```sh
-0 1 * * * sh /opt/snapshots/create-snapshot.sh > /var/log/snapshots/snapshots-cron.log 2>&1
+0 1 * * * sh /root/code/grid_deployment/grid-snapshots/mainnet/create_snapshot.sh > /var/log/snapshots/snapshots-cron.log 2>&1
 ```
 
 This example will execute the script every day at 1 AM and send the logs to /var/log/snapshots/snapshots-cron.log
