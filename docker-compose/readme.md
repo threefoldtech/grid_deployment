@@ -8,6 +8,7 @@ Up to date scripts & docker-compose versions will be maintained for dev, qa, tes
 To start a full Grid backend stack one needs the following:
 
 -- Configuration
+- a working Docker environment
 - one static IPv4 and IPv6 ip
 - one A and one AAAA record to expose all services on. This can be the root of a domain or a subdomain but both must be wildcard records like *.your.domain ([see table for more info](#setting-the-dns-records))
 - 'node key' for the TFchain public RPC node, generated with `subkey generate-node-key`
@@ -47,6 +48,7 @@ What does each file do:
 - `install_grid_bknd.sh` - is a script to make deploying from 0 easy
 - `re-sync_processor.sh` - is a script to re-sync the Graphql processor with the hand of a online snapshot
 - `typesBundle.json` - contains data for the Graphql indexer and is not to be touched
+- `open_logs_tmux.sh` - opens all the docker logs in tmux sessions
 
 
 ### Deploy a full stack
