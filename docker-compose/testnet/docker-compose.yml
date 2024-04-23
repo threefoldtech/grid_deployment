@@ -235,7 +235,7 @@ services:
       - "500"
       - "-l"
       - "0.0.0.0:80"
-      - "--debug"
+#      - "--debug"
 
 
 ## Grid Activation service
