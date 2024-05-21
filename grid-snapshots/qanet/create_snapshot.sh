@@ -10,8 +10,8 @@ docker stop indexer_db
 docker stop tfchain-public-node
 sleep 10
 
-## Remove files older then 3 days
-find /storage/rsync-public/ -mtime +3 -exec rm {} \;
+## Remove files older then 1 day
+find /storage/rsync-public/ -mtime +1 -exec rm {} \;
 
 ## TFchain node
 printf "Creating tfchain snapshot\n"
