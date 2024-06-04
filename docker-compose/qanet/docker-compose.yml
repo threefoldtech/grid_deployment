@@ -62,10 +62,23 @@ services:
     volumes:
       - /srv/indexer/:/cockroach/cockroach-data
 
+  indexer_db-init:
+    depends_on:
+      - indexer_db
+    container_name: indexer_db-init
+    image: cockroachdb/cockroach:${INDEXER_DB_IMG}
+    restart: on-failure
+    networks:
+      tfgrid_bknd:
+    volumes:
+      - ./setup_db.sh:/setup_db.sh
+    entrypoint: "/bin/bash"
+    command: /setup_db.sh
+
   indexer_ingest:
     depends_on:
-      indexer_db:
-        condition: service_started
+      indexer_db-init:
+        condition: service_completed_successfully
     container_name: indexer_ingest
     image: subsquid/substrate-ingest:${INDEXER_INGEST_IMG}
     restart: unless-stopped
@@ -87,8 +100,8 @@ services:
 
   indexer_gateway:
     depends_on:
-      indexer_ingest:
-        condition: service_started
+      indexer_db-init:
+        condition: service_completed_successfully
     image: subsquid/substrate-gateway:${INDEXER_GW_IMG}
     container_name: indexer_gateway
     restart: unless-stopped
@@ -103,8 +116,8 @@ services:
 
   indexer_explorer:
     depends_on:
-      indexer_gateway:
-        condition: service_started
+      indexer_db-init:
+        condition: service_completed_successfully
     container_name: indexer_explorer
     image: subsquid/substrate-explorer:${INDEXER_EXPL_IMG}
     restart: unless-stopped
