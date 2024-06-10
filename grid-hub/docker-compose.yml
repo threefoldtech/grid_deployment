@@ -12,6 +12,8 @@ services:
     container_name: 0-db
     image: ghcr.io/threefoldtech/0-db:${0-DB_IMG}
     restart: unless-stopped
+#    ports:
+#      - "9900:9900"
     networks:
       tfgrid_bknd:
     environment:
@@ -21,8 +23,8 @@ services:
       #ADMIN: 
       #PROTECT: 1
     volumes:
-      - /srv/hubdata:/srv/hubdata
-      - /srv/hubindex:/srv/hubindex
+      - /srv/0-db_data:/zdb/data
+      - /srv/0-db_index:/zdb/index
 
 ## 0-hub
   0-hub:
@@ -36,8 +38,8 @@ services:
       tfgrid_bknd:
     volumes:
       - ./config.py:/hub/src/config.py
-      - /srv/hub-public:/public
-      - /srv/hub-workdir:/workdir
+      - /srv/0-hub_public:/public
+      - /srv/0-hub_workdir:/workdir
       - /usr/lib/systemd/system/docker.socket:/var/run/docker.sock
 
 ## Caddy
