@@ -15,7 +15,8 @@ chattr +C /srv/0-db_index
 docker compose --env-file .env up -d
 
 ## Populate the users
-python3 hub-clone.py https://hub.grid.tf /srv/0-hub_public/users
+tmux new -d -s 0-hub_user_sync
+tmux send-keys -t 0-hub_user_sync "python3 hub-clone.py https://hub.grid.tf /srv/0-hub_public/users" ENTER
 
 ## Sync with hub.grid.tf and keep in sync
 tmux new -d -s 0-hub_sync
