@@ -204,23 +204,6 @@ services:
 #    ports:
 #      - "6379:6379"
 
-  grid_relay_cache_warmer:
-    depends_on:
-      redis-rmb:
-        condition: service_started
-    container_name: grid_relay_cache_warmer
-    image: ghcr.io/threefoldtech/relay-cache-warmer:${RMB_CACHE_IMG}
-    restart: unless-stopped
-    networks:
-      tfgrid_bknd:
-    command:
-      - "--interval"
-      - "10"
-      - "--graphql"
-      - "https://graphql.${DOMAIN}/graphql"
-      - "--redis-url"
-      - "redis://redis-rmb:6379"
-
   grid_relay:
     depends_on:
       redis-rmb:
