@@ -8,6 +8,11 @@
             null
           ],
           "types": {
+            "ContractLock": {
+              "amount_locked": "Balance",
+              "lock_updated": "u64",
+              "cycles": "u16"
+            },
             "Farm": {
               "version": "u32",
               "id": "u32",
@@ -470,7 +475,7 @@
               "pricingPolicyId": "u32",
               "certification": "FarmCertification",
               "publicIps": "Vec<PublicIP>",
-              "dedicatedFarm:": "bool",
+              "dedicatedFarm": "bool",
               "farmingPolicyLimits": "Option<FarmingPolicyLimit>"
             },
             "FarmingPolicyLimit": {
@@ -528,6 +533,11 @@
               "nodeCertification": "NodeCertification",
               "farmCertification": "FarmCertification"
             },
+            "ContractLock": {
+              "amount_locked": "Balance",
+              "lock_updated": "u64",
+              "cycles": "u16"
+            },
             "DaoProposal": {
               "index": "u32",
               "description": "Vec<u8>",
@@ -549,52 +559,10 @@
         },
         {
           "minmax": [
-            105,
+            101,
             null
           ],
-          "types": {
-            "Contract": {
-              "version": " u32",
-              "state": "ContractState",
-              "contractId": "u64",
-              "twinId": "u32",
-              "contractType": "ContractData",
-              "solutionProviderID": "Option<U64>"
-            }
-          }
-        },
-        {
-          "minmax": [
-            118,
-            null
-          ],
-          "types": {
-            "Node": {
-              "version": "u32",
-              "id": "u32",
-              "farmId": "u32",
-              "twinId": "u32",
-              "resources": "Resources",
-              "location": "Location",
-              "country": "Vec<u8>",
-              "city": "Vec<u8>",
-              "publicConfig": "Option<PublicConfig>",
-              "created": "u64",
-              "farmingPolicyId": "u32",
-              "interfaces": "Vec<Interface>",
-              "certification": "NodeCertification",
-              "secureBoot": "bool",
-              "virtualized": "bool",
-              "serialNumber": "Option<Vec<u8>>",
-              "connectionPrice": "u32"
-            },
-            "Location": {
-              "city": "Vec<u8>",
-              "country": "Vec<u8>",
-              "latitude": "Vec<u8>",
-              "longitude": "Vec<u8>"
-            }
-          }
+          "types": {}
         }
       ]
     }
