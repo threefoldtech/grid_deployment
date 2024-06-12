@@ -9,7 +9,7 @@ networks:
 services:
 ## TFchain public node
   tfchain-public-node:
-    container_name: tfchain-public-node
+    container_name: tfchain-mainnet-validator
     volumes:
       - /srv/tfchain/:/storage/
     image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
