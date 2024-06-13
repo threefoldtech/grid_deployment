@@ -5,7 +5,7 @@ WD=$(pwd)
 # NOTE: make sure the snapshot server is upgraded and re-synced first!
 mkdir ~/grid_processor_tmp
 cd ~/grid_processor_tmp
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-qanet-latest.tar.gz .
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/processor-qanet-latest.tar.gz .
 tar xvf processor-qanet-latest.tar.gz
 rm processor-qanet-latest.tar.gz
 docker stop processor
