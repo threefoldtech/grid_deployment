@@ -475,7 +475,7 @@
               "pricingPolicyId": "u32",
               "certification": "FarmCertification",
               "publicIps": "Vec<PublicIP>",
-              "dedicatedFarm:": "bool",
+              "dedicatedFarm": "bool",
               "farmingPolicyLimits": "Option<FarmingPolicyLimit>"
             },
             "FarmingPolicyLimit": {
@@ -559,123 +559,10 @@
         },
         {
           "minmax": [
-            105,
+            101,
             null
           ],
-          "types": {
-            "Contract": {
-              "version": " u32",
-              "state": "ContractState",
-              "contractId": "u64",
-              "twinId": "u32",
-              "contractType": "ContractData",
-              "solutionProviderID": "Option<U64>"
-            }
-          }
-        },
-        {
-          "minmax": [
-            118,
-            null
-          ],
-          "types": {
-            "Node": {
-              "version": "u32",
-              "id": "u32",
-              "farmId": "u32",
-              "twinId": "u32",
-              "resources": "Resources",
-              "location": "Location",
-              "country": "Vec<u8>",
-              "city": "Vec<u8>",
-              "publicConfig": "Option<PublicConfig>",
-              "created": "u64",
-              "farmingPolicyId": "u32",
-              "interfaces": "Vec<Interface>",
-              "certification": "NodeCertification",
-              "secureBoot": "bool",
-              "virtualized": "bool",
-              "serialNumber": "Option<Vec<u8>>",
-              "connectionPrice": "u32"
-            },
-            "Location": {
-              "city": "Vec<u8>",
-              "country": "Vec<u8>",
-              "latitude": "Vec<u8>",
-              "longitude": "Vec<u8>"
-            }
-          }
-        },
-        {
-          "minmax": [
-            122,
-            null
-          ],
-          "types": {
-            "ServiceContract": {
-              "serviceContractId": "u64",
-              "serviceTwinId:": "u32",
-              "consumerTwinId": "u32",
-              "baseFee": "u64",
-              "variableFee": "u64",
-              "metadata": "Vec<u8>",
-              "acceptedByService": "bool",
-              "acceptedByConsumer": "bool",
-              "lastBill": "u64",
-              "state": "ServiceContractState"
-            },
-            "ServiceContractState": {
-              "_enum": {
-                "Created": null,
-                "AgreementReady": null,
-                "ApprovedByBoth": null
-              }
-            },
-            "ServiceContractBill": {
-              "variableAmount": "u64",
-              "window": "u64",
-              "metadata": "Vec<u8>"
-            }
-          }
-        },
-        {
-          "minmax": [
-            124,
-            null
-          ],
-          "types": {
-            "Twin": {
-              "id": "u32",
-              "accountId": "AccountId",
-              "relay": "Vec<u8>",
-              "entities": "Vec<EntityProof>",
-              "pk": "Vec<u8>"
-            }
-          }
-        },
-        {
-          "minmax": [
-            125,
-            null
-          ],
-          "types": {
-            "NodePower": {
-              "state": "PowerState",
-              "target": "Power"
-            },
-            "PowerState": {
-              "_enum": {
-                "Up": null,
-                "Down": "BlockNumber"
-              }
-            },
-            "Power": {
-              "_enum": [
-                "Up",
-                "Down"
-              ]
-            }
-          }
+          "types": {}
         }
       ]
     }
