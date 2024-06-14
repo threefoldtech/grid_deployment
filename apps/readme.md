@@ -12,6 +12,6 @@ The subkey program is a key generation and management utility to perform the fol
 - Sign and verify signatures for encoded transactions.
 - Derive hierarchical deterministic child key pairs.
 
-Repo: https://github.com/paritytech/polkadot-sdk
+Repo: https://github.com/paritytech/polkadot-sdk  
 Docs: https://docs.substrate.io/reference/command-line-tools/subkey/
 
