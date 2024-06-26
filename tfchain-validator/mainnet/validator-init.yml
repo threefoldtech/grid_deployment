@@ -19,6 +19,8 @@ services:
       - "aura"
       - "--suri"
       - "${MNEMONIC}"
+      - "--scheme"
+      - "sr25519"
 
 ## TFchain validator init - insert grandpa key
   tfchain-validator-insert-grandpa:
