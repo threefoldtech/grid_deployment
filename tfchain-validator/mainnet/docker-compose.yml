@@ -7,9 +7,9 @@ networks:
       driver: default
 
 services:
-## TFchain public node
-  tfchain-public-node:
-    container_name: tfchain-mainnet-validator
+## TFchain validator
+  tfchain-validator:
+    container_name: tfchain-validator
     volumes:
       - /srv/tfchain/:/storage/
     image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
