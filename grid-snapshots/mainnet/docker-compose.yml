@@ -58,6 +58,10 @@ services:
 #    ports:
 #      - "26257:26257"
 #      - "8080:8080"
+    ulimits:
+      nofile:
+        soft: 82920
+        hard: 82920
     command: start-single-node --insecure --cache=.5 --max-sql-memory=.5
     volumes:
       - /srv/indexer/:/cockroach/cockroach-data
