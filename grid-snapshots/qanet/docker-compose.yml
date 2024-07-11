@@ -58,6 +58,11 @@ services:
 #    ports:
 #      - "26257:26257"
 #      - "8080:8080"
+
+    ulimits:
+      nofile:
+        soft: 82920
+        hard: 82920
     command: start-single-node --insecure --cache=.5 --max-sql-memory=.5
     volumes:
       - /srv/indexer/:/cockroach/cockroach-data
@@ -112,7 +117,7 @@ services:
     environment:
       DATABASE_MAX_CONNECTIONS: 5
       RUST_LOG: "actix_web=info,actix_server=info"
-    command: [ "--database-url", "postgres://root@indexer_db:26257/defaultdb" ]
+    command: [ "--database-url", "postgres://root@indexer_db:26257/defaultdb" , "--scan-max-value", "50000"]
 
   indexer_explorer:
     depends_on:
