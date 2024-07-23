@@ -5,7 +5,7 @@ RELEASE=node_exporter-${VERSION}.linux-amd64
 
 apt update && apt upgrade -y
 # install troubleshooting tools
-apt install sudo nmon tmux tcpdump iputils-ping net-tools rsync tar -y
+apt install sudo nmon tmux tcpdump iputils-ping net-tools rsync tar pv -y
 
 # install Docker + docker-compose
 apt install ca-certificates curl gnupg lsb-release -y

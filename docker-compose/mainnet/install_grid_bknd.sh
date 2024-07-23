@@ -33,13 +33,13 @@ mkdir -p /srv/tfchain/chains/tfchain_mainnet/db /srv/indexer /srv/processor /srv
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .
-tar xvf tfchain-mainnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_mainnet/db/
+pv tfchain-mainnet-latest.tar.gz | tar xJ -C /srv/tfchain/chains/tfchain_mainnet/db/
 rm tfchain-mainnet-latest.tar.gz
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .
-tar xvf indexer-mainnet-latest.tar.gz -C /srv/indexer/
+pv indexer-mainnet-latest.tar.gz | tar xJ -C /srv/indexer/
 rm indexer-mainnet-latest.tar.gz
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .
-tar xvf processor-mainnet-latest.tar.gz -C /srv/processor/
+pv processor-mainnet-latest.tar.gz | tar xJ -C /srv/processor/
 rm processor-mainnet-latest.tar.gz
 
 ## Clean up 

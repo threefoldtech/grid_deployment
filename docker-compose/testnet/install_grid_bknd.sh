@@ -33,13 +33,13 @@ mkdir -p /srv/tfchain/chains/tfchain_testnet/db /srv/indexer /srv/processor /srv
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/tfchain-testnet-latest.tar.gz .
-tar xvf tfchain-testnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_testnet/db/
+pv tfchain-testnet-latest.tar.gz | tar xJ -C /srv/tfchain/chains/tfchain_testnet/db/
 rm tfchain-testnet-latest.tar.gz
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/indexer-testnet-latest.tar.gz .
-tar xvf indexer-testnet-latest.tar.gz -C /srv/indexer/
+pv indexer-testnet-latest.tar.gz | tar xJ -C /srv/indexer/
 rm indexer-testnet-latest.tar.gz
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/processor-testnet-latest.tar.gz .
-tar xvf processor-testnet-latest.tar.gz -C /srv/processor/
+pv processor-testnet-latest.tar.gz | tar xJ -C /srv/processor/
 rm processor-testnet-latest.tar.gz
 
 ## Clean up 
