@@ -56,9 +56,10 @@ cd "$WD"
 rm -r /mnt/disk/tmp/grid_snapshots_tmp
 zinit stop webpage
 zinit stop caddy
-mkdir -p /mnt/disk/zinit_archive
-mv /etc/zinit/caddy.yaml /mnt/disk/zinit_archive/caddy.yaml
-mv /etc/zinit/webpage.yaml /mnt/disk/zinit_archive/webpage.yaml
+zinit forget webpage
+zinit forget caddy
+mv /etc/zinit/caddy.yaml /etc/zinit/caddy.yaml.inactive
+mv /etc/zinit/webpage.yaml /etc/zinit/webpage.yaml.inactive
 rm -r mnt/disk/tmp/webpage
 
 # Copy Cadyfile from example
