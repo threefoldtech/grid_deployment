@@ -11,7 +11,7 @@ services:
   tfchain-public-node:
     container_name: tfchain-public-node
     volumes:
-      - /srv/tfchain/:/storage/
+      - /mnt/disk/srv/tfchain/:/mnt/disk/storage/
     image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
     restart: unless-stopped
     networks:
@@ -25,7 +25,7 @@ services:
       - "--node-key"
       - "${TFCHAIN_NODE_KEY}"
       - "--base-path"
-      - "/storage"
+      - "/mnt/disk/storage"
       - "--chain"
       - "/etc/chainspecs/main/chainSpecRaw.json"
       - "--port"
@@ -64,7 +64,7 @@ services:
         hard: 82920
     command: start-single-node --insecure --cache=.45 --max-sql-memory=.45
     volumes:
-      - /srv/indexer/:/cockroach/cockroach-data
+      - /mnt/disk/srv/indexer/:/cockroach/cockroach-data
 
   indexer_db-init:
     depends_on:
@@ -150,7 +150,7 @@ services:
 #    ports:
 #      - "5432:5432"
     volumes:
-      - /srv/processor/:/var/lib/postgresql/data
+      - /mnt/disk/srv/processor/:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
@@ -333,6 +333,6 @@ services:
       DOMAIN: ${DOMAIN}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - /srv/caddy/data:/data
-      - /srv/caddy/config:/config
-      - /srv/caddy/log:/var/log/caddy
+      - /mnt/disk/srv/caddy/data:/data
+      - /mnt/disk/srv/caddy/config:/config
+      - /mnt/disk/srv/caddy/log:/var/log/caddy
