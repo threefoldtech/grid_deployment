@@ -36,19 +36,19 @@ cd /mnt/disk/grid_snapshots_tmp
 echo '<h1>Step 1 of 6: Downloading TFChain Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-qanet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
 echo '<h1>Step 2 of 6: Extracting TFChain Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv tfchain-qanet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/tfchain/chains/tfchain_qanet/db/
+pv -f tfchain-qanet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/tfchain/chains/tfchain_qanet/db/
 rm tfchain-qanet-latest.tar.gz
 
 echo '<h1>Step 3 of 6: Downloading Indexer Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-qanet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
 echo '<h1>Step 4 of 6: Extracting Indexer Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv indexer-qanet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/indexer/
+pv -f indexer-qanet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/indexer/
 rm indexer-qanet-latest.tar.gz
 
 echo '<h1>Step 5 of 6: Downloading Processor Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-qanet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
 echo '<h1>Step 6 of 6: Extracting Processor Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv processor-qanet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/processor/
+pv -f processor-qanet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/processor/
 rm processor-qanet-latest.tar.gz
 
 ## Clean up 

@@ -36,19 +36,19 @@ cd /mnt/disk/grid_snapshots_tmp
 echo '<h1>Step 1 of 6: Downloading TFChain Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-devnet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
 echo '<h1>Step 2 of 6: Extracting TFChain Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv tfchain-devnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/tfchain/chains/tfchain_devnet/db/
+pv -f tfchain-devnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/tfchain/chains/tfchain_devnet/db/
 rm tfchain-devnet-latest.tar.gz
 
 echo '<h1>Step 3 of 6: Downloading Indexer Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-devnet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
 echo '<h1>Step 4 of 6: Extracting Indexer Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv indexer-devnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/indexer/
+pv -f indexer-devnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/indexer/
 rm indexer-devnet-latest.tar.gz
 
 echo '<h1>Step 5 of 6: Downloading Processor Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-devnet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
 echo '<h1>Step 6 of 6: Extracting Processor Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv processor-devnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/processor/
+pv -f processor-devnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/processor/
 rm processor-devnet-latest.tar.gz
 
 ## Clean up 
