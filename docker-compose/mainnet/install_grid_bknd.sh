@@ -57,6 +57,7 @@ rm -r /mnt/disk/tmp/grid_snapshots_tmp
 zinit stop webpage
 rm /scripts/webpage.sh
 rm /etc/zinit/webpage.yaml
+rm -r mnt/disk/tmp/webpage
 
 # Copy Cadyfile from example
 cp Caddyfile-example Caddyfile
