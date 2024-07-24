@@ -55,6 +55,9 @@ rm processor-mainnet-latest.tar.gz
 cd "$WD"
 rm -r /mnt/disk/tmp/grid_snapshots_tmp
 zinit stop webpage
+zinit stop caddy
+rm /scripts/caddy.sh
+rm /etc/zinit/caddy.yaml
 rm /scripts/webpage.sh
 rm /etc/zinit/webpage.yaml
 rm -r mnt/disk/tmp/webpage
