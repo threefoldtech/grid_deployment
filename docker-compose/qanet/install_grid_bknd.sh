@@ -28,23 +28,35 @@ esac
 done
 
 ## Create directories
-mkdir -p /srv/tfchain/chains/tfchain_qa_net/db /srv/indexer /srv/processor /srv/caddy /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
+mkdir -p /srv/tfchain/chains/tfchain_qanet/db /srv/indexer /srv/processor /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp /tmp/webserver
 
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/tfchain-qanet-latest.tar.gz .
-pv tfchain-qanet-latest.tar.gz | tar xJ -C /srv/tfchain/chains/tfchain_qanet/db/
+
+echo '<h1>Step 1 of 6: Downloading TFChain Snapshot</h1>' > /tmp/webserver/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-qanet-latest.tar.gz . > /tmp/webserver/log
+echo '<h1>Step 2 of 6: Extracting TFChain Snapshot</h1>' > /tmp/webserver/heading.html
+pv tfchain-qanet-latest.tar.gz 2> /tmp/webserver/log | tar xJ -C /srv/tfchain/chains/tfchain_qanet/db/
 rm tfchain-qanet-latest.tar.gz
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/indexer-qanet-latest.tar.gz .
-pv indexer-qanet-latest.tar.gz | tar xJ -C /srv/indexer/
+
+echo '<h1>Step 3 of 6: Downloading Indexer Snapshot</h1>' > /tmp/webserver/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-qanet-latest.tar.gz . > /tmp/webserver/log
+echo '<h1>Step 4 of 6: Extracting Indexer Snapshot</h1>' > /tmp/webserver/heading.html
+pv indexer-qanet-latest.tar.gz 2> /tmp/webserver/log | tar xJ -C /srv/indexer/
 rm indexer-qanet-latest.tar.gz
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/processor-qanet-latest.tar.gz .
-pv processor-qanet-latest.tar.gz | tar xJ -C /srv/processor/
+
+echo '<h1>Step 5 of 6: Downloading Processor Snapshot</h1>' > /tmp/webserver/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-qanet-latest.tar.gz . > /tmp/webserver/log
+echo '<h1>Step 6 of 6: Extracting Processor Snapshot</h1>' > /tmp/webserver/heading.html
+pv processor-qanet-latest.tar.gz 2> /tmp/webserver/log | tar xJ -C /srv/processor/
 rm processor-qanet-latest.tar.gz
 
 ## Clean up 
 cd "$WD"
 rm -r ~/grid_snapshots_tmp
+zinit stop webserver
+rm /scripts/webserver.sh
+rm /etc/zinit/webserver.yaml
 
 # Copy Cadyfile from example
 cp Caddyfile-example Caddyfile

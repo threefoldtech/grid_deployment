@@ -28,23 +28,35 @@ esac
 done
 
 ## Create directories
-mkdir -p /srv/tfchain/chains/tfchain_mainnet/db /srv/indexer /srv/processor /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
+mkdir -p /srv/tfchain/chains/tfchain_mainnet/db /srv/indexer /srv/processor /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp /tmp/webserver
 
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .
-pv tfchain-mainnet-latest.tar.gz | tar xJ -C /srv/tfchain/chains/tfchain_mainnet/db/
+
+echo '<h1>Step 1 of 6: Downloading TFChain Snapshot</h1>' > /tmp/webserver/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz . > /tmp/webserver/log
+echo '<h1>Step 2 of 6: Extracting TFChain Snapshot</h1>' > /tmp/webserver/heading.html
+pv tfchain-mainnet-latest.tar.gz 2> /tmp/webserver/log | tar xJ -C /srv/tfchain/chains/tfchain_mainnet/db/
 rm tfchain-mainnet-latest.tar.gz
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .
-pv indexer-mainnet-latest.tar.gz | tar xJ -C /srv/indexer/
+
+echo '<h1>Step 3 of 6: Downloading Indexer Snapshot</h1>' > /tmp/webserver/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz . > /tmp/webserver/log
+echo '<h1>Step 4 of 6: Extracting Indexer Snapshot</h1>' > /tmp/webserver/heading.html
+pv indexer-mainnet-latest.tar.gz 2> /tmp/webserver/log | tar xJ -C /srv/indexer/
 rm indexer-mainnet-latest.tar.gz
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .
-pv processor-mainnet-latest.tar.gz | tar xJ -C /srv/processor/
+
+echo '<h1>Step 5 of 6: Downloading Processor Snapshot</h1>' > /tmp/webserver/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz . > /tmp/webserver/log
+echo '<h1>Step 6 of 6: Extracting Processor Snapshot</h1>' > /tmp/webserver/heading.html
+pv processor-mainnet-latest.tar.gz 2> /tmp/webserver/log | tar xJ -C /srv/processor/
 rm processor-mainnet-latest.tar.gz
 
 ## Clean up 
 cd "$WD"
 rm -r ~/grid_snapshots_tmp
+zinit stop webserver
+rm /scripts/webserver.sh
+rm /etc/zinit/webserver.yaml
 
 # Copy Cadyfile from example
 cp Caddyfile-example Caddyfile
