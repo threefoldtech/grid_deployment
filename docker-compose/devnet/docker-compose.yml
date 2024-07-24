@@ -11,7 +11,7 @@ services:
   tfchain-public-node:
     container_name: tfchain-public-node
     volumes:
-      - /mnt/disk/srv/tfchain/:/mnt/disk/storage/
+      - /mnt/disk/srv/tfchain/:/storage/
     image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
     restart: unless-stopped
     networks:
