@@ -24,6 +24,7 @@ metrics.{$DOMAIN} {
 }
 
 tfchain.{$DOMAIN} {
+	import cors https://tfchain.{$DOMAIN}
 	reverse_proxy tfchain-public-node:9944 {
 		header_up Host {upstream_hostport}
 	}
