@@ -5,6 +5,23 @@
 	}
 }
 
+(cors) {
+	@cors_preflight method OPTIONS
+	@cors header Origin {args[0]}
+
+	handle @cors_preflight {
+		header Access-Control-Allow-Origin "*"
+		header Access-Control-Allow-Methods "GET,OPTIONS"
+		header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+		respond "" 204
+	}
+
+	handle @cors {
+		header Access-Control-Allow-Origin "*"
+		header Access-Control-Expose-Headers "Link"
+	}
+}
+
 metrics.{$DOMAIN} {
 	handle_path /indexer* {
 		reverse_proxy indexer_db:8080
@@ -110,23 +127,6 @@ dashboard.{$DOMAIN} {
 		format json
 	}
 	tls info@threefold.tech
-}
-
-(cors) {
-	@cors_preflight method OPTIONS
-	@cors header Origin {args[0]}
-
-	handle @cors_preflight {
-		header Access-Control-Allow-Origin "*"
-		header Access-Control-Allow-Methods "GET,OPTIONS"
-		header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
-		respond "" 204
-	}
-
-	handle @cors {
-		header Access-Control-Allow-Origin "*"
-		header Access-Control-Expose-Headers "Link"
-	}
 }
 
 stats.{$DOMAIN} {
