@@ -16,7 +16,8 @@ find /storage/rsync-public/ -mtime +1 -exec rm {} \;
 ## TFchain node
 printf "Creating tfchain snapshot\n"
 cd /srv/tfchain/chains/tfchain_devnet/db/
-tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/tfchain-devnet-$(date '+%Y-%m-%d').tar.gz" *
+#tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/tfchain-devnet-$(date '+%Y-%m-%d').tar.gz" *
+tar --use-compress-program="pigz -k --best --recursive | pv " -cf "/storage/rsync-public/tfchain-devnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting public node again\n"
 docker start tfchain-public-node
@@ -31,7 +32,8 @@ ln -s tfchain-devnet-$(date '+%Y-%m-%d').tar.gz tfchain-devnet-latest.tar.gz
 ## Graphql - Indexer
 printf "Creating indexer snapshot\n"
 cd /srv/indexer/
-tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/indexer-devnet-$(date '+%Y-%m-%d').tar.gz" *
+#tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/indexer-devnet-$(date '+%Y-%m-%d').tar.gz" *
+tar --use-compress-program="pigz -k --best --recursive | pv " -cf "/storage/rsync-public/indexer-devnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting indexer again\n"
 docker start indexer_db
@@ -48,7 +50,8 @@ ln -s indexer-devnet-$(date '+%Y-%m-%d').tar.gz indexer-devnet-latest.tar.gz
 ## Graphql - Processor
 printf "Creating processor snapshot\n"
 cd /srv/processor/
-tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/processor-devnet-$(date '+%Y-%m-%d').tar.gz" *
+#tar -cv -I 'xz -9 -T0' -f "/storage/rsync-public/processor-devnet-$(date '+%Y-%m-%d').tar.gz" *
+tar --use-compress-program="pigz -k --best --recursive | pv " -cf "/storage/rsync-public/processor-devnet-$(date '+%Y-%m-%d').tar.gz" *
 
 printf "Starting processor again\n"
 docker start processor_db
