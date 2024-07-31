@@ -6,7 +6,8 @@ WD=$(pwd)
 mkdir ~/grid_indexer_tmp
 cd ~/grid_indexer_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/indexer-testnet-latest.tar.gz .
-tar xvf indexer-testnet-latest.tar.gz
+#tar xvf indexer-testnet-latest.tar.gz
+tar -I pigz -xf indexer-testnet-latest.tar.gz
 rm indexer-testnet-latest.tar.gz
 docker stop indexer_db
 rm -r /srv/indexer/*

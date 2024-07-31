@@ -33,13 +33,16 @@ mkdir -p /srv/tfchain/chains/tfchain_devnet/db /srv/indexer /srv/processor /srv/
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .
-tar xvf tfchain-devnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_devnet/db/
+#tar xvf tfchain-devnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_devnet/db/
+tar -I pigz -xf tfchain-devnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_devnet/db/
 rm tfchain-devnet-latest.tar.gz
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .
-tar xvf indexer-devnet-latest.tar.gz -C /srv/indexer/
+#tar xvf indexer-devnet-latest.tar.gz -C /srv/indexer/
+tar -I pigz -xf indexer-devnet-latest.tar.gz  -C /srv/indexer/
 rm indexer-devnet-latest.tar.gz
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .
-tar xvf processor-devnet-latest.tar.gz -C /srv/processor/
+#tar xvf processor-devnet-latest.tar.gz -C /srv/processor/
+tar -I pigz -xf processor-devnet-latest.tar.gz -C /srv/processor/
 rm processor-devnet-latest.tar.gz
 
 ## Clean up 

@@ -6,7 +6,8 @@ WD=$(pwd)
 mkdir ~/grid_processor_tmp
 cd ~/grid_processor_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/processor-testnet-latest.tar.gz .
-tar xvf processor-testnet-latest.tar.gz
+#tar xvf processor-testnet-latest.tar.gz
+tar -I pigz -xf processor-testnet-latest.tar.gz
 rm processor-testnet-latest.tar.gz
 docker stop processor
 docker stop processor_query_node

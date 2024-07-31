@@ -33,13 +33,16 @@ mkdir -p /srv/tfchain/chains/tfchain_qa_net/db /srv/indexer /srv/processor /srv/
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/tfchain-qanet-latest.tar.gz .
-tar xvf tfchain-qanet-latest.tar.gz -C /srv/tfchain/chains/tfchain_qa_net/db/
+#tar xvf tfchain-qanet-latest.tar.gz -C /srv/tfchain/chains/tfchain_qa_net/db/
+tar -I pigz -xf tfchain-qanet-latest.tar.gz -C /srv/tfchain/chains/tfchain_qa_net/db/
 rm tfchain-qanet-latest.tar.gz
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/indexer-qanet-latest.tar.gz .
-tar xvf indexer-qanet-latest.tar.gz -C /srv/indexer/
+#tar xvf indexer-qanet-latest.tar.gz -C /srv/indexer/
+tar -I pigz -xf indexer-qanet-latest.tar.gz -C /srv/indexer/
 rm indexer-qanet-latest.tar.gz
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/processor-qanet-latest.tar.gz .
-tar xvf processor-qanet-latest.tar.gz -C /srv/processor/
+#tar xvf processor-qanet-latest.tar.gz -C /srv/processor/
+tar -I pigz -xf processor-qanet-latest.tar.gz -C /srv/processor/
 rm processor-qanet-latest.tar.gz
 
 ## Clean up 
