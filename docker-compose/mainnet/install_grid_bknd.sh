@@ -28,32 +28,32 @@ esac
 done
 
 ## Create directories
-mkdir -p /mnt/disk/srv/tfchain/chains/tfchain_mainnet/db /mnt/disk/srv/indexer /mnt/disk/srv/processor /mnt/disk/srv/caddy/data /mnt/disk/srv/caddy/config /mnt/disk/srv/caddy/log /mnt/disk/tmp/grid_snapshots_tmp /mnt/disk/tmp/webpage
+mkdir -p /storage/srv/tfchain/chains/tfchain_mainnet/db /storage/srv/indexer /storage/srv/processor /storage/srv/caddy/data /storage/srv/caddy/config /storage/srv/caddy/log /storage/tmp/grid_snapshots_tmp /storage/tmp/webpage
 
 ## Download snapshots, extract and remove archives
-cd /mnt/disk/tmp/grid_snapshots_tmp
+cd /storage/tmp/grid_snapshots_tmp
 
-echo '<h1>Step 1 of 6: Downloading TFChain Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
-echo '<h1>Step 2 of 6: Extracting TFChain Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv -f tfchain-mainnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/tfchain/chains/tfchain_mainnet/db/
+echo '<h1>Step 1 of 6: Downloading TFChain Snapshot</h1>' > /storage/tmp/webpage/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz . > /storage/tmp/webpage/log
+echo '<h1>Step 2 of 6: Extracting TFChain Snapshot</h1>' > /storage/tmp/webpage/heading.html
+pv -f tfchain-mainnet-latest.tar.gz 2> /storage/tmp/webpage/log | tar xJ -C /storage/srv/tfchain/chains/tfchain_mainnet/db/
 rm tfchain-mainnet-latest.tar.gz
 
-echo '<h1>Step 3 of 6: Downloading Indexer Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
-echo '<h1>Step 4 of 6: Extracting Indexer Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv -f indexer-mainnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/indexer/
+echo '<h1>Step 3 of 6: Downloading Indexer Snapshot</h1>' > /storage/tmp/webpage/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz . > /storage/tmp/webpage/log
+echo '<h1>Step 4 of 6: Extracting Indexer Snapshot</h1>' > /storage/tmp/webpage/heading.html
+pv -f indexer-mainnet-latest.tar.gz 2> /storage/tmp/webpage/log | tar xJ -C /storage/srv/indexer/
 rm indexer-mainnet-latest.tar.gz
 
-echo '<h1>Step 5 of 6: Downloading Processor Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz . > /mnt/disk/tmp/webpage/log
-echo '<h1>Step 6 of 6: Extracting Processor Snapshot</h1>' > /mnt/disk/tmp/webpage/heading.html
-pv -f processor-mainnet-latest.tar.gz 2> /mnt/disk/tmp/webpage/log | tar xJ -C /mnt/disk/srv/processor/
+echo '<h1>Step 5 of 6: Downloading Processor Snapshot</h1>' > /storage/tmp/webpage/heading.html
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz . > /storage/tmp/webpage/log
+echo '<h1>Step 6 of 6: Extracting Processor Snapshot</h1>' > /storage/tmp/webpage/heading.html
+pv -f processor-mainnet-latest.tar.gz 2> /storage/tmp/webpage/log | tar xJ -C /storage/srv/processor/
 rm processor-mainnet-latest.tar.gz
 
 ## Clean up 
 cd "$WD"
-rm -r /mnt/disk/tmp/grid_snapshots_tmp
+rm -r /storage/tmp/grid_snapshots_tmp
 zinit stop webpage
 zinit stop caddy
 zinit forget webpage
