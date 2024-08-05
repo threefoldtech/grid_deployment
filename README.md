@@ -14,7 +14,7 @@ One can deploy a full grid backend stack with docker compose for each of the Thr
 The hub is used to distribute flist files for ZOS to boot a users workload.
 
 
-## Grub bootstrap
+## Grid Bootstrap
 
 The bootstrap services has to task to provide files to boot from over the internet.
 
