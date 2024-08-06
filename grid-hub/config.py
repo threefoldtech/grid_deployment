@@ -71,7 +71,7 @@ config = {
     ## If you have a debug version of zflist, it will print
     ## extra debug information and json won't be parsed
     ## correctly
-    'zflist-bin': '/opt/0-flist/zflist/zflist',
+    'zflist-bin': '/usr/bin/zflist',
 
     ## You can specify a special userdata (list of users
     ## directories) and workdir (temporary directories where
