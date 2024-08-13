@@ -12,22 +12,22 @@ pip install pynacl
 set -e
 cp config.py-example config.py
 
-### fill in settings
+### zflist binary
 config_zflist="/usr/bin/zflist"
 
 ### generate base64 private key
 pkeyfile=$(mktemp)
-
 openssl genpkey -algorithm x25519 -out ${pkeyfile}
 config_threebot_pkey=$(openssl pkey -in ${pkeyfile} -text | xargs | sed -e 's/.*priv\:\(.*\)pub\:.*/\1/' | xxd -r -p | base64)
-
 rm -f ${pkeyfile}
 
+### threebot appid
 config_threebot_appid="my.app.id"
 
+### generate threebot seed
 config_threebot_seed=$(python3 -c "import nacl; from nacl import utils; print(nacl.utils.random(32))")
 
-# apply config (search and replace)
+# apply to config.py
 sed -i "s#__ZFLIST_BIN__#${config_zflist}#" config.py
 sed -i "s#__THREEBOT_PRIVATEKEY__#${config_threebot_pkey}#" config.py
 sed -i "s#__THREEBOT_APPID__#${config_threebot_appid}#" config.py
