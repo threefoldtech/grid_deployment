@@ -36,6 +36,8 @@ services:
     restart: unless-stopped
     networks:
       tfgrid_bknd:
+    environment:
+      DOMAIN: ${DOMAIN}
     volumes:
       - ./config.py:/hub/src/config.py
       - /srv/0-hub_public:/public
