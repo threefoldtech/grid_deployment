@@ -25,13 +25,22 @@ rm -f ${pkeyfile}
 config_threebot_appid="my.app.id"
 
 ### generate threebot seed
-config_threebot_seed=$(python3 -c "import nacl; from nacl import utils; print(nacl.utils.random(32))")
+#config_threebot_seed=$(python3 -c "import nacl; from nacl import utils; print(nacl.utils.random(32))")
+python3 <<EOF
+import nacl.utils
+seed = nacl.utils.random(32)
+with open('config.py', 'r') as file:
+    contents = file.read()
+with open('config.py', 'w') as file:
+    file.write(contents.replace('__THREEBOT_SEED__', str(seed)))
+EOF
 
-# apply to config.py
+### apply to config.py
 sed -i "s#__ZFLIST_BIN__#${config_zflist}#" config.py
 sed -i "s#__THREEBOT_PRIVATEKEY__#${config_threebot_pkey}#" config.py
 sed -i "s#__THREEBOT_APPID__#${config_threebot_appid}#" config.py
-sed -i "s#__THREEBOT_SEED__#${config_threebot_seed}#" config.py ## FIXME
+#sed -i "s#__THREEBOT_SEED__#${config_threebot_seed}#" config.py ## FIXME
+
 
 ## Start Grid backed services with docker-compose
 docker compose --env-file .env up -d

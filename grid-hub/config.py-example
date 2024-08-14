@@ -148,7 +148,7 @@ config = {
     ##   python -c "import nacl; from nacl import utils; print(nacl.utils.random(32))"
     'threebot-privatekey': '__THREEBOT_PRIVATEKEY__',
     'threebot-appid': '__THREEBOT_APPID__',
-    'threebot-seed': '__THREEBOT_SEED__',
+    'threebot-seed': __THREEBOT_SEED__,
 
     ## In order to maximize compatibility from legacy version using itsyou.online,
     ## offline hub or local only and threebot (with username ending with .3bot), there
