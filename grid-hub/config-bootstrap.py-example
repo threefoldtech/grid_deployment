@@ -1,0 +1,41 @@
+#
+# You should adapt this part to your usage
+#
+config = {
+    'base-host': "https://bootstrap.{$DOMAIN}",
+    'ipxe-template': "/opt/ipxe-template",
+    'ipxe-template-uefi': "/opt/ipxe-template-uefi",
+
+    'kernel-path': '/tmp/kernels',
+    'kernel-net-path': '/tmp/kernels/net',
+
+    'http-port': 5555,
+
+    # enable debug or production mode
+    'debug': True,
+
+    'popular': ['master', 'development'],
+    'popular-description': {
+        'master': 'Stable release',
+        'development': 'Staging version',
+    },
+
+    # bootstrap api token
+    'api-token': 'change-me-unique-token',
+
+    # sqlite3 database used for provisioning
+    'bootstrap-db': 'db/bootstrap.sqlite3',
+
+    # allowed run-modes and their pretty name
+    # keys defines short name which are used in urls (eg: /ipxe/prod/)
+    # and value defines pretty name showed in ipxe verbose script
+    #
+    # warning: this doesn't affect ui at all
+    'runmodes': {
+        "prod": "production (v3)",
+        "test": "testing (v3)",
+        "dev": "development (v3)",
+        "qa": "qa-network (v3)",
+    },
+
+}
