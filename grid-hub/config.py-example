@@ -82,8 +82,8 @@ config = {
     ##  - ./public
     ##  - ./workdir
     ##
-    # 'userdata-root-path': '/opt/0-hub/public',
-    # 'workdir-root-path': '/opt/0-hub/workdir',
+    'userdata-root-path': '/public',
+    'workdir-root-path': '/workdir',
  
     ## By default, the hub is made to be used publicly
     ## and needs to be protected (with itsyou.online)
