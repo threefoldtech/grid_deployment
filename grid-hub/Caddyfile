@@ -10,3 +10,15 @@ hub.{$DOMAIN} {
 	}
 	tls info@threefold.tech
 }
+
+bootstrap.{$DOMAIN} {
+        reverse_proxy 0-bootstrap:5555 {
+                header_up Host {upstream_hostport}
+        }
+        metrics /caddy
+        log {
+                output file /var/log/caddy/caddy_access_0-bootstrap.log
+                format json
+        }
+        tls info@threefold.tech
+}

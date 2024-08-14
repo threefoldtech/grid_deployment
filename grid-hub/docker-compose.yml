@@ -44,6 +44,23 @@ services:
       - /srv/0-hub_workdir:/workdir
       - /usr/lib/systemd/system/docker.socket:/var/run/docker.sock
 
+## 0-bootstrap
+  0-bootstrap:
+    container_name: 0-bootstrap
+    image: ghcr.io/threefoldtech/0-bootstrap:${ZERO_BOOTSTRAP_IMG}
+    privileged: true
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./config-bootstrap.py:/bootstrap/config.py
+      - /srv/0-bootstrap/ipxe-template:/opt/ipxe-template
+      - /srv/0-bootstrap/ipxe-template-uefi:/opt/ipxe-template-uefi
+      - /srv/0-bootstrap/kernels:/tmp/kernels
+      - /srv/0-bootstrap/kernels/net:/tmp/kernels/net
+
 ## Caddy
   caddy:
     depends_on:

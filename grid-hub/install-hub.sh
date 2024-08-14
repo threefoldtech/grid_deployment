@@ -1,6 +1,6 @@
 #/bin/bash
 ## prerequisites
-mkdir -p /srv/0-db_data /srv/0-db_index /srv/0-hub_public/users /srv/0-hub_workdir /srv/caddy/data /srv/caddy/config /srv/caddy/log 
+mkdir -p /srv/0-db_data /srv/0-db_index /srv/0-hub_public/users /srv/0-hub_workdir /srv/0-bootstrap/ipxe-template /srv/0-bootstrap/ipxe-template-uefi /srv/0-bootstrap/kernels/net /srv/caddy/data /srv/caddy/config /srv/caddy/log 
 apt update && apt install python3 python3-redis python3-requests python3-pip -y
 pip install pynacl
 
@@ -11,6 +11,7 @@ pip install pynacl
 ## Set all required keys in hub config.py
 set -e
 cp config.py-example config.py
+cp config-bootstrap.py-example config-bootstrap.py
 
 ### zflist binary
 config_zflist="/usr/bin/zflist"
