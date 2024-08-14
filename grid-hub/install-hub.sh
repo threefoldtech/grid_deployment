@@ -53,3 +53,7 @@ tmux send-keys -t 0-hub_user_sync "python3 hub-clone.py https://hub.grid.tf /srv
 ## Sync with hub.grid.tf and keep in sync
 tmux new -d -s 0-hub_sync
 tmux send-keys -t 0-hub_sync "python3 incremental.py" ENTER
+
+## Initial sync with bootstrap.grid.tf
+tmux new -d -s 0-bootstrap_sync
+tmux send-keys -t 0-bootstrap_sync "python3 bootstrap-kernel-sync.py https://bootstrap.grid.tf /srv/0-bootstrap/kernels/" ENTER
