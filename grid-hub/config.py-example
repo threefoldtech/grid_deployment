@@ -191,5 +191,5 @@ config = {
     ##
     ## When debug is set to True, you're in debug mode, when set
     ## to False, you're in release mode
-    'debug': True,
+    'debug': False,
 }
