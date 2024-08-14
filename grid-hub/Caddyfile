@@ -1,6 +1,6 @@
 # Caddy config file to expose all required grid services
 hub.{$DOMAIN} {
-	reverse_proxy reverse_proxy 0-hub:5555 {
+	reverse_proxy 0-hub:5555 {
 		header_up Host {upstream_hostport}
 	}
 	metrics /caddy
