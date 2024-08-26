@@ -52,11 +52,6 @@ sed -i "s#__DOMAIN__#${DOMAIN}#g" config.py
 cp config-bootstrap.py-example config-bootstrap.py
 sed -i "s#__DOMAIN__#${DOMAIN}#g" config-bootstrap.py
 
-## Bootstrap: set kernel links
-for target in prod test dev qa; do
-    ln -s /srv/0-bootstrap/kernels/zero-os-development-zos-v3-generic-23ebebd9f6-signed.efi /srv/0-bootstrap/kernels/net/${target}.efi
-done
-
 
 ### Start Grid backed services with docker-compose and scripts
 docker compose --env-file .env up -d
@@ -72,3 +67,12 @@ tmux send-keys -t 0-hub_sync "python3 incremental.py" ENTER
 ## Initial sync with bootstrap.grid.tf
 tmux new -d -s 0-bootstrap_sync
 tmux send-keys -t 0-bootstrap_sync "python3 bootstrap-kernel-sync.py https://bootstrap.grid.tf /srv/0-bootstrap/kernels/" ENTER
+
+## Bootstrap: set kernel links
+docker exec -i 0-bootstrap /bin/bash <<EOF
+cd /opt/kernels/net
+ln -s ../zero-os-development-zos-v3-generic-23ebebd9f6-signed.efi prod.efi
+ln -s ../zero-os-development-zos-v3-generic-23ebebd9f6-signed.efi test.efi
+ln -s ../zero-os-development-zos-v3-generic-23ebebd9f6-signed.efi dev.efi
+ln -s ../zero-os-development-zos-v3-generic-23ebebd9f6-signed.efi qa.efi
+EOF
