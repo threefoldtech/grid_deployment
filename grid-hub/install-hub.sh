@@ -43,10 +43,13 @@ sed -i "s#__THREEBOT_PRIVATEKEY__#${config_threebot_pkey}#" config.py
 sed -i "s#__THREEBOT_APPID__#${config_threebot_appid}#" config.py
 #sed -i "s#__THREEBOT_SEED__#${config_threebot_seed}#" config.py ## FIXME
 
+## Hub: set all required domains in config.py
+. ./.env
+sed -i "s#__DOMAIN__#${DOMAIN}#g" config.py
+
 
 ## Bootstrap: set domain in config-bootstrap.py
 cp config-bootstrap.py-example config-bootstrap.py
-. ./.env
 sed -i "s#__DOMAIN__#${DOMAIN}#g" config-bootstrap.py
 
 

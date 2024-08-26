@@ -26,14 +26,14 @@ config = {
     ## when uploading something, this settings are applied on
     ## flist metadata when used internally and are displayed
     ## on the frontend but are not used for creation
-    'backend-public-host': "hub.{$DOMAIN}",
+    'backend-public-host': "hub.__DOMAIN__",
     'backend-public-port': 9900,
     'backend-public-name': "default",
 
     ## Hub public reachable url
     ## this will be used to provide user an working url
     ## to reach flist files
-    'public-website': "https://hub.{$DOMAIN}",
+    'public-website': "https://hub.__DOMAIN__",
 
     ## Local address to listen on
     ## You can restrict ipv4, ipv6 or localhost here
@@ -147,7 +147,7 @@ config = {
     ## Or the one-liner:
     ##   python -c "import nacl; from nacl import utils; print(nacl.utils.random(32))"
     'threebot-privatekey': '__THREEBOT_PRIVATEKEY__',
-    'threebot-appid': 'hub.{$DOMAIN}',
+    'threebot-appid': 'hub.__DOMAIN__',
     'threebot-seed': __THREEBOT_SEED__,
 
     ## In order to maximize compatibility from legacy version using itsyou.online,
