@@ -2,7 +2,7 @@
 # You should adapt this part to your usage
 #
 config = {
-    'base-host': "https://bootstrap.{$DOMAIN}",
+    'base-host': "https://bootstrap.__DOMAIN__",
     'ipxe-template': "/opt/ipxe-template",
     'ipxe-template-uefi': "/opt/ipxe-template-uefi",
 
