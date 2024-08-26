@@ -52,6 +52,11 @@ sed -i "s#__DOMAIN__#${DOMAIN}#g" config.py
 cp config-bootstrap.py-example config-bootstrap.py
 sed -i "s#__DOMAIN__#${DOMAIN}#g" config-bootstrap.py
 
+## Bootstrap: set kernel links
+for target in prod test dev qa; do
+    ln -s /srv/0-bootstrap/kernels/zero-os-development-zos-v3-generic-23ebebd9f6-signed.efi /srv/0-bootstrap/kernels/net/${target}.efi
+done
+
 
 ### Start Grid backed services with docker-compose and scripts
 docker compose --env-file .env up -d

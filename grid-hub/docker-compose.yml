@@ -58,8 +58,8 @@ services:
       - ./config-bootstrap.py:/bootstrap/config.py
       - /srv/0-bootstrap/ipxe-template:/opt/ipxe-template
       - /srv/0-bootstrap/ipxe-template-uefi:/opt/ipxe-template-uefi
-      - /srv/0-bootstrap/kernels:/tmp/kernels
-      - /srv/0-bootstrap/kernels/net:/tmp/kernels/net
+      - /srv/0-bootstrap/kernels:/opt/kernels
+      - /srv/0-bootstrap/kernels/net:/opt/kernels/net
 
 ## Caddy
   caddy:

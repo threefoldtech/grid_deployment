@@ -6,8 +6,8 @@ config = {
     'ipxe-template': "/opt/ipxe-template",
     'ipxe-template-uefi': "/opt/ipxe-template-uefi",
 
-    'kernel-path': '/tmp/kernels',
-    'kernel-net-path': '/tmp/kernels/net',
+    'kernel-path': '/opt/kernels',
+    'kernel-net-path': '/opt/kernels/net',
 
     'http-port': 5555,
 
