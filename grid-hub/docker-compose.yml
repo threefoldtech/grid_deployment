@@ -42,7 +42,7 @@ services:
       - ./config.py:/hub/src/config.py
       - /srv/0-hub_public:/public
       - /srv/0-hub_workdir:/workdir
-      - /usr/lib/systemd/system/docker.socket:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
 
 ## 0-bootstrap
   0-bootstrap:
