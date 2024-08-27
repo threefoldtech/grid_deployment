@@ -56,8 +56,6 @@ services:
       DOMAIN: ${DOMAIN}
     volumes:
       - ./config-bootstrap.py:/bootstrap/config.py
-      - /srv/0-bootstrap/ipxe-template:/opt/ipxe-template
-      - /srv/0-bootstrap/ipxe-template-uefi:/opt/ipxe-template-uefi
       - /srv/0-bootstrap/kernels:/opt/kernels
       - /srv/0-bootstrap/kernels/net:/opt/kernels/net
 
