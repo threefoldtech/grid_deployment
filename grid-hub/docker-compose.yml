@@ -17,8 +17,8 @@ services:
     networks:
       tfgrid_bknd:
     environment:
-      DATADIR: /srv/hubdata
-      INDEXDIR: /srv/hubindex
+      DATADIR: /zdb/data
+      INDEXDIR: /zdb/index
       #DATASIZE: 1000
       #ADMIN: 
       #PROTECT: 1
