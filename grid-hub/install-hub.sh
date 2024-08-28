@@ -1,6 +1,6 @@
 #/bin/bash
 ## prerequisites
-mkdir -p /srv/0-db_data /srv/0-db_index /srv/0-hub_public/users /srv/0-hub_workdir /srv/0-bootstrap/ipxe-template /srv/0-bootstrap/ipxe-template-uefi /srv/0-bootstrap/kernels/net /srv/caddy/data /srv/caddy/config /srv/caddy/log 
+mkdir -p /srv/0-db_data /srv/0-db_index /srv/0-hub_public/users /srv/0-hub_workdir /srv/0-bootstrap/kernels/net /srv/caddy/data /srv/caddy/config /srv/caddy/log 
 apt update && apt install python3 python3-requests python3-pip -y
 pip3 install pynacl
 pip3 install redis
@@ -41,7 +41,7 @@ EOF
 sed -i "s#__ZFLIST_BIN__#${config_zflist}#" config.py
 sed -i "s#__THREEBOT_PRIVATEKEY__#${config_threebot_pkey}#" config.py
 sed -i "s#__THREEBOT_APPID__#${config_threebot_appid}#" config.py
-#sed -i "s#__THREEBOT_SEED__#${config_threebot_seed}#" config.py ## FIXME
+#sed -i "s#__THREEBOT_SEED__#${config_threebot_seed}#" config.py
 
 ## Hub: set all required domains in config.py
 . ./.env
