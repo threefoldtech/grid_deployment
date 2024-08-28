@@ -1,5 +1,6 @@
 # Running a Grid backend stack
 
+Documentation on how to deploy an independent Grid backend instance.  
 Up to date scripts & docker-compose versions will be maintained for dev, qa, test and mainnet.
 
 
@@ -20,7 +21,7 @@ To start a full Grid backend stack one needs the following:
 - min of 32GB RAM
 - min of 1TB SSD storage (high preference for NVMe based storage) preferably more (as the chain keeps growing in size)
 
-Dev, QA and Testnet can do with a Sata SSD setup. Mainnet requires NVMe based SSDs due to the data size.
+Dev, QA and Testnet can do with a Sata SSD setup. Mainnet requires NVMe based SSDs due to the database size.
 
 **Note**: If a deployment does not have enough disk iops available one can see the processor container restarting regulary alongside grid_proxy errors regarding processor database timeouts.
 
@@ -40,9 +41,9 @@ The following table explicitly shows how to set the A and AAAA records for your 
 Each folder contains the required deployment files for it's net, work in the folder that has the name of the network you want to deploy on.
 
 What does each file do:
-- `.env` - contains environment files maintaned by Threefold Tech
+- `.env` - contains environment variables maintaned by Threefold Tech
 - `.gitignore` - has a list of files to ignore once the repo has been cloned. This has the purpose to not have uncommited changes to files when working in this repo
-- `.secrets.env-examples` - is where you have to add all your unique environment variables
+- `.secrets.env-examples` - is where you have to add all your unique environment variables, after you copied it to `.secrets.env`
 - `Caddyfile-example` - contains a full working Caddy config. It is copied by the `install_grid_bknd.sh` script to `Caddyfile`. If you don't use this script, copy the file yourself
 - `docker-compose.yml` - has all the required docker-compose configuration to deploy a working Grid stack
 - `install_grid_bknd.sh` - is a script to make deploying from 0 easy
