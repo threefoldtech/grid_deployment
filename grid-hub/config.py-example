@@ -85,6 +85,14 @@ config = {
     'userdata-root-path': '/public',
     'workdir-root-path': '/workdir',
  
+    ## In order to host a hub which is a mirror of another
+    ## hub, since hub right now don't support multiple master,
+    ## you should enable this read-only mode to avoid modifying
+    ## your local database and be able to stay synced with your
+    ## main hub instance. For a normal or main hub instance,
+    ## keep this setting to False
+    'readonly': True,
+
     ## By default, the hub is made to be used publicly
     ## and needs to be protected (with itsyou.online)
     ##
