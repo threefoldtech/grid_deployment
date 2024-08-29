@@ -54,7 +54,16 @@ config = {
     ## List of usernames which are 'official' and are on top
     ## of the list on the homepage, this is just to provide
     ## a list of 'pinned users', it's not security related
-    'official-repositories': ['official-apps', 'dockers'],
+    'official-repositories': [
+        'tf-official-apps',
+        'tf-dockers',
+        'tf-autobuilder',
+        'tf-bootable',
+	    'tf-zos',
+        'tf-solutions',
+        'tf-elevated',
+	    'tf-official-vms',
+    ],
 
     ## You can provide an optional zflist binary path
     ## if not provided, the default value will be used
