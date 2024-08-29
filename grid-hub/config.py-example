@@ -59,10 +59,10 @@ config = {
         'tf-dockers',
         'tf-autobuilder',
         'tf-bootable',
-	    'tf-zos',
+        'tf-zos',
         'tf-solutions',
         'tf-elevated',
-	    'tf-official-vms',
+        'tf-official-vms',
     ],
 
     ## You can provide an optional zflist binary path
