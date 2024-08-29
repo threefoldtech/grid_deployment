@@ -3,6 +3,7 @@ version: "3.7"
 networks:
   tfgrid_bknd:
     name: tfgrid_bknd
+    external: true
     ipam:
       driver: default
 
