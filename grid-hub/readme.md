@@ -32,10 +32,10 @@ Wildcard example:
 Individual records example:
 | Type | Host                     | Value          |
 | ---- | ------------------------ | -------------- |
-| A    | \hub.your.domain         | <ipv4_address> |
-| AAAA | \hub.your.domain         | <ipv6_address> |
-| A    | \bootstrap.your.domain   | <ipv4_address> |
-| AAAA | \bootstrap.your.domain   | <ipv6_address> |
+| A    | hub.your.domain         | <ipv4_address> |
+| AAAA | hub.your.domain         | <ipv6_address> |
+| A    | bootstrap.your.domain   | <ipv4_address> |
+| AAAA | bootstrap.your.domain   | <ipv6_address> |
 
 
 ### Files
@@ -44,8 +44,8 @@ What each file does::
 - `.env` - contains environment variables maintaned by Threefold Tech and **your domain environment variable**
 - `.gitignore` - has a list of files to ignore once the repo has been cloned. This has the purpose to not have uncommited changes to files when working in this repo
 - `Caddyfile` - contains a fully working Caddy config used to expose the services
-- `docker-compose.yml` - has all the required docker-compose configuration to deploy a working Grid stack
-- `install_hub.sh` - script to make deploying easy
+- `docker-compose.yml` - docker-compose file to deploy a Hub, Bootstrap and Caddy
+- `install_hub.sh` - script to install prerequisites, docker-compose and post-install scripts
 - `bootstrap-kernel-sync.py` - script to sync the bootstarp kernel from the master bootstrap instance
 - `hub-clone.py` - script to sync the hub users from the master hub instance
 - `config-bootstrap.py-example` - example file for bootstrap config
@@ -55,8 +55,8 @@ What each file does::
 
 ### Storage
 
-We use docker to run the services and mount several directories for persistent data. These will all be mounted inside /srv.  
-You can control how (software raid, bcachefs, ..) this data will be stored by mounting /srv to any redundant configuration of your choosing.
+We use docker to run the services and mount several directories for persistent data. **These will all be mounted inside** `/srv`.  
+You can control how (software raid, bcachefs, ..) this data will be stored by mounting `/srv` to any redundant storage configuration of your choosing.
 
 
 ### Deploy a full stack
@@ -82,6 +82,13 @@ sh install-hub.sh
 
 If you use the `install-hub.sh` script, Tmux is used to start 3 script in the background for initial sync with the master hub.
 - `0-hub_user_sync` - syncs all registerd Threebot users from the master hub (will exit after sync)
-- `0-hub_sync` - syncs all flist data from the master hub: this is the only script that keeps running after sync, to keep this slave in sync with the master hub
+- `0-hub_sync` - syncs all flist data from the master hub: this is the only script that keeps running after sync, to keep this slave in sync with the master hub. Do not stop this script. Note: initial sync could take a few days, this is a known issue and will be improved in the future
 - `0-bootstrap_sync` - syncs all available kernels from the master bootstrap (will exit after sync)
 
+
+### Open service logs
+
+This script opens all Docker container logs in separate tmux sessions:
+```sh
+sh open_logs_tmux.sh
+```
