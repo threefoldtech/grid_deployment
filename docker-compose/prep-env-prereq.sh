@@ -3,19 +3,15 @@
 VERSION=1.6.0
 RELEASE=node_exporter-${VERSION}.linux-amd64
 
-apt update && apt upgrade -y
+sudo apt update && sudo apt upgrade -y
 # install troubleshooting tools
-apt install sudo nmon tmux tcpdump iputils-ping net-tools rsync tar pigz pv -y
+sudo apt install sudo apt-transport-https curl nmon tmux tcpdump iputils-ping net-tools nano rsync tar pigz pv python3 python3-requests python3-pip -y
 
 # install Docker + docker-compose
-apt install ca-certificates curl gnupg lsb-release -y
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt update
-apt install docker-ce docker-ce-cli containerd.io -y
-systemctl start docker
-curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubu
+sudo apt update
+apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # install Prometheus node-exporter
 _check_root () {
