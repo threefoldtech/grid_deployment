@@ -59,7 +59,7 @@ We use docker to run the services and mount several directories for persistent d
 You can control how (software raid, bcachefs, ..) this data will be stored by mounting `/srv` to any redundant storage configuration of your choosing.
 
 
-### Deploy a full stack
+### Deploy a Hub and Bootstrap Stack
 
 Clone the repo and cd into the hub stack dir
 ```sh
