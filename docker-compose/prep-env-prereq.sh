@@ -4,14 +4,14 @@ VERSION=1.6.0
 RELEASE=node_exporter-${VERSION}.linux-amd64
 
 sudo apt update && sudo apt upgrade -y
-# install troubleshooting tools
-sudo apt install sudo apt-transport-https curl git nmon tmux tcpdump iputils-ping net-tools nano rsync tar pigz pv python3 python3-requests python3-pip -y
 
 # install Docker + docker-compose
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubu
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
-apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# install troubleshooting tools
+sudo apt install sudo apt-transport-https curl git nmon tmux tcpdump iputils-ping net-tools nano rsync tar pigz pv python3 python3-requests python3-pip docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 # install Prometheus node-exporter
 _check_root () {
@@ -63,11 +63,11 @@ SendSIGKILL=no
 [Install]
 WantedBy=multi-user.target
 EOF
-
-    systemctl daemon-reload
-    systemctl enable node-exporter
-    systemctl start node-exporter
-    echo "The node-exporter service status is:"
-    systemctl is-active node-exporter
-    echo "End of prerequisites script."
 fi
+
+systemctl daemon-reload
+systemctl enable node-exporter
+systemctl start node-exporter
+echo "The node-exporter service status is:"
+systemctl is-active node-exporter
+echo "End of prerequisites script."
