@@ -5,7 +5,7 @@ RELEASE=node_exporter-${VERSION}.linux-amd64
 
 sudo apt update && sudo apt upgrade -y
 # install troubleshooting tools
-sudo apt install sudo apt-transport-https curl nmon tmux tcpdump iputils-ping net-tools nano rsync tar pigz pv python3 python3-requests python3-pip -y
+sudo apt install sudo apt-transport-https curl git nmon tmux tcpdump iputils-ping net-tools nano rsync tar pigz pv python3 python3-requests python3-pip -y
 
 # install Docker + docker-compose
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
