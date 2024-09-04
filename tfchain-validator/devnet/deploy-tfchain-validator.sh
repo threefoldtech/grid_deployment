@@ -19,7 +19,7 @@ while true; do
 read -p "Do you want to run the prerequisites script? This will prepare your environment to run the Grid backend. (y/n) " yn
 case $yn in 
         [yY] ) echo "OK! We will run the prerequisites script.";
-                sh ../prep-env-prereq.sh
+                sh ../../apps/prep-env-prereq.sh
                 break;;
         [nN] ) echo "OK! Moving to the next step...";
                 break;;
