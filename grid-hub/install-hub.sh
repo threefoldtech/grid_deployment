@@ -1,5 +1,31 @@
 #/bin/bash
-## prerequisites
+
+# Ask user to make system changes
+while true; do
+read -p "This script will make changes to your Linux installation. Do you want to proceed? (y/n) " yn
+case $yn in 
+        [yY] ) echo "OK! We will proceed.";
+                break;;
+        [nN] ) echo "OK! Exiting the script.";
+                exit;;
+        * ) echo "Your answer is invalid.";;
+esac
+done
+
+# Ask user to run prerequisites script
+while true; do
+read -p "Do you want to run the prerequisites script? This will prepare your environment to run the Grid backend. (y/n) " yn
+case $yn in 
+        [yY] ) echo "OK! We will run the prerequisites script.";
+                sh ../../apps/prep-env-prereq.sh
+                break;;
+        [nN] ) echo "OK! Moving to the next step...";
+                break;;
+        * ) echo "Your answer is invalid.";;
+esac
+done
+
+## Service prerequisites
 mkdir -p /srv/0-db_data /srv/0-db_index /srv/0-hub_public/users /srv/0-hub_workdir /srv/0-bootstrap/kernels/net /srv/caddy/data /srv/caddy/config /srv/caddy/log 
 apt update && apt install python3 python3-requests python3-pip -y
 pip3 install pynacl --break-system-packages
