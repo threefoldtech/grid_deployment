@@ -1,0 +1,42 @@
+version: "3.7"
+
+networks:
+  tfgrid_bknd:
+    name: tfgrid_bknd
+    ipam:
+      driver: default
+
+services:
+## TFchain public node
+  tfchain-validator:
+    container_name: tfchain-validator
+    volumes:
+      - /srv/tfchain/:/storage/
+    image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    ports:
+#      - "127.0.0.1:9944:9944"
+#      - "9933:9933"
+#      - "9615:9615"
+      - "30333:30333"
+    command:
+      - "--name"
+      - "${NODE_NAME}"
+      - "--node-key"
+      - "${TFCHAIN_NODE_KEY}"
+      - "--base-path"
+      - "/storage"
+      - "--chain"
+      - "/etc/chainspecs/main/chainSpecRaw.json"
+      - "--validator"
+      - "--port"
+      - "30333"
+      - "--prometheus-external"
+      - "--state-pruning"
+      - "1000"
+      - "--blocks-pruning"
+      - "archive"
+      - "--telemetry-url"
+      - "wss://shard1.telemetry.tfchain.grid.tf/submit 1"
