@@ -28,13 +28,13 @@ esac
 done
 
 ## Create directories
-mkdir -p /srv/tfchain/chains/tfchain_devnet/db ~/grid_snapshots_tmp
+mkdir -p /srv/tfchain/chains/tfchain_qa_net/db ~/grid_snapshots_tmp
 
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .
-tar -I pigz -xf tfchain-devnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_devnet/db/
-rm tfchain-devnet-latest.tar.gz
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/tfchain-qanet-latest.tar.gz .
+tar -I pigz -xf tfchain-qanet-latest.tar.gz -C /srv/tfchain/chains/tfchain_qa_net/db
+rm tfchain-qanet-latest.tar.gz
 
 ## Clean up 
 cd "$WD"

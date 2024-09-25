@@ -1,0 +1,47 @@
+version: "3.7"
+
+services:
+## TFchain validator init - insert aura key
+  tfchain-validator-insert-aura:
+    container_name: tfchain-validator-insert-aura
+    volumes:
+      - /srv/tfchain/:/storage/
+    image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
+    restart: on-failure
+    command:
+      - "key"
+      - "insert"
+      - "--base-path"
+      - "/storage"
+      - "--chain"
+      - "/etc/chainspecs/qanet/chainSpecRaw.json"
+      - "--key-type"
+      - "aura"
+      - "--suri"
+      - "${MNEMONIC}"
+      - "--scheme"
+      - "sr25519"
+
+## TFchain validator init - insert grandpa key
+  tfchain-validator-insert-grandpa:
+    depends_on:
+      tfchain-validator-insert-aura:
+        condition: service_completed_successfully
+    container_name: tfchain-validator-insert-grandpa
+    volumes:
+      - /srv/tfchain/:/storage/
+    image: ghcr.io/threefoldtech/tfchain:${TFCHAIN_IMG}
+    restart: on-failure
+    command:
+      - "key"
+      - "insert"
+      - "--base-path"
+      - "/storage"
+      - "--chain"
+      - "/etc/chainspecs/qanet/chainSpecRaw.json"
+      - "--key-type"
+      - "gran"
+      - "--suri"
+      - "${MNEMONIC}"
+      - "--scheme"
+      - "ed25519"

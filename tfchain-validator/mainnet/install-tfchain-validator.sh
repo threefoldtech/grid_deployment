@@ -33,7 +33,6 @@ mkdir -p /srv/tfchain/chains/tfchain_mainnet/db ~/grid_snapshots_tmp
 ## Download snapshots, extract and remove archives
 cd ~/grid_snapshots_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .
-#tar xvf tfchain-mainnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_mainnet/db/
 tar -I pigz -xf tfchain-mainnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_mainnet/db/
 rm tfchain-mainnet-latest.tar.gz
 
