@@ -27,7 +27,7 @@ services:
       - "--base-path"
       - "/storage"
       - "--chain"
-      - "/etc/chainspecs/dev/chainSpecRaw.json""
+      - "/etc/chainspecs/dev/chainSpecRaw.json"
       - "--validator"
       - "--port"
       - "30333"
