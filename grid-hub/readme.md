@@ -1,7 +1,10 @@
 # Running the Hub and Bootstrap stack
 
 Documentation on how to deploy an independent Hub and Bootstrap instance.
-Up to date scripts & docker-compose versions will be maintained for dev, qa, test and mainnet.
+
+These deployments will act as slave instances and sync all the data from https://hub.grid.tf and https://bootstrap.grid.tf .
+By default, a deployment will be master-slave from the Threefold hosted instances and will keep itself in sync. A master-master relation is not possible.
+However we are working on two more scenarios where one can deploy a synced instance and be stand alone once the sync is done, and empty standalone deployments.
 
 
 ### Requirements
@@ -40,12 +43,11 @@ Individual records example:
 
 ### Files
 
-What each file does::
 - `.env` - contains environment variables maintaned by Threefold Tech and **your domain environment variable**
 - `.gitignore` - has a list of files to ignore once the repo has been cloned. This has the purpose to not have uncommited changes to files when working in this repo
 - `Caddyfile` - contains a fully working Caddy config used to expose the services
 - `docker-compose.yml` - docker-compose file to deploy a Hub, Bootstrap and Caddy
-- `install_hub.sh` - script to install prerequisites, docker-compose and post-install scripts
+- `install_hub.sh` - script to install prerequisites, docker-compose and post-install scripts for Ubuntu
 - `bootstrap-kernel-sync.py` - script to sync the bootstarp kernel from the master bootstrap instance
 - `hub-clone.py` - script to sync the hub users from the master hub instance
 - `config-bootstrap.py-example` - example file for bootstrap config
@@ -81,7 +83,7 @@ sh install-hub.sh
 ### Post deploy follow up
 
 If you use the `install-hub.sh` script, Tmux is used to start 3 script in the background for initial sync with the master hub.
-- `0-hub_user_sync` - syncs all registerd Threebot users from the master hub (will exit after sync)
+- `0-hub_user_sync` - syncs all registerd Threebot users from the master hub, this can take a few hours (will exit after sync)
 - `0-hub_sync` - syncs all flist data from the master hub: this is the only script that keeps running after sync, to keep this slave in sync with the master hub. Do not stop this script. Note: initial sync could take a few days, this is a known issue and will be improved in the future
 - `0-bootstrap_sync` - syncs all available kernels from the master bootstrap (will exit after sync)
 
