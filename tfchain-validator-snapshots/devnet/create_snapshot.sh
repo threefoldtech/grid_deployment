@@ -19,3 +19,7 @@ printf "Removing and recreating ln to latest\n"
 cd /storage/rsync-public/
 rm tfchain-devnet-validator-latest.tar.gz
 ln -s tfchain-devnet-validator-$(date '+%Y-%m-%d').tar.gz tfchain-devnet-validator-latest.tar.gz
+
+## Send over to Grid-snapshots server and set ln
+scp /storage/rsync-public/tfchain-devnet-validator-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/devnet/
+ssh grid-snapshots sh /opt/snapshots/devnet-validator-set-ln.sh
