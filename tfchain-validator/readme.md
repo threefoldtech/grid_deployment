@@ -43,7 +43,7 @@ The specs posted above are not a hard requirement to run a validator but are con
 
 ## 1. Deploy a TFchain validator
 
-First of all, cd into the network directory for the network you are deploying a validator for. Example for mainnet:
+Cd into the network directory for the network you are deploying a validator for. Example for mainnet:
 ```sh
 cd ../grid_deployment/tfchain-validator/mainnet
 ```
@@ -63,7 +63,8 @@ Take note of the following:
 - **Public Key (hex)**
 - **SS58 Address**: This is your validator's account address.
 
-This key will serve as your validator controller account and session key for AURA (validator node/author account). It will also be used to derive the GRANDPA key. Please keep this information safe.
+This key will serve as your validator controller account and session key for AURA (validator node/author account). It will also be used to derive the GRANDPA key.
+**Please keep this information safe.**
 
 
 ### 1.2 Generate the Node (aka Network) Key
@@ -111,7 +112,7 @@ As an example the file should look like this
 
 # Enter the TFchain node node-key
 # NOTE: make sure this is an unique node-key for each instance !
-TFCHAIN_NODE_KEY=12D3KooWMcAmUFBpgUXPscKXePG1L37vXcenTnoiC8Zp1V9x2A65
+TFCHAIN_NODE_KEY=771e3b9f58b98c49cd604dd0c24c50dff1f4b8c2c20cba2b6ef57ad23255be56
 
 # Enter a name for your validator
 # NOTE: this name will appear at https://telemetry.tfchain.grid.tf/ and serves no perpose, only for recognition
@@ -146,3 +147,67 @@ Check the logs by starting the provided script
 sh open_logs_tmux.sh
 tmux a
 ```
+
+
+## 2. Set Session Keys On-Chain
+
+To have your node recognized as a validator, you need to set your session keys on-chain.
+
+### 2.1 Add Validator Account to Polkadot.js Extension
+
+- Open the Polkadot.js browser extension.
+- Import your validator controller account using the mnemonic from step 1.1.
+- Ensure you have some TFT tokens in this account (0.1 TFT should suffice for transaction fees).
+
+### 2.2 Set Session Keys via PolkadotJS Apps
+
+1. Navigate to [PolkadotJS Apps](https://polkadot.js.org/apps/).
+2. Connect to the TFChain network (e.g., wss://tfchain.dev.grid.tf).
+3. Go to **Developer → Extrinsics**.
+4. Select your validator controller account as the signer.
+5. Choose `session` → `setKeys(keys, proof)`.
+6. Input your session keys:
+
+   - **keys**: Use previously generated aura and gran hex public keys
+     - **aura**: Manually enter the hex public key of the sr25519 key
+     - **gran**: Manually enter the hex public key of the ed25519 key
+
+   - **proof**: Set to `0x00`
+
+7. Submit the transaction. Once the session keys are set on-chain, your validator will be recognized by the network.
+
+
+## 3. Submit a Council Motion to Add Validator
+
+The TFChain network requires a governance proposal to add a validator node.
+
+1. Navigate to **Governance → Council**.
+2. Click on **Propose Motion**.
+3. Select `validatorSet` → `addValidator(validatorId)`.
+4. Input your validator controller account's SS58 address (generated in step 1.1).
+5. Submit the proposal.
+
+After submission, inform other council members and request them to vote on the proposal.
+
+
+## 4. Finalize and Start Validating
+
+Once your session keys are set and the council approves your validator, your node will start participating in block production after 2 sessions.
+
+
+### Ensure Node Health
+
+- Keep your node online and synchronized.
+- Monitor logs for any errors or warnings.
+
+---
+
+## References
+
+- **Subkey Utility via Docker**: [Parity Subkey Docker Image](https://hub.docker.com/r/parity/subkey)
+- **TFChain Docker Images**: [TFChain Docker Packages](https://github.com/threefoldtech/tfchain/pkgs/container/tfchain)
+- **PolkadotJS Apps**: [PolkadotJS Interface](https://polkadot.js.org/apps/)
+- **PolkadotJS Extension**: [Browser Extension](https://polkadot.js.org/extension/)
+- **Validator Set Pallet**: [Substrate Validator Set Module](https://github.com/gautamdhameja/substrate-validator-set)
+- **Council Integration Guide**: [Council Integration](https://github.com/gautamdhameja/substrate-validator-set/blob/master/docs/council-integration.md)
+- **Polkadot Validator Guide**: [How to Validate on Polkadot](https://wiki.polkadot.network/docs/maintain-guides-how-to-validate-polkadot)
