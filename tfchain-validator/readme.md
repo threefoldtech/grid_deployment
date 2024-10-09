@@ -6,10 +6,10 @@ It covers generating keys using `subkey` via Docker, starting the node, insertin
 
 ## Prerequisites
 
-- **Docker Installed**: Ensure Docker is installed and running on your machine.
-- **Access to a Server or Machine**: Where you can run the TFChain node and `subkey` via Docker.
-- **Polkadot.js Browser Extension**: For managing accounts and signing transactions.
-- **Basic Knowledge**: Familiarity with command-line operations and blockchain concepts.
+- **Docker Installed**: Ensure Docker is installed and running on your machine
+- **Access to a Server or Machine**: Where you can run the TFChain node and `subkey` via Docker
+- **Polkadot.js Browser Extension**: For managing accounts and signing transactions on your client device / browser
+- **Basic Knowledge**: Familiarity with command-line operations and blockchain concepts
 
 
 ## Hardware
@@ -45,10 +45,11 @@ The specs posted above are not a hard requirement to run a validator but are con
 
 Cd into the network directory for the network you are deploying a validator for. Example for mainnet:
 ```sh
-cd ../grid_deployment/tfchain-validator/mainnet
+git clone https://github.com/threefoldtech/grid_deployment.git
+cd grid_deployment/tfchain-validator/mainnet
 ```
 
-￼
+
 ### 1.1 Generate the Validator Account Key
 
 We'll use `subkey` via Docker to generate a new key pair for your validator account. Alternatively, the apps dir also contains a static binary for Linux
@@ -64,7 +65,7 @@ Take note of the following:
 - **SS58 Address**: This is your validator's account address.
 
 This key will serve as your validator controller account and session key for AURA (validator node/author account). It will also be used to derive the GRANDPA key.
-**Please keep this information safe.**
+**Please keep this information safe and stored in an encrypted form, not plain text.**
 
 
 ### 1.2 Generate the Node (aka Network) Key
@@ -76,6 +77,7 @@ docker run --rm parity/subkey:latest generate-node-key > "<node_private_key_file
 ```
 
 This command outputs a public key and writes the secret seed (private key) to the <node_private_key_file> file. Keep the secret seed secure, you'll use it when starting the node.
+**Please keep this information safe and stored in an encrypted form, not plain text.**
 
 
 ### 1.3 Derive the GRANDPA Key
@@ -89,6 +91,7 @@ docker run --rm parity/subkey:latest inspect --scheme ed25519 "mnemonic phrase"
 Replace `"mnemonic phrase"` with your actual mnemonic enclosed in quotes.
 
 Note down the **Public Key (hex)** for GRANDPA. This key will serve as your session key for GRANDPA.
+**Please keep this information safe and stored in an encrypted form, not plain text.**
 
 
 ### 1.3 Prepare the .secrets.env file
