@@ -1,0 +1,10 @@
+hub.{$DOMAIN} {
+	reverse_proxy 0-hub:5555 {
+	}
+	metrics /caddy
+	log {
+		output file /var/log/caddy/caddy_access_0-hub.log
+		format json
+	}
+	tls info@threefold.tech
+}

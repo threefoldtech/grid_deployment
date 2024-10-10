@@ -2,6 +2,17 @@
 
 Third party apps required to perform Grid backend tasks.
 
+#### How to use the script:
+- To run the script normally and install everything (including the node exporter):
+
+```bash
+./prep-env-prereq.sh
+```
+- To skip the installation of the node exporter:
+
+```bash
+./prep-env-prereq.sh --skip-node-exporter
+```
 
 ### Substrate - subkey
 

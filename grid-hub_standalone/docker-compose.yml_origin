@@ -1,0 +1,81 @@
+version: "3.7"
+
+networks:
+  tfgrid_bknd:
+    name: tfgrid_bknd
+    ipam:
+      driver: default
+
+services:
+# 0-db
+  0-db:
+    container_name: 0-db
+    image: ghcr.io/threefoldtech/0-db:${ZERO_DB_IMG}
+    restart: unless-stopped
+    ports:
+      - "9900:9900"
+    networks:
+      tfgrid_bknd:
+    environment:
+      DATADIR: /zdb/data
+      INDEXDIR: /zdb/index
+      #DATASIZE: 1000
+      #ADMIN: 
+      #PROTECT: 1
+    volumes:
+      - /srv/0-db_data:/zdb/data
+      - /srv/0-db_index:/zdb/index
+
+## 0-hub
+  0-hub:
+    depends_on:
+      0-db:
+        condition: service_started
+    container_name: 0-hub
+    image: ghcr.io/threefoldtech/0-hub:${ZERO_HUB_IMG}
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./config.py:/hub/src/config.py
+      - /srv/0-hub_public:/public
+      - /srv/0-hub_workdir:/workdir
+      - /var/run/docker.sock:/var/run/docker.sock
+
+## 0-bootstrap
+  0-bootstrap:
+    container_name: 0-bootstrap
+    image: ghcr.io/threefoldtech/0-bootstrap:${ZERO_BOOTSTRAP_IMG}
+    privileged: true
+    restart: unless-stopped
+    networks:
+      tfgrid_bknd:
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./config-bootstrap.py:/bootstrap/config.py
+      - /srv/0-bootstrap/kernels:/opt/kernels
+      - /srv/0-bootstrap/kernels/net:/opt/kernels/net
+
+## Caddy
+  caddy:
+    depends_on:
+      0-hub:
+        condition: service_started
+    container_name: caddy
+    image: caddy:${CADDY_IMG}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      tfgrid_bknd:
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /srv/caddy/data:/data
+      - /srv/caddy/config:/config
+      - /srv/caddy/log:/var/log/caddy
