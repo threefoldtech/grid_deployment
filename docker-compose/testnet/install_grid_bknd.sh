@@ -28,10 +28,10 @@ esac
 done
 
 ## Create directories
-mkdir -p /srv/tfchain/chains/tfchain_testnet/db /srv/indexer /srv/processor /srv/caddy/data /srv/caddy/config /srv/caddy/log ~/grid_snapshots_tmp
+mkdir -p /srv/tfchain/chains/tfchain_testnet/db /srv/indexer /srv/processor /srv/caddy/data /srv/caddy/config /srv/caddy/log /srv/grid_snapshots_tmp
 
 ## Download snapshots, extract and remove archives
-cd ~/grid_snapshots_tmp
+cd /srv/grid_snapshots_tmp
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/tfchain-testnet-latest.tar.gz .
 #tar xvf tfchain-testnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_testnet/db/
 tar -I pigz -xf tfchain-testnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_testnet/db/
@@ -47,7 +47,7 @@ rm processor-testnet-latest.tar.gz
 
 ## Clean up 
 cd "$WD"
-rm -r ~/grid_snapshots_tmp
+rm -r /srv/grid_snapshots_tmp
 
 # Copy Cadyfile from example
 cp Caddyfile-example Caddyfile

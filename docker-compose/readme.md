@@ -41,7 +41,7 @@ The following table explicitly shows how to set the A and AAAA records for your 
 Each folder contains the required deployment files for it's net, work in the folder that has the name of the network you want to deploy on.
 
 What does each file do:
-- `.env` - contains environment variables maintaned by Threefold Tech
+- `.env` - contains environment variables maintaned by Threefold Tech, these are mostly service versions. Which can also be [found in this repo](https://github.com/threefoldtech/home/tree/master/wiki/products/v3)
 - `.gitignore` - has a list of files to ignore once the repo has been cloned. This has the purpose to not have uncommited changes to files when working in this repo
 - `.secrets.env-examples` - is where you have to add all your unique environment variables, after you copied it to `.secrets.env`
 - `Caddyfile-example` - contains a full working Caddy config. It is copied by the `install_grid_bknd.sh` script to `Caddyfile`. If you don't use this script, copy the file yourself
@@ -50,11 +50,53 @@ What does each file do:
 - `re-sync_processor.sh` - is a script to re-sync the Graphql processor with the hand of a online snapshot
 - `typesBundle.json` - contains data for the Graphql indexer and is not to be touched
 - `open_logs_tmux.sh` - opens all the docker logs in tmux sessions
+- `../../apps/prep-env-prereq.sh` - prerequisites script for Debian based distributions, this script can prepare your environment to run the Grid backend
 
 
-### Deploy a full stack
+### Option A - Deploy a full stack using the provided scripts
 
-`cd` into the correct folder for the network your deploying for, our example uses mainnet.
+`cd` into the correct folder for the network your deploying for, our example uses mainnet
+
+```sh
+cd mainnet
+cp .secrets.env-example .secrets.env
+```
+
+Open `.secrets.env` and add your unique variables
+
+Check if all environment variables are correct
+```
+docker compose --env-file .secrets.env --env-file .env config
+```
+
+Deploy by executing the script. **Note: this script can take a few hours since large snapshot data needs to be downloaded and extracted**
+This script will ask permission to continue and offer you to install all prerequisites for Debian based distributions using a [provided script](https://github.com/threefoldtech/grid_deployment/blob/development/apps/prep-env-prereq.sh)
+```sh
+sh install_grid_bknd.sh
+```
+
+Or manually without snapshots. Depending on the available disk iops available, it can take up until a week to sync from block 0
+
+```sh
+docker compose --env-file .secrets.env --env-file .env up -d
+```
+
+Open the container logs in tmux with the following provided script
+```sh
+sh open_logs_tmux.sh
+tmux a
+```
+
+Or check the container logs manually
+```sh
+docker ps -a
+docker logs <service_name> -f --tail 500
+```
+
+
+### Option B - Manually deploy a full stack
+
+`cd` into the correct folder for the network your deploying for, our example uses mainnet
 
 ```sh
 cd mainnet
@@ -64,23 +106,59 @@ cp Caddyfile-example Caddyfile
 
 Open `.secrets.env` and add your unique variables
 
-Check if all environment variables are correct.
+Check if all environment variables are correct
 
 ```
 docker compose --env-file .secrets.env --env-file .env config
 ```
 
-Deploy by executing the script. This can take a few hours since large snapshot data needs to be downloaded and extracted.
-
+Run the prerequisites script to prepare your host (Debian based only)
 ```sh
-sh install_grid_bknd.sh
+sh ../../apps/prep-env-prereq.sh
 ```
 
-Or manually without snapshots. Depending on the available disk iops available, it can take up until a week to sync from block 0.
+Create the required directories and cd into the temporary folder where snapshot data will be downloaded. We place all directories in `/srv` by default, make sure there is at least 1TB of available space to download and extract all the data
+```sh
+mkdir -p /srv/tfchain/chains/tfchain_mainnet/db /srv/indexer /srv/processor /srv/caddy/data /srv/caddy/config /srv/caddy/log /srv/grid_snapshots_tmp
+cd /srv/grid_snapshots_tmp
+```
 
+Download 3 snapshots and extract them in the correct directory. This process can take up to a few hours to complete, as you will download the complete TFchain and processed data. Best approach is to start these commands in a terminal multiplexer like `tmux` or `screen`, since then you can logout and leave the download/extraction running
+The current compressed size can be found here: https://bknd.snapshot.grid.tf/
+```sh
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .
+tar -I pigz -xf tfchain-mainnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_mainnet/db/
+rm tfchain-mainnet-latest.tar.gz
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .
+tar -I pigz -xf indexer-mainnet-latest.tar.gz -C /srv/indexer/
+rm indexer-mainnet-latest.tar.gz
+rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .
+tar -I pigz -xf processor-mainnet-latest.tar.gz -C /srv/processor/
+rm processor-mainnet-latest.tar.gz
+```
+
+Cleanup the temporary snapshot directory
+```sh
+rm -r /srv/grid_snapshots_tmp
+```
+
+Start all the services using Docker compose. Make sure at this point to have completed all prerequisites since the functioning of services will depend on it.
 ```sh
 docker compose --env-file .secrets.env --env-file .env up -d
 ```
+
+Open the container logs in tmux with the following provided script
+```sh
+sh open_logs_tmux.sh
+tmux a
+```
+
+Or check the container logs manually
+```sh
+docker ps -a
+docker logs <service_name> -f --tail 500
+```
+
 
 ### DNS
 
