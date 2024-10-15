@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
 ## TFchain validator init - insert aura key
   tfchain-validator-insert-aura:
