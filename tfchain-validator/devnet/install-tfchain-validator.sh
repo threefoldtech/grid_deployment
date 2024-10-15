@@ -16,7 +16,7 @@ done
 
 # Ask user to run prerequisites script
 while true; do
-read -p "Do you want to run the prerequisites script? This will prepare your environment to run the Grid backend. (y/n) " yn
+read -p "Do you want to run the prerequisites script? This will prepare your environment to run the TFchain validator. (y/n) " yn
 case $yn in 
         [yY] ) echo "OK! We will run the prerequisites script.";
                 sh ../../apps/prep-env-prereq.sh
