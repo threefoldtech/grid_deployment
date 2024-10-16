@@ -189,6 +189,7 @@ We want the following ports to be publicly exposed for the stack to function cor
 Example config for
 - `eno1` as internal subnet
 - `eno2` as external subnet
+- changed ssh port from 22 to 30022 (example)
 
 ```sh
 #!/usr/sbin/nft -f
@@ -217,11 +218,11 @@ table inet filter {
   }
 
   chain public {
-    # otherwise expose ports we want to expose
+    # otherwise expose ports we want to expose: 80/443 for caddy + 30333 for TFchain RPC node
     tcp dport { 80, 443, 30333 } counter packets 0 bytes 0 accept
-    # public ssh
-    tcp dport 22 counter accept
-    # separate counter to monitor default ssh port
+    # public ssh (custom port)
+    tcp dport 30022 counter accept
+    # separate counter to monitor default ssh port + drop
     tcp dport 22 counter drop
     counter drop
   }
@@ -250,7 +251,7 @@ table inet nat {
 **Note**: In case you use nftables, disable iptables for docker in `/lib/systemd/system/docker.service` by adding `--iptables=false` at the end of `ExecStart=`
 
 
-For iptables one can use UFW
+For iptables one can use UFW, example uses the default SSH port:
 
 ```sh
 ufw allow 80/tcp
