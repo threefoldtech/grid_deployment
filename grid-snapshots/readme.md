@@ -1,35 +1,50 @@
-# Snapshots for Grid backend services
+<h1>TFGrid Backend Snapshots</h1>
 
-To facilitate deploying Grid backend services we provide snapshots to significantly reduce sync time. This can be setup anywhere from scratch. Once all services are synced, one can use the scripts to create snapshots automatically.
+<h2>Table of Contents</h2>
 
+- [Introduction](#introduction)
+- [ThreeFold Public Rsync](#threefold-public-rsync)
+- [Services](#services)
+- [Requirements](#requirements)
+  - [Configuration](#configuration)
+  - [Hardware](#hardware)
+  - [Files for Each Net](#files-for-each-net)
+- [Deployment](#deployment)
+- [Script](#script)
+- [Rsync](#rsync)
 
-## Public rsync provided by Threefold
+---
 
-Threefold hosts all available snapshots at: https://bknd.snapshot.grid.tf/
+## Introduction
 
-Which can be downloaded with rsync:
+To facilitate the deployment of grid backend services, we provide snapshots to significantly reduce sync time. This can be setup anywhere from scratch. Once all services are synced, one can use the scripts to create snapshots automatically.
+
+## ThreeFold Public Rsync
+
+Threefold hosts all available snapshots at: [https://bknd.snapshot.grid.tf/](https://bknd.snapshot.grid.tf/), which can be downloaded with rsync as shown below:
 
 - Mainnet:
-
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .  
+    ```
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .  
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/indexer-mainnet-latest.tar.gz .  
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/processor-mainnet-latest.tar.gz .  
+    ```
 
 - Testnet:
-
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/tfchain-testnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/indexer-testnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/processor-testnet-latest.tar.gz .  
-
+    ```
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/tfchain-testnet-latest.tar.gz .  
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/indexer-testnet-latest.tar.gz .  
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/processor-testnet-latest.tar.gz .  
+    ```
 - Devnet:
-
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .  
-rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .   
-
+    ```
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .  
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/indexer-devnet-latest.tar.gz .  
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/processor-devnet-latest.tar.gz .   
+    ```
 ## Services
 
-There are 3 Grid backend services that collect enough data to justify creating snapshots:
+There are 3 TFGrid backend services that collect enough data to justify creating snapshots:
 
 - Threefold blockchain - TFchain
 - Graphql - Indexer
@@ -40,22 +55,24 @@ There are 3 Grid backend services that collect enough data to justify creating s
 
 To run your own snapshot backend one needs the following
 
--- Configuration
-- a working docker environment
+### Configuration
+
+- A working docker environment
 - 'node key' for the TFchain public RPC node, generated with `subkey generate-node-key`
 
--- Hardware
-- min of 8 modern CPU cores
-- min of 32GB RAM
-- min of 1TB SSD storage (high preference for NVMe based storage) preferably more (as the chain keeps growing in size)
-- min of 2TB HDD storage (to store and share the snapshots)
+### Hardware
+
+- Min of 8 modern CPU cores
+- Min of 32GB RAM
+- Min of 1TB SSD storage (high preference for NVMe based storage) preferably more (as the chain keeps growing in size)
+- Min of 2TB HDD storage (to store and share the snapshots)
 
 Dev, QA and Testnet can do with a Sata SSD setup. Mainnet requires NVMe based SSDs due to the data size.
 
-**Note**: If a deployment does not have enough disk iops available one can see the processor container restarting regulary alongside grid_proxy errors regarding processor database timeouts.
+> Note: If a deployment does not have enough disk iops available one can see the processor container restarting regulary alongside grid_proxy errors regarding processor database timeouts.
 
 
-### Files for each net
+### Files for Each Net
 
 Each folder contains the required deployment files for it's net, work in the folder that has the name of the network you want to create snapshots for.
 
@@ -71,7 +88,7 @@ What does each file do:
 - `stopall.sh` - stops all the (already deployed) containers
 
 
-## Deploy a snapshot backend
+## Deployment
 
 `cd` into the correct folder for the network your deploying for, our example uses mainnet.
 
@@ -92,7 +109,6 @@ Deploy the snapshot backend. Depending on the disk iops available, it can take u
 ```sh
 docker compose --env-file .secrets.env --env-file .env up -d
 ```
-
 
 ## Script
 
@@ -115,7 +131,7 @@ This example will execute the script every day at 1 AM and send the logs to /var
 
 We use rsync to expose the snapshots to the community. To setup a public rsync server create and edit the following file:
 
-/etc/rsyncd.conf
+- File `/etc/rsyncd.conf`:
 
 ```sh
 pid file = /var/run/rsyncd.pid
@@ -150,7 +166,7 @@ timeout = 300
 list = false
 ```
 
-Start and enable via systemd:
+Start and enable the service with systemd:
 
 ```sh
 systemctl start rsync
