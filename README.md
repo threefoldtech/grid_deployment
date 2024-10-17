@@ -36,7 +36,7 @@ The ZOS Hub is used to distribute Flist files. Users use Flists to deploy worklo
 
 ## Grid Bootstrap
 
-The bootstrap services is used to create ZOS bootstrap images. Farmers use such images to deploy 3Nodes on the Grid.
+The bootstrap service is used to create ZOS bootstrap images. Farmers use such images to deploy 3Nodes on the Grid.
 
 ## TFChain Validator
 
