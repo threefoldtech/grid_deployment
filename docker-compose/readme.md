@@ -1,32 +1,53 @@
-# Running a Grid backend stack
+<h1> TFGrid Backend </h1>
 
-Documentation on how to deploy an independent Grid backend instance.  
-Up to date scripts & docker-compose versions will be maintained for dev, qa, test and mainnet.
+<h2>Table of Contents</h2>
 
+- [Introduction](#introduction)
+- [Requirements](#requirements)
+  - [Configuration](#configuration)
+  - [Hardware](#hardware)
+  - [Setting the DNS Records](#setting-the-dns-records)
+- [Files for Each Net](#files-for-each-net)
+- [Option A - Script Deployment](#option-a---script-deployment)
+- [Option B - Manual Deployment](#option-b---manual-deployment)
+- [DNS](#dns)
+- [Firewall](#firewall)
+- [Update](#update)
+- [Metrics](#metrics)
 
-### Requirements
+---
 
-To start a full Grid backend stack one needs the following:
+## Introduction
 
--- Configuration
-- a working Docker environment
-- one static IPv4 and IPv6 ip
-- one A and one AAAA record to expose all services on. This can be the root of a domain or a subdomain but both must be wildcard records like *.your.domain ([see table for more info](#setting-the-dns-records))
-- 'node key' for the TFchain public RPC node, generated with `subkey generate-node-key`
-- mnemonic for a wallet on TFchain for the activation service, **this wallet needs funds** and does not need a Twin ID
-- mnemonic for a wallet on TFchain for the Grid proxy service, **this wallet needs funds AND a registered Twin ID**
+We document the procedure to deploy an independent TFGrid Backend instance. 
 
--- Hardware
-- min of 8 modern CPU cores
-- min of 32GB RAM
-- min of 1TB SSD storage (high preference for NVMe based storage) preferably more (as the chain keeps growing in size)
+Up-to-date scripts & docker-compose versions will be maintained for dev, qa, test and mainnet.
+
+## Requirements
+
+To start a grid backend, one needs the following:
+
+### Configuration
+
+- A working Docker environment
+- One static IPv4 and IPv6 ip
+- One A and one AAAA record to expose all services on. This can be the root of a domain or a subdomain but both must be wildcard records like *.your.domain. [Consult this table for more info](#setting-the-dns-records)
+- `node key` for the TFchain public RPC node, generated with `subkey generate-node-key`
+- Mnemonic for a wallet on TFchain for the activation service, **this wallet needs funds** and does not need a Twin ID
+- Mnemonic for a wallet on TFchain for the Grid proxy service, **this wallet needs funds AND a registered Twin ID**
+
+### Hardware
+
+- Min of 8 modern CPU cores
+- Min of 32GB RAM
+- Min of 1TB SSD storage (high preference for NVMe based storage) preferably more (as the chain keeps growing in size)
 
 Dev, QA and Testnet can do with a Sata SSD setup. Mainnet requires NVMe based SSDs due to the database size.
 
-**Note**: If a deployment does not have enough disk iops available one can see the processor container restarting regulary alongside grid_proxy errors regarding processor database timeouts.
+> Note: If a deployment does not have enough disk iops available one can see the processor container restarting regulary alongside grid_proxy errors regarding processor database timeouts.
 
 
-#### Setting the DNS Records
+### Setting the DNS Records
 
 The following table explicitly shows how to set the A and AAAA records for your domain.
 
@@ -36,12 +57,12 @@ The following table explicitly shows how to set the A and AAAA records for your 
 | AAAA | \*   | <ipv6_address> |
 
 
-### Files for each net
+## Files for Each Net
 
 Each folder contains the required deployment files for it's net, work in the folder that has the name of the network you want to deploy on.
 
 What does each file do:
-- `.env` - contains environment variables maintaned by Threefold Tech, these are mostly service versions. Which can also be [found in this repo](https://github.com/threefoldtech/home/tree/master/wiki/products/v3)
+- `.env` - contains environment variables maintaned by Threefold Tech, these are mostly service versions, which can also be [found in this repo](https://github.com/threefoldtech/home/tree/master/wiki/products/v3)
 - `.gitignore` - has a list of files to ignore once the repo has been cloned. This has the purpose to not have uncommited changes to files when working in this repo
 - `.secrets.env-examples` - is where you have to add all your unique environment variables, after you copied it to `.secrets.env`
 - `Caddyfile-example` - contains a full working Caddy config. It is copied by the `install_grid_bknd.sh` script to `Caddyfile`. If you don't use this script, copy the file yourself
@@ -53,7 +74,9 @@ What does each file do:
 - `../../apps/prep-env-prereq.sh` - prerequisites script for Debian based distributions, this script can prepare your environment to run the Grid backend
 
 
-### Option A - Deploy a full stack using the provided scripts
+## Option A - Script Deployment
+
+With this option, we show how to deploy a grid backend using the provided scripts.
 
 `cd` into the correct folder for the network your deploying for, our example uses mainnet
 
@@ -64,13 +87,18 @@ cp .secrets.env-example .secrets.env
 
 Open `.secrets.env` and add your unique variables
 
-Check if all environment variables are correct
+Check if all environment variables are correct:
+
 ```
 docker compose --env-file .secrets.env --env-file .env config
 ```
 
-Deploy by executing the script. **Note: this script can take a few hours since large snapshot data needs to be downloaded and extracted**
-This script will ask permission to continue and offer you to install all prerequisites for Debian based distributions using a [provided script](https://github.com/threefoldtech/grid_deployment/blob/development/apps/prep-env-prereq.sh)
+Deploy by executing the script. 
+
+> Note: this script can take a few hours since large snapshot data needs to be downloaded and extracted
+
+This script will ask permission to continue and offer you to install all prerequisites for Debian based distributions using a [provided script](https://github.com/threefoldtech/grid_deployment/blob/development/apps/prep-env-prereq.sh).
+
 ```sh
 sh install_grid_bknd.sh
 ```
@@ -93,8 +121,9 @@ docker ps -a
 docker logs <service_name> -f --tail 500
 ```
 
+## Option B - Manual Deployment
 
-### Option B - Manually deploy a full stack
+With this option, we show how to deloy a grid backend manually.
 
 `cd` into the correct folder for the network your deploying for, our example uses mainnet
 
@@ -123,8 +152,14 @@ mkdir -p /srv/tfchain/chains/tfchain_mainnet/db /srv/indexer /srv/processor /srv
 cd /srv/grid_snapshots_tmp
 ```
 
-Download 3 snapshots and extract them in the correct directory. This process can take up to a few hours to complete, as you will download the complete TFchain and processed data. Best approach is to start these commands in a terminal multiplexer like `tmux` or `screen`, since then you can logout and leave the download/extraction running
+Download 3 snapshots and extract them in the correct directory. 
+
+> Note: This process can take up to a few hours to complete, as you will download the complete TFchain and processed data. 
+
+The best approach is to start these commands in a terminal multiplexer like `tmux` or `screen`, since then you can logout and leave the download/extraction running.
+
 The current compressed size can be found here: https://bknd.snapshot.grid.tf/
+
 ```sh
 rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshots/tfchain-mainnet-latest.tar.gz .
 tar -I pigz -xf tfchain-mainnet-latest.tar.gz -C /srv/tfchain/chains/tfchain_mainnet/db/
@@ -137,12 +172,14 @@ tar -I pigz -xf processor-mainnet-latest.tar.gz -C /srv/processor/
 rm processor-mainnet-latest.tar.gz
 ```
 
-Cleanup the temporary snapshot directory
+Cleanup the temporary snapshot directory:
+
 ```sh
 rm -r /srv/grid_snapshots_tmp
 ```
 
 Start all the services using Docker compose. Make sure at this point to have completed all prerequisites since the functioning of services will depend on it.
+
 ```sh
 docker compose --env-file .secrets.env --env-file .env up -d
 ```
@@ -153,14 +190,15 @@ sh open_logs_tmux.sh
 tmux a
 ```
 
-Or check the container logs manually
+Or check the container logs manually:
+
 ```sh
 docker ps -a
 docker logs <service_name> -f --tail 500
 ```
 
 
-### DNS
+## DNS
 
 The .secrets.env file contains a DOMAIN environment variable which is used in docker compose itself and inside several containers. After you deploy caddy will request several certificates for subdomains of your provided DOMAIN environment variable.
 Make sure the above DNS requirements are met, IPv6 is optional but we strongly encourage to configure it by default.
@@ -176,8 +214,7 @@ These subdomains wille be generated and for which Caddy will request a certifica
 - activation.your.domain
 - stats.your.domain
 
-
-### Firewall
+## Firewall
 
 A correct firewall config is essential! We use NFTables by default: https://wiki.nftables.org/wiki-nftables/index.php/Main_Page
 We want the following ports to be publicly exposed for the stack to function correctly:
@@ -248,7 +285,7 @@ table inet nat {
 }
 ```
 
-**Note**: In case you use nftables, disable iptables for docker in `/lib/systemd/system/docker.service` by adding `--iptables=false` at the end of `ExecStart=`
+> Note: In case you use nftables, disable iptables for docker in `/lib/systemd/system/docker.service` by adding `--iptables=false` at the end of `ExecStart=`
 
 
 For iptables one can use UFW, example uses the default SSH port:
@@ -263,11 +300,11 @@ ufw status
 ```
 
 
-### Update
+## Update
 
 `cd` into the correct folder for the network your deploying for, our example uses mainnet.
 
-**Note**: Only list services at the end of this command of which you know there is an update for, example for the `grid_relay`.
+> Note: Only list services at the end of this command of which you know there is an update for, example for the `grid_relay`.
 
 ```sh
 git pull -r
@@ -282,7 +319,7 @@ docker compose --env-file .secrets.env --env-file .env up --no-deps -d grid_rela
 ```
 
 
-### Metrics
+## Metrics
 
 Quite a bunch of Prometheus based metrics are exposed by default.
 
@@ -292,7 +329,7 @@ Quite a bunch of Prometheus based metrics are exposed by default.
 - Graphql Indexer: https://metrics.your.domain/indexer/_status/vars
 - Graphql Processor: https://metrics.your.domain/graphql/metrics
 
-Note: some metrics are global metrics from the grid, some are regarding the local stack deployment
+> Note: some metrics are global metrics from the grid, some are regarding the local stack deployment
 
 Example Prometheus server configuration, replace `your.domain` by your domain configured in .secrets.env:
 
