@@ -51,7 +51,7 @@ sh ../../apps/prep-env-prereq.sh
 ```
 
 Next three steps will generate the keys required to run your validator. Keep this information secure: don't store them as plain text, but encrypted in some password manager (like Keepass).
-Not all keys generated will be used to run your validator, this is normal. It's important to keep these keys for specific situations in the future.
+Not all keys generated will be used to run your validator, this is normal. It's important to keep these keys for specific situations in the future. For example to redeploy in case your validator got lost, to do some required chain calls like setting your public keys, in case of a change after runtime upgrade, ..
 
 
 ### 1.1 Generate the Validator Account Key
