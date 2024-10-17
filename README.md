@@ -1,32 +1,51 @@
-# Threefold Grid backend
+<h1>ThreeFold Grid Full Stack</h1> 
 
-This repo provides all tools required to setup a Threefold Guardian stack. Such a stack will be completely standalone, is made up of several services and provide you with all available grid functionality.  
+<h2>Table of Contents</h2>
 
+- [Introduction](#introduction)
+- [Full Stack Components](#full-stack-components)
+- [Grid Backend](#grid-backend)
+- [Grid Hub](#grid-hub)
+- [Grid Bootstrap](#grid-bootstrap)
+- [TFChain Validator](#tfchain-validator)
+- [Grid Snapshots](#grid-snapshots)
 
-## Grid backend services with docker compose
+---
 
-One can deploy a full grid backend stack with docker compose for each of the Threefold Grid networks (Devnet, QAnet, Testnet & Mainnet).  
+## Introduction
+
+This repo provides all tools required to setup a Threefold Grid Full Stack. Such a stack will be completely standalone, is made up of several services and provide you with all available grid functionalities.  
+
+## Full Stack Components
+
+The TFGrid Full Stack is composed of:
+
+- Grid Backend
+- Grid Hub
+- Grid Bootstrap
+- TFChain Validator
+
+## Grid Backend
+
+One can deploy a grid backend with docker compose for each of the Threefold Grid networks (Devnet, QAnet, Testnet & Mainnet).  
 [Have a look at the documentation to get started.](https://github.com/threefoldtech/grid_deployment/tree/development/docker-compose)
-
 
 ## Grid Hub
 
-The hub is used to distribute flist files for ZOS to boot a users workload.
-
+The ZOS Hub is used to distribute Flist files. Users use Flists to deploy workloads on 3Nodes.
 
 ## Grid Bootstrap
 
-The bootstrap services has to task to provide files to boot from over the internet.
+The bootstrap services is used to create ZOS bootstrap images. Farmers use such images to deploy 3Nodes on the Grid.
 
+## TFChain Validator
 
-## TFchain Validator
+The grid run on TFChain. We provide an easy installer to setup a validator.
 
-The grid run on TFchain, here you can find an easy installer to setup a validator.
+## Grid Snapshots
 
+Daily snapshots can be found [here](https://bknd.snapshot.grid.tf/).
 
-## Grid snapshots
+To set up your own snapshot creation, read [this documentation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots).
 
-Daily snapshots can be found here: https://bknd.snapshot.grid.tf/  
-[Have a look at the docs to setup your own snapshot creation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots)
-
-[One can also use `RSYNC` to download the snapshots](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots#public-rsync-provided-by-threefold)
+You can also use Rsync to download the snapshots. Check [this link](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots#public-rsync-provided-by-threefold).
