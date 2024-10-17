@@ -20,27 +20,27 @@ This repo provides all tools required to setup a Threefold Grid Full Stack. Such
 
 The TFGrid Full Stack is composed of:
 
-- Grid Backend
-- Grid Hub
-- Grid Bootstrap
+- TFGrid Backend
+- TFGrid Zero-OS Hub
+- TFGrid Zero-OS Bootstrap Generator
 - TFChain Validator
 
-## Grid Backend
+## TFGrid Backend
 
-One can deploy a grid backend with docker compose for each of the Threefold Grid networks (Devnet, QAnet, Testnet & Mainnet).  
+For each of the Threefold Grid networks (Devnet, QAnet, Testnet & Mainnet), the respective grid backend can be deployed using docker compose.  
 [Have a look at the documentation to get started.](https://github.com/threefoldtech/grid_deployment/tree/development/docker-compose)
 
-## Grid Hub
+## TFGrid Zero-OS Hub
 
-The ZOS Hub is used to distribute Flist files. Users use Flists to deploy workloads on 3Nodes.
+The Zero-OS Hub is used to distribute Flist files. Users use Flists to deploy workloads on 3Nodes.
 
-## Grid Bootstrap
+## TFGrid Zero-OS Bootstrap Generator
 
 The bootstrap service is used to create ZOS bootstrap images. Farmers use such images to deploy 3Nodes on the Grid.
 
 ## TFChain Validator
 
-The grid run on TFChain. We provide an easy installer to setup a validator.
+The grid run on TFChain. We provide an easy installer to set up a validator.
 
 ## Grid Snapshots
 
