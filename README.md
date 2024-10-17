@@ -27,8 +27,9 @@ The TFGrid Full Stack is composed of:
 
 ## TFGrid Backend
 
-For each of the Threefold Grid networks (Devnet, QAnet, Testnet & Mainnet), the respective grid backend can be deployed using docker compose.  
-[Have a look at the documentation to get started.](https://github.com/threefoldtech/grid_deployment/tree/development/docker-compose)
+For each of the Threefold Grid networks (Devnet, QAnet, Testnet & Mainnet), the respective grid backend can be deployed using docker compose.
+
+Have a look at the [documentation](https://github.com/threefoldtech/grid_deployment/tree/development/docker-compose) to get started.
 
 ## TFGrid Zero-OS Hub
 
@@ -36,16 +37,14 @@ The Zero-OS Hub is used to distribute Flist files. Users use Flists to deploy wo
 
 ## TFGrid Zero-OS Bootstrap Generator
 
-The bootstrap service is used to create ZOS bootstrap images. Farmers use such images to deploy 3Nodes on the Grid.
+The bootstrap service is used to create ZOS bootstrap images. Farmers use bootstrap images to set up 3Nodes on the TFGrid.
 
 ## TFChain Validator
 
-The grid run on TFChain. We provide an easy installer to set up a validator.
+The TFGrid runs on TFChain. An easy-to-use installer is provided to set up a validator.
 
 ## TFGrid Snapshots
 
-Daily snapshots can be found [here](https://bknd.snapshot.grid.tf/).
+Daily snapshots can be found [here](https://bknd.snapshot.grid.tf/). To set up your own snapshot creation, read [this documentation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots).
 
-To set up your own snapshot creation, read [this documentation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots).
-
-You can also use Rsync to download the snapshots. Check [this link](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots#public-rsync-provided-by-threefold).
+You can also use Rsync to download the snapshots. Check [this link](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots#public-rsync-provided-by-threefold) for more information.
