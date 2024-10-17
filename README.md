@@ -3,12 +3,12 @@
 <h2>Table of Contents</h2>
 
 - [Introduction](#introduction)
-- [Full Stack Components](#full-stack-components)
-- [Grid Backend](#grid-backend)
-- [Grid Hub](#grid-hub)
-- [Grid Bootstrap](#grid-bootstrap)
+- [TFGrid Full Stack Components](#tfgrid-full-stack-components)
+- [TFGrid Backend](#tfgrid-backend)
+- [TFGrid Zero-OS Hub](#tfgrid-zero-os-hub)
+- [TFGrid Zero-OS Bootstrap Generator](#tfgrid-zero-os-bootstrap-generator)
 - [TFChain Validator](#tfchain-validator)
-- [Grid Snapshots](#grid-snapshots)
+- [TFGrid Snapshots](#tfgrid-snapshots)
 
 ---
 
@@ -16,7 +16,7 @@
 
 This repo provides all tools required to setup a Threefold Grid Full Stack. Such a stack will be completely standalone, is made up of several services and provide you with all available grid functionalities.  
 
-## Full Stack Components
+## TFGrid Full Stack Components
 
 The TFGrid Full Stack is composed of:
 
@@ -42,7 +42,7 @@ The bootstrap service is used to create ZOS bootstrap images. Farmers use such i
 
 The grid run on TFChain. We provide an easy installer to set up a validator.
 
-## Grid Snapshots
+## TFGrid Snapshots
 
 Daily snapshots can be found [here](https://bknd.snapshot.grid.tf/).
 
