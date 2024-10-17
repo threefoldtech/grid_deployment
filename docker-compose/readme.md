@@ -19,7 +19,7 @@
 
 ## Introduction
 
-We document the procedure to deploy an independent TFGrid Backend instance. 
+We document the procedures to deploy an independent TFGrid Backend instance. 
 
 Up-to-date scripts & docker-compose versions will be maintained for dev, qa, test and mainnet.
 
