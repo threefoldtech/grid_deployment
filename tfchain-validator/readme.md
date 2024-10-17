@@ -1,8 +1,36 @@
-# Adding your Validator to an Existing TFChain Network
+<h1>TFGrid Validator</h1>
 
-This guide provides a step-by-step process to add a validator to the TFChain network based on docker-compose. It is an extension from the [official tfchain repo documentation](https://github.com/threefoldtech/tfchain/blob/development/docs/misc/adding_validators.md)
-It covers generating keys using `subkey` via Docker, starting the node, inserting keys using a script, and submitting the necessary proposals for validation.
+<h2>Table of Contents</h2>
 
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Hardware](#hardware)
+  - [Requirements](#requirements)
+    - [Standard Hardware](#standard-hardware)
+- [1. Generate keys](#1-generate-keys)
+  - [1.1 Generate the Validator Account Key](#11-generate-the-validator-account-key)
+  - [1.2 Generate the Node (aka Network) Key](#12-generate-the-node-aka-network-key)
+  - [1.3 Derive the GRANDPA Key](#13-derive-the-grandpa-key)
+  - [1.4 Store all generated keys](#14-store-all-generated-keys)
+- [2. Deploy the TFchain validator](#2-deploy-the-tfchain-validator)
+  - [2.1 Prepare the .secrets.env file](#21-prepare-the-secretsenv-file)
+  - [2.2 Insert Session Keys](#22-insert-session-keys)
+  - [2.3 Deploy the validator](#23-deploy-the-validator)
+- [3. Set Session Keys On-Chain](#3-set-session-keys-on-chain)
+  - [3.1 Add Validator Account to Polkadot.js Extension](#31-add-validator-account-to-polkadotjs-extension)
+  - [3.2 Set Session Keys via PolkadotJS Apps](#32-set-session-keys-via-polkadotjs-apps)
+- [4. Submit a Council Motion to Add Validator](#4-submit-a-council-motion-to-add-validator)
+- [5. Finalize and Start Validating](#5-finalize-and-start-validating)
+  - [Ensure Node Health](#ensure-node-health)
+- [References](#references)
+
+---
+
+## Introduction
+
+We document the procedures to add a validator to an existing TFChain network. We provide a step-by-step process to add a validator to the TFChain network based on docker-compose. It is an extension from the [official tfchain repo documentation](https://github.com/threefoldtech/tfchain/blob/development/docs/misc/adding_validators.md).
+
+This documentation covers the following stes: generating keys using `subkey` via Docker, starting the node, inserting keys using a script, and submitting the necessary proposals for validation.
 
 ## Prerequisites
 
@@ -43,7 +71,8 @@ The specs posted above are not a hard requirement to run a validator but are con
 
 ## 1. Generate keys
 
-Cd into the network directory for the network you are deploying a validator for. Example for mainnet:
+Go into the network directory for the network you are deploying a validator for. The following example is for mainnet:
+
 ```sh
 git clone https://github.com/threefoldtech/grid_deployment.git
 cd grid_deployment/tfchain-validator/mainnet
@@ -51,12 +80,12 @@ sh ../../apps/prep-env-prereq.sh
 ```
 
 Next three steps will generate the keys required to run your validator. Keep this information secure: don't store them as plain text, but encrypted in some password manager (like Keepass).
-Not all keys generated will be used to run your validator, this is normal. It's important to keep these keys for specific situations in the future. For example to redeploy in case your validator got lost, to do some required chain calls like setting your public keys, in case of a change after runtime upgrade, ..
+Not all keys generated will be used to run your validator, this is normal. It's important to keep these keys for specific situations in the future. For example to redeploy in case your validator got lost, to do some required chain calls like setting your public keys, in case of a change after runtime upgrade.
 
 
 ### 1.1 Generate the Validator Account Key
 
-We'll use `subkey` via Docker to generate a new key pair for your validator account. Alternatively, the apps dir also contains a static binary for Linux
+We'll use `subkey` via Docker to generate a new key pair for your validator account. Alternatively, the apps dir also contains a static binary for Linux.
 
 ```bash
 docker run --rm parity/subkey:latest generate --scheme sr25519
@@ -69,7 +98,8 @@ Take note of the following:
 - **SS58 Address**: This is your validator's account address.
 
 This key will serve as your validator controller account and session key for AURA (validator node/author account). The Mnemonic will be used to initialize your validator (by adding it to the .secrets.env file), it will also be used to derive the GRANDPA key later on.
-**Please keep this information safe and stored in an encrypted form, not plain text.**
+
+> Note: Please keep this information safe and stored in an encrypted form, not in plain text.
 
 
 ### 1.2 Generate the Node (aka Network) Key
@@ -80,8 +110,9 @@ Generate the node key file, which identifies your node in the P2P network.
 docker run --rm parity/subkey:latest generate-node-key > "validator_private_node_key"
 ```
 
-This command outputs a public key and writes the secret seed (private key) to the <node_private_key_file> file. You'll use the private key when starting the node (by adding it to the .secrets.env file)
-**Please keep this information safe and stored in an encrypted form, not plain text. Store both the private and public key**
+This command outputs a public key and writes the secret seed (private key) to the <node_private_key_file> file. You'll use the private key when starting the node (by adding it to the .secrets.env file).
+
+> Note: Please keep this information safe and stored in an encrypted form, not in plain text. Store both the private and the public keys.
 
 
 ### 1.3 Derive the GRANDPA Key
@@ -95,7 +126,8 @@ docker run --rm parity/subkey:latest inspect --scheme ed25519 "mnemonic phrase"
 Replace `"mnemonic phrase"` with your actual mnemonic enclosed in quotes.
 
 Note down the **Public Key (hex)** for GRANDPA. This key will serve as your session key for GRANDPA and will be used later on to insert your session keys on the chain.
-**Please keep this information safe and stored in an encrypted form, not plain text.**
+
+> Note: Please keep this information safe and stored in an encrypted form, not plain text.
 
 
 ### 1.4 Store all generated keys
@@ -133,7 +165,8 @@ Secret phrase:       birth illness item heavy embark bacon force shield reason n
 
 ### 2.1 Prepare the .secrets.env file
 
-First copy the example
+First copy the example:
+
 ```sh
 cd grid_deployment/tfchain-validator/mainnet
 cp .secrets.env-example .secrets.env
@@ -245,8 +278,6 @@ Once your session keys are set and the council approves your validator, your nod
 
 - Keep your node online and synchronized.
 - Monitor logs for any errors or warnings.
-
----
 
 ## References
 
