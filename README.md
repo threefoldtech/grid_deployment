@@ -14,7 +14,7 @@
 
 ## Introduction
 
-This repo provides all tools required to setup a Threefold Grid Full Stack. Such a stack will be completely standalone, is made up of several services and provide you with all available grid functionalities.  
+This repo provides all tools required to set up a Threefold Grid Full Stack. A TFGrid Full Stack is completely stand-alone and made up of several services. It provides all available grid functionalities.  
 
 ## TFGrid Full Stack Components
 
