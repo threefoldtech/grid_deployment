@@ -1,9 +1,18 @@
-# Grid backend apps
+<h1>TFGrid Backend Apps</h1>
 
-Third party apps required to perform Grid backend tasks.
+<h2>Table of Contents</h2>
 
+- [Introduction](#introduction)
+- [Substrate - subkey](#substrate---subkey)
+- [References](#references)
 
-### Substrate - subkey
+---
+
+## Introduction
+
+This directory contains third-party apps required to perform the TFGrid backend tasks.
+
+## Substrate - subkey
 
 The subkey program is a key generation and management utility to perform the following tasks:
 - Generate and inspect cryptographically-secure public and private key pairs.
@@ -11,6 +20,8 @@ The subkey program is a key generation and management utility to perform the fol
 - Sign and verify signatures on messages.
 - Sign and verify signatures for encoded transactions.
 - Derive hierarchical deterministic child key pairs.
+
+## References
 
 Repo: https://github.com/paritytech/polkadot-sdk  
 Docs: https://docs.substrate.io/reference/command-line-tools/subkey/
