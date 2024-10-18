@@ -65,7 +65,7 @@ ln -s processor-testnet-$(date '+%Y-%m-%d').tar.gz processor-testnet-latest.tar.
 
 
 ## Send over to Grid-snapshots server and set ln
-scp /storage/rsync-public/tfchain-testnet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/testnet/
-scp /storage/rsync-public/indexer-testnet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/testnet/
-scp /storage/rsync-public/processor-testnet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/testnet/
-ssh grid-snapshots sh /opt/snapshots/testnet-set-ln.sh
+scp /storage/rsync-public/tfchain-testnet-$(date '+%Y-%m-%d').tar.gz grid-backend-snapshots:/storage/rsync-public/testnet/
+scp /storage/rsync-public/indexer-testnet-$(date '+%Y-%m-%d').tar.gz grid-backend-snapshots:/storage/rsync-public/testnet/
+scp /storage/rsync-public/processor-testnet-$(date '+%Y-%m-%d').tar.gz grid-backend-snapshots:/storage/rsync-public/testnet/
+ssh grid-backend-snapshots sh /opt/snapshots/testnet-set-ln.sh
