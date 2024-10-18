@@ -65,7 +65,7 @@ ln -s processor-qanet-$(date '+%Y-%m-%d').tar.gz processor-qanet-latest.tar.gz
 
 
 ## Send over to Grid-snapshots server and set ln
-scp /storage/rsync-public/tfchain-qanet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/qanet/
-scp /storage/rsync-public/indexer-qanet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/qanet/
-scp /storage/rsync-public/processor-qanet-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/qanet/
-ssh grid-snapshots sh /opt/snapshots/qanet-set-ln.sh
+scp /storage/rsync-public/tfchain-qanet-$(date '+%Y-%m-%d').tar.gz grid-backend-snapshots:/storage/rsync-public/qanet/
+scp /storage/rsync-public/indexer-qanet-$(date '+%Y-%m-%d').tar.gz grid-backend-snapshots:/storage/rsync-public/qanet/
+scp /storage/rsync-public/processor-qanet-$(date '+%Y-%m-%d').tar.gz grid-backend-snapshots:/storage/rsync-public/qanet/
+ssh grid-backend-snapshots sh /opt/snapshots/qanet-set-ln.sh

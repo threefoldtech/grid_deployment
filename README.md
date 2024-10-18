@@ -53,8 +53,8 @@ Have a look at the [documentation](./tfchain-validator/readme.md) to get started
 
 Daily TFGrid and TFChain validator snapshots can be found at [https://bknd.snapshot.grid.tf/](https://bknd.snapshot.grid.tf/). 
 
-To set up your own TFGrid snapshot creation, read [this documentation](./grid-snapshots/readme.md).
+To set up your own TFGrid snapshot creation, read [this documentation](./grid-backend-snapshots/readme.md).
 
 To set up your own TFChain validator snapshot creation, read [this documentation](./tfchain-validator-snapshots/readme.md).
 
-> Note: You can also use Rsync to download the snapshots. Read [this section](./grid-snapshots/readme.md#threefold-public-rsync) for more information.
+> Note: You can also use Rsync to download the snapshots. Read [this section](./grid-backend-snapshots/readme.md#threefold-public-rsync) for more information.
