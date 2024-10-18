@@ -14,7 +14,7 @@
 
 ## Introduction
 
-This repo provides all tools required to set up a Threefold Grid Full Stack. A TFGrid Full Stack is completely stand-alone and made up of several services. It provides all available grid functionalities.  
+This repo provides all tools required for a Threefold Grid Full Stack deployment. A TFGrid Full Stack is completely stand-alone and made up of several services. It provides all available grid functionalities.  
 
 ## TFGrid Full Stack Components
 
@@ -29,7 +29,7 @@ The TFGrid Full Stack is composed of:
 
 For each of the Threefold Grid networks (Devnet, QAnet, Testnet & Mainnet), the respective grid backend can be deployed using docker compose.
 
-Have a look at the [documentation](https://github.com/threefoldtech/grid_deployment/tree/development/docker-compose) to get started.
+Have a look at the [documentation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-backend) to get started.
 
 ## TFGrid Zero-OS Hub
 
