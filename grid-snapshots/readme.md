@@ -1,4 +1,4 @@
-<h1>TFChain Validator Snapshots</h1>
+<h1>TFGrid Backend Snapshots</h1>
 
 <h2>Table of Contents</h2>
 
