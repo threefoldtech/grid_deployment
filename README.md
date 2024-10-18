@@ -8,7 +8,7 @@
 - [TFGrid Zero-OS Hub](#tfgrid-zero-os-hub)
 - [TFGrid Zero-OS Bootstrap Generator](#tfgrid-zero-os-bootstrap-generator)
 - [TFChain Validator](#tfchain-validator)
-- [TFGrid Snapshots](#tfgrid-snapshots)
+- [TFGrid and TFChain Validator Snapshots](#tfgrid-and-tfchain-validator-snapshots)
 
 ---
 
@@ -35,16 +35,26 @@ Have a look at the [documentation](https://github.com/threefoldtech/grid_deploym
 
 The Zero-OS Hub is used to distribute Flist files. Users use Flists to deploy workloads on 3Nodes.
 
+Have a look at the [documentation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-hub-bootstrap) to get started.
+
 ## TFGrid Zero-OS Bootstrap Generator
 
 The bootstrap service is used to create ZOS bootstrap images. Farmers use bootstrap images to set up 3Nodes on the TFGrid.
+
+Have a look at the [documentation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-hub-bootstrap) to get started.
 
 ## TFChain Validator
 
 The TFGrid runs on TFChain. An easy-to-use installer is provided to set up a validator.
 
-## TFGrid Snapshots
+Have a look at the [documentation](https://github.com/threefoldtech/grid_deployment/tree/development/tfchain-validator) to get started.
 
-Daily snapshots can be found [here](https://bknd.snapshot.grid.tf/). To set up your own snapshot creation, read [this documentation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots).
+## TFGrid and TFChain Validator Snapshots
 
-You can also use Rsync to download the snapshots. Check [this link](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots#public-rsync-provided-by-threefold) for more information.
+Daily TFGrid and TFChain validator snapshots can be found at [https://bknd.snapshot.grid.tf/](https://bknd.snapshot.grid.tf/). 
+
+To set up your own TFGrid snapshot creation, read [this documentation](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots). 
+
+To set up your own TFChain validator snapshot creation, read [this documentation](https://github.com/threefoldtech/grid_deployment/tree/development/tfchain-validator-snapshots).
+
+> Note: You can also use Rsync to download the snapshots. Read [this section](https://github.com/threefoldtech/grid_deployment/tree/development/grid-snapshots#public-rsync-provided-by-threefold) for more information.
