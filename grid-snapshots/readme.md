@@ -17,7 +17,7 @@
 
 ## Introduction
 
-To facilitate the deployment of grid backend services, we provide snapshots to significantly reduce sync time. This can be setup anywhere from scratch. Once all services are synced, one can use the scripts to create snapshots automatically.
+To facilitate the deployment of grid backend services, we provide TFGrid backend snapshots to significantly reduce sync time. This can be setup anywhere from scratch. Once all services are synced, one can use the scripts to create snapshots automatically.
 
 ## ThreeFold Public Rsync
 
