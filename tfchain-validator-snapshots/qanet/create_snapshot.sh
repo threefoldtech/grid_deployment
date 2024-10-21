@@ -21,5 +21,5 @@ rm tfchain-qanet-validator-latest.tar.gz
 ln -s tfchain-qanet-validator-$(date '+%Y-%m-%d').tar.gz tfchain-qanet-validator-latest.tar.gz
 
 ## Send over to Grid-snapshots server and set ln
-scp /storage/rsync-public/tfchain-qanet-validator-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/qanet/
-ssh grid-snapshots sh /opt/snapshots/qanet-validator-set-ln.sh
+scp /storage/rsync-public/tfchain-qanet-validator-$(date '+%Y-%m-%d').tar.gz grid-backend-snapshots:/storage/rsync-public/qanet/
+ssh grid-backend-snapshots sh /opt/snapshots/qanet-validator-set-ln.sh

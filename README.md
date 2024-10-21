@@ -29,19 +29,19 @@ The TFGrid full stack is composed of:
 
 For each of the Threefold Grid networks (Devnet, QAnet, Testnet & Mainnet), the respective grid backend can be deployed using docker compose.
 
-Have a look at the [documentation](./docker-compose/readme.md) to get started.
+Have a look at the [documentation](./grid-backend/readme.md) to get started.
 
 ## TFGrid Zero-OS Hub
 
 The Zero-OS Hub is used to distribute Flist files. Users use Flists to deploy workloads on 3Nodes.
 
-Have a look at the [documentation](./grid-hub/readme.md) to get started.
+Have a look at the [documentation](./grid-hub-bootstrap/readme.md) to get started.
 
 ## TFGrid Zero-OS Bootstrap Generator
 
 The bootstrap service is used to create ZOS bootstrap images. Farmers use bootstrap images to set up 3Nodes on the TFGrid.
 
-Have a look at the [documentation](./grid-hub/readme.md) to get started.
+Have a look at the [documentation](./grid-hub-bootstrap/readme.md) to get started.
 
 ## TFChain Validator
 
@@ -53,6 +53,8 @@ Have a look at the [documentation](./tfchain-validator/readme.md) to get started
 
 Daily TFGrid and TFChain validator snapshots can be found at [https://bknd.snapshot.grid.tf/](https://bknd.snapshot.grid.tf/). 
 
-To set up your own TFGrid and TFChain validator snapshot creation, read [this documentation](./grid-snapshots/readme.md).
+To set up your own TFGrid snapshot creation, read [this documentation](./grid-backend-snapshots/readme.md).
 
-> Note: You can also use Rsync to download the snapshots. Read [this section](./grid-snapshots/readme.md#threefold-public-rsync) for more information.
+To set up your own TFChain validator snapshot creation, read [this documentation](./tfchain-validator-snapshots/readme.md).
+
+> Note: You can also use Rsync to download the snapshots. Read [this section](./grid-backend-snapshots/readme.md#threefold-public-rsync) for more information.

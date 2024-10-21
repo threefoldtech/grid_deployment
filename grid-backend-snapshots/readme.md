@@ -17,7 +17,7 @@
 
 ## Introduction
 
-To facilitate the deployment of grid backend services, we provide snapshots to significantly reduce sync time. This can be setup anywhere from scratch. Once all services are synced, one can use the scripts to create snapshots automatically.
+To facilitate the deployment of grid backend services, we provide TFGrid backend snapshots to significantly reduce sync time. This can be setup anywhere from scratch. Once all services are synced, one can use the scripts to create snapshots automatically.
 
 ## ThreeFold Public Rsync
 
@@ -121,7 +121,7 @@ crontab -e
 ```
 
 ```sh
-0 1 * * * sh /root/code/grid_deployment/grid-snapshots/mainnet/create_snapshot.sh > /var/log/snapshots/snapshots-cron.log 2>&1
+0 1 * * * sh /root/code/grid_deployment/grid-backend-snapshots/mainnet/create_snapshot.sh > /var/log/snapshots/snapshots-cron.log 2>&1
 ```
 
 This example will execute the script every day at 1 AM and send the logs to /var/log/snapshots/snapshots-cron.log

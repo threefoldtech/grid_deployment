@@ -21,5 +21,5 @@ rm tfchain-testnet-validator-latest.tar.gz
 ln -s tfchain-testnet-validator-$(date '+%Y-%m-%d').tar.gz tfchain-testnet-validator-latest.tar.gz
 
 ## Send over to Grid-snapshots server and set ln
-scp /storage/rsync-public/tfchain-testnet-validator-$(date '+%Y-%m-%d').tar.gz grid-snapshots:/storage/rsync-public/testnet/
-ssh grid-snapshots sh /opt/snapshots/testnet-validator-set-ln.sh
+scp /storage/rsync-public/tfchain-testnet-validator-$(date '+%Y-%m-%d').tar.gz grid-backend-snapshots:/storage/rsync-public/testnet/
+ssh grid-backend-snapshots sh /opt/snapshots/testnet-validator-set-ln.sh
