@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color:#212020;">
+<head>
+    <title>ThreeFold Dashboard</title>
+</head>
+<body>
+    <script>
+        backends = [
+            'https://dashboard.grid.tf',
+            'https://dashboard.us.grid.tf',
+            'https://dashboard.be.grid.tf',
+            'https://dashboard.sg.grid.tf',
+            'https://dashboard.fin.grid.tf'
+        ];
+
+        Promise.race(backends.map(url => fetch(url, {
+                mode: 'no-cors',
+                method: 'HEAD'
+            }).then(() => url)))
+            .then(url => window.location.replace(url))
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
