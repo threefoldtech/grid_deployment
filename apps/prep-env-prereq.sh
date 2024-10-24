@@ -10,9 +10,6 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
 
-# install pv to show extract progress
-sudo apt install -y install pv
-
 # install troubleshooting tools
 sudo apt install sudo apt-transport-https curl git nmon tmux tcpdump iputils-ping net-tools nano rsync tar pigz pv python3 python3-requests python3-pip docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
