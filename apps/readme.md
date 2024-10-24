@@ -3,7 +3,7 @@
 <h2>Table of Contents</h2>
 
 - [Introduction](#introduction)
-- [Prerequisites script](#prerequisites script)
+- [Prerequisites script](#prerequisites-script)
 - [Substrate - subkey](#substrate---subkey)
 - [References](#references)
 
