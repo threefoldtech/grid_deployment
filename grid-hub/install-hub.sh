@@ -27,9 +27,7 @@ done
 
 ## Service prerequisites
 mkdir -p /srv/0-db_data /srv/0-db_index /srv/0-hub_public/users /srv/0-hub_workdir /srv/0-bootstrap/kernels/net /srv/caddy/data /srv/caddy/config /srv/caddy/log 
-apt update && apt install python3 python3-requests python3-pip -y
-pip3 install pynacl --break-system-packages
-pip3 install redis --break-system-packages
+apt update && apt install python3 python3-requests python3-pip python3-nacl python3-redis -y
 
 ## Disable COW on BTRFS (optional in case of btrfs at /srv)
 #chattr +C /srv/0-db_data
