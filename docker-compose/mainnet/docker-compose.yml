@@ -219,7 +219,7 @@ services:
       - RMB_DOMAIN=relay.${DOMAIN}
       - SUBSTRATE_URL=ws://tfchain-public-node:9944
       - USER_PER_WORKER=1000
-      - WORKERS=500
+      - WORKERS=30
     command:
       - "--domain"
       - "relay.${DOMAIN}"
@@ -230,7 +230,7 @@ services:
       - "-u"
       - "1000"
       - "-w"
-      - "500"
+      - "30"
       - "-l"
       - "0.0.0.0:80"
 #      - "--debug"
