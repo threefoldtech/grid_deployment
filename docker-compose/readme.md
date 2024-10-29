@@ -85,7 +85,9 @@ cd mainnet
 cp .secrets.env-example .secrets.env
 ```
 
-Open `.secrets.env` and add your unique variables
+Create a unique TFchain node key with `docker run --rm parity/subkey:latest generate-node-key > "validator_private_node_key"`. Your node key will be in the file `validator_private_node_key`, you will need to add this key into the `.secrets.env` file below.
+
+Open `.secrets.env` and add your unique variables.
 
 Check if all environment variables are correct:
 
@@ -132,6 +134,8 @@ cd mainnet
 cp .secrets.env-example .secrets.env
 cp Caddyfile-example Caddyfile
 ```
+
+Create a unique TFchain node key with `docker run --rm parity/subkey:latest generate-node-key > "validator_private_node_key"`. Your node key will be in the file `validator_private_node_key`, you will need to add this key into the `.secrets.env` file below.
 
 Open `.secrets.env` and add your unique variables
 
