@@ -36,6 +36,14 @@ Threefold hosts all available snapshots at: [https://bknd.snapshot.grid.tf/](htt
     rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/indexer-testnet-latest.tar.gz .  
     rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/processor-testnet-latest.tar.gz .  
     ```
+
+- QAnet:
+    ```
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/tfchain-qanet-latest.tar.gz .  
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/indexer-qanet-latest.tar.gz .  
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/processor-qanet-latest.tar.gz .   
+    ```
+
 - Devnet:
     ```
     rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-latest.tar.gz .  
@@ -154,6 +162,13 @@ list = false
 [gridsnapshotstest]
 path = /storage/rsync-public/testnet
 comment = THREEFOLD GRID TESTNET SNAPSHOTS
+read only = true
+timeout = 300
+list = false
+
+[gridsnapshotsqa]
+path = /storage/rsync-public/qanet
+comment = THREEFOLD GRID QANET SNAPSHOTS
 read only = true
 timeout = 300
 list = false
