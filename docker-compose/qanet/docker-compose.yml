@@ -297,6 +297,7 @@ services:
       PLAYGROUND_URL: https://play.${DOMAIN}
       RELAY_DOMAIN: wss://relay.${DOMAIN}
       MANUAL_URL: https://manual.grid.tf/
+      KYC_URL: https://kyc.${DOMAIN}
       VERSION: ${DASHBOARD_IMG}
       STATS_URL: https://stats.${DOMAIN}
 
