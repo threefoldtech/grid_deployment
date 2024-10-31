@@ -31,6 +31,10 @@ Threefold hosts all available snapshots at: [https://bknd.snapshot.grid.tf/](htt
     ```
     rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotstest/tfchain-testnet-validator-latest.tar.gz .  
     ```
+- Qanet:
+    ```
+    rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsqa/tfchain-qanet-validator-latest.tar.gz .
+    ```
 - Devnet:
     ```
     rsync -Lv --progress --partial rsync://bknd.snapshot.grid.tf:34873/gridsnapshotsdev/tfchain-devnet-validator-latest.tar.gz .  
@@ -104,6 +108,8 @@ crontab -e
 0 1 * * * sh /root/code/grid_deployment/tfchain-validator-snapshots/mainnet/create_snapshot.sh > /var/log/snapshots/snapshots-cron.log 2>&1
 ```
 
+NOTE: adjust the script path to the network your are deploying
+
 This example will execute the script every day at 1 AM and send the logs to /var/log/snapshots/snapshots-cron.log
 
 
@@ -134,6 +140,13 @@ list = false
 [gridsnapshotstest]
 path = /storage/rsync-public/testnet
 comment = THREEFOLD GRID TESTNET SNAPSHOTS
+read only = true
+timeout = 300
+list = false
+
+[gridsnapshotsqa]
+path = /storage/rsync-public/qanet
+comment = THREEFOLD GRID QANET SNAPSHOTS
 read only = true
 timeout = 300
 list = false
