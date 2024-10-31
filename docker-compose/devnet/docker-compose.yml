@@ -300,7 +300,7 @@ services:
       MANUAL_URL: https://manual.grid.tf/
       VERSION: ${DASHBOARD_IMG}
       STATS_URL: https://stats.${DOMAIN}
-      KYC_URL: https://kyc.${DOMAIN}
+      KYC_URL: https://kyc.dev.grid.tf
 
 
 ## Grid stats
