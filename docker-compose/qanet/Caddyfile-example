@@ -139,3 +139,14 @@ stats.{$DOMAIN} {
 	}
 	tls info@threefold.tech
 }
+
+kyc.{$DOMAIN} {
+	reverse_proxy localhost:8080 {
+		header_up Host {upstream_hostport}
+	}
+	log {
+		output file /var/log/caddy/caddy_access_kyc.log
+		format json
+	}
+	tls info@threefold.tech
+}
