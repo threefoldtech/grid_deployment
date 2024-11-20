@@ -10,7 +10,7 @@ docker stop indexer_db
 docker stop tfchain-public-node
 sleep 10
 
-## Remove files older then 1 day
+## Remove files older then 0 days
 find /storage/rsync-public/ -mtime +0 -exec rm {} \;
 
 ## TFchain node
