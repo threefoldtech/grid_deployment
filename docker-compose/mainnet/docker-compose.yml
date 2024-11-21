@@ -295,7 +295,7 @@ services:
       ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}/activation/activate
       PLAYGROUND_URL: https://play.${DOMAIN}
       RELAY_DOMAIN: wss://relay.${DOMAIN}
-      MANUAL_URL: https://manual.grid.tf/
+      MANUAL_URL: https://manual.grid.tf
       VERSION: ${DASHBOARD_IMG}
       STATS_URL: https://stats.${DOMAIN}
       KYC_URL: https://kyc.grid.tf
