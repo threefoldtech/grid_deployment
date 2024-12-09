@@ -3,8 +3,8 @@ printf "Stopping tfchain validator\n"
 docker stop tfchain-validator
 sleep 10
 
-## Remove files older then 2 days
-find /storage/rsync-public/ -mtime +2 -exec rm {} \;
+## Remove files older then 0 days
+find /storage/rsync-public/ -mtime +0 -exec rm {} \;
 
 ## TFchain node
 printf "Creating tfchain validator snapshot\n"
