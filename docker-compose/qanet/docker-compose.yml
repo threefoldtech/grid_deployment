@@ -28,8 +28,6 @@ services:
       - "/etc/chainspecs/qanet/chainSpecRaw.json"
       - "--port"
       - "30333"
-      - "--bootnodes"
-      - "/ip4/185.206.122.7/tcp/30334/p2p/12D3KooWSCFtAPQRRa5uw2QhwsC77NfCv1mxHJjWQhUrRANkoYyx"
       - "--rpc-cors"
       - "all"
       - "--prometheus-external"

@@ -28,8 +28,6 @@ services:
       - "/etc/chainspecs/test/chainSpecRaw.json"
       - "--port"
       - "30333"
-      - "--bootnodes"
-      - "/ip4/51.68.204.40/tcp/30333/ws/p2p/12D3KooWHe8Wbn6dDbyxXietaXSRTZJfykPRgrkJDjXh9xZ4383k"
       - "--rpc-cors"
       - "all"
       - "--prometheus-external"
