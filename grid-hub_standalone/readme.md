@@ -2,9 +2,6 @@
 
 Documentation on how to deploy an independent Hub.
 
-These deployments will act as slave instances and sync some flist from https://hub.grid.tf.
-
-
 ### Requirements
 
 To start a Hub needs the following:
