@@ -1,0 +1,9 @@
+https://hub.grid.tf/tf-official-vms/ubuntu-18.04-lts.flist
+https://hub.grid.tf/tf-official-vms/ubuntu-20.04-lts.flist
+https://hub.grid.tf/tf-official-vms/ubuntu-22.04.flist
+https://hub.grid.tf/tf-official-vms/nixos-22.11.flist
+https://hub.grid.tf/tf-official-apps/centos-stream9.flist
+https://hub.grid.tf/tf-official-apps/nextcloud.flist
+https://hub.grid.tf/petep.3bot/alpine3.flist
+https://hub.grid.tf/petep.3bot/gitea_mycelium.flist
+https://hub.grid.tf/petep.3bot/archlinux_20240101.0.204074.flist

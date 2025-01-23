@@ -36,6 +36,8 @@ services:
       DOMAIN: ${DOMAIN}
     volumes:
       - ./config.py:/hub/src/config.py
+      - ./flist_manager.py:/hub/src/flist_manager.py
+      - ./flists.txt:/hub/src/flists.txt
       - /srv/0-hub_public:/public
       - /srv/0-hub_workdir:/workdir
       - /var/run/docker.sock:/var/run/docker.sock

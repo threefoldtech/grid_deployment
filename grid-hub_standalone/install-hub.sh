@@ -84,3 +84,6 @@ sed -i "s#__DOMAIN__#${DOMAIN}#g" config.py
 
 ### Start Grid backed services with docker-compose and scripts
 docker compose --env-file .env up -d
+
+### Download some official flists
+docker exec -it 0-hub python3 /hub/src/flist_manager.py /hub/src/flists.txt
