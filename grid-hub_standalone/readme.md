@@ -1,4 +1,4 @@
-# Running the Hub and Bootstrap stack
+# Running Standalone Hub  
 
 Documentation on how to deploy an independent Hub.
 
