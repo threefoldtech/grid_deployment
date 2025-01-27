@@ -5,6 +5,23 @@
 	}
 }
 
+(cors) {
+        @cors_preflight method OPTIONS
+        @cors header Origin {args[0]}
+
+        handle @cors_preflight {
+                header Access-Control-Allow-Origin "*"
+                header Access-Control-Allow-Methods "GET,OPTIONS"
+                header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+                respond "" 204
+        }
+
+        handle @cors {
+                header Access-Control-Allow-Origin "*"
+                header Access-Control-Expose-Headers "Link"
+        }
+}
+
 metrics.{$DOMAIN} {
 	handle_path /indexer* {
 		reverse_proxy indexer_db:8080
@@ -27,6 +44,13 @@ tfchain.{$DOMAIN} {
 	reverse_proxy tfchain-public-node:9944 {
 		header_up Host {upstream_hostport}
 	}
+        header {
+                Access-Control-Allow-Origin *
+                Access-Control-Allow-Methods "GET"
+                Access-Control-Allow-Headers *
+                Access-Control-Max-Age "3600"
+                defer
+        }
 	log {
 		output file /var/log/caddy/caddy_access_tfchain.log
 		format json
