@@ -123,5 +123,5 @@ class ZDBIncremental:
 if __name__ == '__main__':
     incremental = ZDBIncremental("hub.grid.tf", 9900, "127.0.0.1", 9900)
     incremental.authenticate(incremental.master, "master-password")
-    incremental.authenticate(incremental.slave, "slave-password")
+#    incremental.authenticate(incremental.slave, "slave-password")
     incremental.run()
