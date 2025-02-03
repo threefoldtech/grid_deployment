@@ -3,6 +3,10 @@ import stat
 import sys
 import time
 import requests
+import subprocess
+import sqlite3
+import tempfile
+import json
 
 class HubFlistSyncer:
     def __init__(self, baseurl, localdir):
@@ -114,6 +118,12 @@ class HubFlistSyncer:
         with open(targetfile, "wb") as f:
             f.write(r.content)
 
+        # apply metadata transformation for our local settings
+        # saving current cwd and restoring cwd after-call
+        cwd = os.getcwd()
+        self.metadata_update(targetfile)
+        os.chdir(cwd)
+
         # apply same modification time on symlink than remote host
         os.utime(targetfile, (now, entry['updated']))
 
@@ -202,6 +212,54 @@ class HubFlistSyncer:
         mbsize = self.downloaded / (1024 * 1024)
         print(f"[+] downloaded: {mbsize:.2f} MB ({self.files} files)")
 
+    #
+    # metadata manipulation
+    #
+    def metadata_update(self, target):
+        print("[+] updating low-level metadata")
+
+        # we are not using 'import tarfile' and native python module
+        # which is really slow compare to plain raw tar command (nearly 10x slower).
+
+        with tempfile.TemporaryDirectory() as workspace:
+            os.chdir(workspace)
+
+            args = ["tar", "-xf", target, "-C", workspace]
+            p = subprocess.Popen(args)
+            p.wait()
+
+            db = sqlite3.connect("flistdb.sqlite3")
+            cursor = db.cursor()
+
+            try:
+                cursor.execute("SELECT key FROM metadata LIMIT 1")
+                row = cursor.fetchone()
+                # print(row)
+
+            except sqlite3.OperationalError:
+                # old flist files don't have metadata table at all, that feature
+                # wasn't existing at that time, let's create it by the way
+
+                print("[-] legacy flist, no metadata records found, initializing")
+                cursor.execute("CREATE TABLE metadata (key VARCHAR(64) PRIMARY KEY, value TEXT);")
+
+            # FIXME: takes theses settings from a main place
+            backend = json.dumps({"namespace": "default", "host": "hub.updated.host", "port": 7900})
+
+            cursor.execute("REPLACE INTO metadata (key, value) VALUES ('backend', ?)", (backend,))
+            db.commit()
+            db.close()
+
+            updated = f"{target}.updated.tar.gz"
+
+            args = ["tar", "-czf", updated, "flistdb.sqlite3"]
+            p = subprocess.Popen(args)
+            p.wait()
+
+            # overwrite source file with updated version
+            os.rename(updated, target)
+
+        return True
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
