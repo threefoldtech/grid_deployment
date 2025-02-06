@@ -297,7 +297,7 @@ services:
       RELAY_DOMAIN: wss://relay.${DOMAIN}, wss://relay.${BCKP_DOMAIN}
       MANUAL_URL: https://manual.grid.tf
       VERSION: ${DASHBOARD_IMG}
-      STATS_URL: https://stats.${DOMAIN}, https://stats.${DOMAIN}
+      STATS_URL: https://stats.${DOMAIN}, https://stats.${BCKP_DOMAIN}
       KYC_URL: https://kyc.dev.grid.tf
 
 
