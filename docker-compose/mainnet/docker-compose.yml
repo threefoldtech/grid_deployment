@@ -286,16 +286,16 @@ services:
     environment:
       STELLAR_NETWORK: main
       MODE: main
-      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
+      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql, https://graphql.${BCKP_DOMAIN}/graphql, https://graphql.${BCKP_DOMAIN_2}/graphql
       BRIDGE_TFT_ADDRESS: GBNOTAYUMXVO5QDYWYO2SOCOYIJ3XFIP65GKOQN7H65ZZSO6BK4SLWSC
-      GRIDPROXY_URL: https://gridproxy.${DOMAIN}
-      SUBSTRATE_URL: wss://tfchain.${DOMAIN}/ws
-      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}/activation/activate
+      GRIDPROXY_URL: https://gridproxy.${DOMAIN}, https://gridproxy.${BCKP_DOMAIN}, https://gridproxy.${BCKP_DOMAIN_2}
+      SUBSTRATE_URL: wss://tfchain.${DOMAIN}/ws, wss://tfchain.${BCKP_DOMAIN}/ws, wss://tfchain.${BCKP_DOMAIN_2}/ws
+      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}/activation/activate, https://activation.${BCKP_DOMAIN}/activation/activate, https://activation.${BCKP_DOMAIN_2}/activation/activate
       PLAYGROUND_URL: https://play.${DOMAIN}
-      RELAY_DOMAIN: wss://relay.${DOMAIN}
+      RELAY_DOMAIN: wss://relay.${DOMAIN}, wss://relay.${BCKP_DOMAIN}, wss://relay.${BCKP_DOMAIN_2}
       MANUAL_URL: https://manual.grid.tf
       VERSION: ${DASHBOARD_IMG}
-      STATS_URL: https://stats.${DOMAIN}
+      STATS_URL: https://stats.${DOMAIN}, https://stats.${BCKP_DOMAIN}, https://stats.${BCKP_DOMAIN_2}
       KYC_URL: https://kyc.grid.tf
 
 
