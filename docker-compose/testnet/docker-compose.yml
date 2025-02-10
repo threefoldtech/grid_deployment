@@ -288,16 +288,16 @@ services:
       STELLAR_NETWORK: main
       MODE: test
       NETWORK: custom
-      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql
+      GRAPHQL_URL: https://graphql.${DOMAIN}/graphql, https://graphql.${BCKP_DOMAIN}/graphql
       BRIDGE_TFT_ADDRESS: GA2CWNBUHX7NZ3B5GR4I23FMU7VY5RPA77IUJTIXTTTGKYSKDSV6LUA4
-      GRIDPROXY_URL: https://gridproxy.${DOMAIN}
-      SUBSTRATE_URL: wss://tfchain.${DOMAIN}/ws
-      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}/activation/activate
+      GRIDPROXY_URL: https://gridproxy.${DOMAIN}, https://gridproxy.${BCKP_DOMAIN}
+      SUBSTRATE_URL: wss://tfchain.${DOMAIN}/ws, wss://tfchain.${BCKP_DOMAIN}/ws
+      ACTIVATION_SERVICE_URL: https://activation.${DOMAIN}/activation/activate, https://activation.${BCKP_DOMAIN}/activation/activate
       PLAYGROUND_URL: https://play.${DOMAIN}
-      RELAY_DOMAIN: wss://relay.${DOMAIN}
+      RELAY_DOMAIN: wss://relay.${DOMAIN}, wss://relay.${BCKP_DOMAIN}
       MANUAL_URL: https://manual.grid.tf
       VERSION: ${DASHBOARD_IMG}
-      STATS_URL: https://stats.${DOMAIN}
+      STATS_URL: https://stats.${DOMAIN}, https://stats.${BCKP_DOMAIN}
       KYC_URL: https://kyc.test.grid.tf
 
 ## Grid stats
