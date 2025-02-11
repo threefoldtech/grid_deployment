@@ -87,7 +87,8 @@ cp .secrets.env-example .secrets.env
 
 Create a unique TFchain node key with `docker run --rm parity/subkey:latest generate-node-key > "validator_private_node_key"`. Your node key will be in the file `validator_private_node_key`, you will need to add this key into the `.secrets.env` file below.
 
-Open `.secrets.env` and add your unique variables.
+Open `.secrets.env` and add your unique variables using the comments in the file.  
+**Note: make sure to not have a duplicate URL for `DOMAIN`, `BCKP_DOMAIN` and `BCKP_DOMAIN_2`**
 
 Check if all environment variables are correct:
 
@@ -137,7 +138,8 @@ cp Caddyfile-example Caddyfile
 
 Create a unique TFchain node key with `docker run --rm parity/subkey:latest generate-node-key > "validator_private_node_key"`. Your node key will be in the file `validator_private_node_key`, you will need to add this key into the `.secrets.env` file below.
 
-Open `.secrets.env` and add your unique variables
+Open `.secrets.env` and add your unique variables using the comments in the file.  
+**Note: make sure to not have a duplicate URL for `DOMAIN`, `BCKP_DOMAIN` and `BCKP_DOMAIN_2`**
 
 Check if all environment variables are correct
 
