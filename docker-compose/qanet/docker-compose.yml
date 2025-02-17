@@ -225,6 +225,8 @@ services:
       - "redis://redis-rmb:6379"
       - "-s"
       - "ws://tfchain-public-node:9944"
+      - "-s"
+      - "ws://${RELAY_BCKP_RPC}"
       - "-u"
       - "1000"
       - "-w"
