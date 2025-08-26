@@ -56,3 +56,5 @@ Daily TFGrid and TFChain validator snapshots can be found at [https://bknd.snaps
 To set up your own TFGrid and TFChain validator snapshot creation, read [this documentation](./grid-snapshots/readme.md).
 
 > Note: You can also use Rsync to download the snapshots. Read [this section](./grid-snapshots/readme.md#threefold-public-rsync) for more information.
+
+
