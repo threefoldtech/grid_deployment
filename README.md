@@ -55,7 +55,7 @@ The bootstrap service creates Zero-OS bootstrap images. Farmers use bootstrap im
 
 See [grid-bootstrap/readme.md](./grid-bootstrap/readme.md) for details.
 
-### TFChain Validator
+### Ledger Chain Validator
 
 The grid runs on ledger_chain. An easy-to-use installer is provided to set up a validator.
 
