@@ -57,4 +57,8 @@ To set up your own TFGrid and TFChain validator snapshot creation, read [this do
 
 > Note: You can also use Rsync to download the snapshots. Read [this section](./grid-snapshots/readme.md#threefold-public-rsync) for more information.
 
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+Copyright (c) TFTech NV.
 
