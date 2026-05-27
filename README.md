@@ -20,7 +20,7 @@ A full stack deployment includes all grid functionalities and can be run indepen
 
 Grid Deployment ties together multiple backend services into a single operational unit. It handles:
 
-- Blockchain node operation via TFChain
+- Blockchain node operation via ledger_chain
 - Grid indexing and query APIs via GraphQL
 - Workload image distribution via the hub
 - Node bootstrapping via the bootstrap generator
@@ -57,7 +57,7 @@ See [grid-bootstrap/readme.md](./grid-bootstrap/readme.md) for details.
 
 ### TFChain Validator
 
-The grid runs on TFChain. An easy-to-use installer is provided to set up a validator.
+The grid runs on ledger_chain. An easy-to-use installer is provided to set up a validator.
 
 See [tfchain-validator/readme.md](./tfchain-validator/readme.md) for details.
 
