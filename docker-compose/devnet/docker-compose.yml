@@ -251,7 +251,7 @@ services:
       - URL=ws://tfchain-public-node:9944
       - MNEMONIC=${ACTIVATION_SERVICE_MNEMONIC}
       - KYC_PUBLIC_KEY=somekey
-      - ACTIVATION_AMOUNT=1000000
+      - ACTIVATION_AMOUNT=0.1
 
 
 ## Grid Proxy
