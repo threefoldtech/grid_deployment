@@ -216,6 +216,17 @@ Once all prerequisites have been met, start the validator.
 sh install-tfchain-validator.sh
 ```
 
+Both scripts ask for confirmation before changing anything. To run them
+unattended (CI, Terraform, config management), pass `-y` or set `ASSUME_YES=1`:
+
+```sh
+sh validator-init.sh -y
+ASSUME_YES=1 sh install-tfchain-validator.sh
+```
+
+The installer skips the snapshot restore when the node already has a chain
+database, so it is safe to re-run on a synced validator.
+
 Check the logs by starting the provided script.
 ```sh
 sh open_logs_tmux.sh
@@ -278,6 +289,79 @@ Once your session keys are set and the council approves your validator, your nod
 
 - Keep your node online and synchronized.
 - Monitor logs for any errors or warnings.
+
+## Moving an existing validator to another machine
+
+Replacing the hardware under a validator that is already registered on chain is
+**not** the same as adding one: its session keys are already set, so steps 1, 3
+and 4 above do not apply and no council motion is needed.
+
+1. **Stop the old node first.** Running the same session keys on two nodes at
+   once is equivocation:
+   ```sh
+   docker compose --env-file .secrets.env --env-file .env down
+   ```
+2. Copy the keystore off the old machine — two small files, aura (`61757261…`)
+   and grandpa (`6772616e…`):
+   ```
+   /srv/tfchain/chains/<chain>/keystore/
+   ```
+3. On the new machine, set the SAME `TFCHAIN_NODE_KEY` and `NODE_NAME` in
+   `.secrets.env` and leave `MNEMONIC` empty — no key insertion is needed.
+4. Run `install-tfchain-validator.sh`, then place the two keystore files in
+   `/srv/tfchain/chains/<chain>/keystore/` (mode 600, owned by root) and
+   restart the container.
+
+The node resumes authoring with its existing identity. Verify with
+`🎁 Prepared block for proposing` in the logs — importing blocks alone only
+proves that it syncs.
+
+## Container log rotation
+
+The validator is a chatty process. If container logs are not capped, they fill
+the disk and take the node down. Set the caps in `/etc/docker/daemon.json`
+**before** creating the container — `log-opts` only apply to containers created
+afterwards, so an existing stack needs `docker compose up -d --force-recreate`
+to pick them up:
+
+```json
+{
+    "log-opts": {
+        "max-size": "100m",
+        "max-file": "3"
+    }
+}
+```
+
+This applies to logging plugins too: an uncapped plugin cache under
+`/var/lib/docker/plugins/` grows without limit.
+
+## Running in a VM whose root filesystem cannot host container storage
+
+Some VM images (for example ThreeFold Grid full VMs) boot on a root filesystem
+that does not allow `mknod`. Docker cannot extract images there — layer
+extraction converts whiteout files into character devices and fails:
+
+```
+failed to convert whiteout file "usr/share/.wh.man": operation not permitted
+```
+
+Put container storage on an attached block device instead. Note that recent
+Docker releases keep images in the containerd image store, so moving Docker's
+`data-root` alone is not enough — containerd's `root` has to move as well:
+
+```bash
+systemctl stop docker docker.socket containerd
+mkdir -p /mnt/data/docker /mnt/data/containerd
+rsync -aHAX /var/lib/docker/ /mnt/data/docker/
+rsync -aHAX /var/lib/containerd/ /mnt/data/containerd/
+# /etc/docker/daemon.json  ->  "data-root": "/mnt/data/docker"
+sed -i 's|^root = .*|root = "/mnt/data/containerd"|' /etc/containerd/config.toml
+systemctl start containerd && systemctl start docker
+docker info --format '{{.DockerRootDir}}'    # verify before continuing
+```
+
+The chain database should live on that disk as well.
 
 ## References
 
