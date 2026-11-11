@@ -1,6 +1,6 @@
 #/bin/bash
 
-VERSION=1.6.0
+VERSION=1.12.1
 RELEASE=node_exporter-${VERSION}.linux-amd64
 
 sudo apt update && sudo apt upgrade -y
